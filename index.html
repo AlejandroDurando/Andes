@@ -1402,14 +1402,21 @@
     window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
-    // Draw a stored bitmap with object-fit:cover math
+    // Draw a stored bitmap.
+    // Desktop → cover (fills screen, may crop top/bottom).
+    // Mobile portrait → fit-width (full galpón visible, background fills top/bottom).
     function drawFrame(idx) {
       const bm = bitmaps[idx];
       if (!bm) return;
       const cw = canvas.width, ch = canvas.height;
-      const sc = Math.max(cw / bm.width, ch / bm.height);
+      const portrait = ch > cw; // true on mobile portrait
+      const sc = portrait
+        ? cw / bm.width                          // fit full width → show entire galpón
+        : Math.max(cw / bm.width, ch / bm.height); // cover on landscape/desktop
+      const dw = bm.width  * sc;
+      const dh = bm.height * sc;
       ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(bm, (cw - bm.width * sc) / 2, (ch - bm.height * sc) / 2, bm.width * sc, bm.height * sc);
+      ctx.drawImage(bm, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
     }
 
     // Scroll → frame
