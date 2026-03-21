@@ -1795,20 +1795,30 @@
     const scrollHint = document.getElementById('scroll-hint');
     const seekBar    = document.getElementById('seek-bar');
 
-    // Canvas sizing
+    // Canvas sizing — matches the wrapper's actual rendered size × devicePixelRatio
+    // so the image is never squished and stays sharp on retina screens.
+    const wrapper = document.getElementById('canvas-wrapper');
     function resizeCanvas() {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2× to save memory
+      const w   = wrapper.offsetWidth  || window.innerWidth;
+      const h   = wrapper.offsetHeight || window.innerHeight;
+      canvas.width  = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width  = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale all draws by dpr
       if (animReady && curFrame >= 0) drawFrame(curFrame);
     }
     window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
-    // Draw with cover — always fills the canvas completely.
+    // Draw with cover using CSS pixel dimensions (DPR handled by ctx.setTransform).
     function drawFrame(idx) {
       const bm = bitmaps[idx];
       if (!bm) return;
-      const cw = canvas.width, ch = canvas.height;
+      // Use CSS pixel size, not canvas.width/height (which are physical pixels)
+      const cw = wrapper.offsetWidth  || window.innerWidth;
+      const ch = wrapper.offsetHeight || window.innerHeight;
       const sc = Math.max(cw / bm.width, ch / bm.height);
       const dw = bm.width  * sc;
       const dh = bm.height * sc;
@@ -1822,7 +1832,6 @@
     //     video's natural height at screen width (avoids a tiny strip for
     //     ultra-wide videos and avoids full-screen for normal 16:9)
     function fitCanvasToVideo() {
-      const wrapper = document.getElementById('canvas-wrapper');
       const portrait = window.innerHeight > window.innerWidth;
       if (portrait && bitmaps[0]) {
         const naturalH = window.innerWidth * (bitmaps[0].height / bitmaps[0].width);
