@@ -422,7 +422,7 @@
     ═══════════════════════════════════════════════════ */
     .anim-header {
       background: var(--dark);
-      padding: 6rem var(--pad-x) 0;
+      padding: 4rem var(--pad-x) 0;
       text-align: center;
     }
 
@@ -917,32 +917,27 @@
       .hero-h1 { font-size: clamp(2.4rem, 9vw, 3.4rem); }
       .hero-sub { font-size: 0.95rem; }
 
-      /* Stack hero buttons full-width */
       .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
       .btn-gold, .btn-ghost { width: 100%; text-align: center; }
 
       .trust-badges { gap: 0.4rem; }
       .badge { font-size: 0.62rem; padding: 0.35rem 0.65rem; }
 
-      /* Scroll section: less height on tablet */
+      /* Animation header — compact on tablet */
+      .anim-header { padding: 2.5rem var(--pad-x) 0; }
+
       #scroll-section { height: 450vh; }
 
-      /* Services */
       .services-grid { grid-template-columns: 1fr; }
       .srv-card { aspect-ratio: 16 / 9; }
       .services-grid { margin-bottom: 3rem; }
 
-      /* About */
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .stats-row { grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; margin-bottom: 2rem; }
-      .proj-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-      }
+      .proj-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
       .proj-cell:first-child { grid-row: auto; }
       .proj-cell .proj-cell-inner { min-height: 220px !important; }
 
-      /* Contact */
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .form-row { grid-template-columns: 1fr; }
     }
@@ -954,41 +949,35 @@
       .hero-h1 { font-size: clamp(2rem, 10vw, 2.8rem); line-height: 1.1; }
       .section-title { font-size: clamp(2rem, 9vw, 3rem); }
 
-      /* Reduce animation scroll height for mobile UX */
-      #scroll-section { height: 350vh; }
-      .anim-header { padding: 3.5rem 1.2rem 0; }
+      /* Animation header — minimal padding so no gap before canvas */
+      .anim-header { padding: 1.5rem 1.2rem 0.5rem; }
+      .anim-header .section-title { margin-bottom: 0.4rem; }
+      .anim-header p { margin-bottom: 0.8rem !important; }
 
-      /* Scroll hint text smaller */
+      #scroll-section { height: 350vh; }
+
       #scroll-hint span { font-size: 0.55rem; letter-spacing: 0.25em; }
 
-      /* Services cards taller aspect on mobile portrait */
       .srv-card { aspect-ratio: 4 / 3; }
       .srv-name { font-size: 1.6rem; }
       .srv-desc { font-size: 0.78rem; }
 
-      /* Stats */
       .stat-num { font-size: 2.4rem; }
       .stat-label { font-size: 0.65rem; }
 
-      /* Process list */
       .p-label { font-size: 0.88rem; }
 
-      /* Diff items */
       .diff-grid { grid-template-columns: 1fr; gap: 1rem; }
       .diff-item { padding: 1.2rem; }
 
-      /* Form */
       .form-input, .form-textarea { font-size: 0.95rem; padding: 0.9rem 0.85rem; }
       .form-textarea { min-height: 100px; }
 
-      /* Contact info */
       .ci-val { font-size: 0.88rem; }
 
-      /* WhatsApp FAB — smaller margin on mobile */
       #wa-fab { bottom: 1.2rem; right: 1.2rem; width: 50px; height: 50px; }
       #wa-fab svg { width: 24px; height: 24px; }
 
-      /* Footer */
       .footer-top { flex-direction: column; gap: 1.5rem; }
       .footer-nav { gap: 1rem; }
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
