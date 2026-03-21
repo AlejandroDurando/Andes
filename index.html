@@ -1807,21 +1807,37 @@
     resizeCanvas();
 
     // Draw a stored bitmap.
-    // Desktop → cover (fills screen, may crop top/bottom).
-    // Mobile portrait → fit-width (full galpón visible, background fills top/bottom).
+    // Desktop/landscape → cover (fills viewport).
+    // Mobile portrait   → canvas is resized to video's natural aspect ratio,
+    //                      so contain == cover (no bars, no cropping).
     function drawFrame(idx) {
       const bm = bitmaps[idx];
       if (!bm) return;
       const cw = canvas.width, ch = canvas.height;
-      const portrait = ch > cw; // true on mobile portrait
-      const sc = portrait
-        ? cw / bm.width                          // fit full width → show entire galpón
-        : Math.max(cw / bm.width, ch / bm.height); // cover on landscape/desktop
+      const sc = Math.min(cw / bm.width, ch / bm.height); // always contain
+      // On desktop the wrapper is 100vh so contain ≈ cover (small black bars accepted).
+      // On mobile the wrapper height is set to match the video ratio → perfect fill.
       const dw = bm.width  * sc;
       const dh = bm.height * sc;
       ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(bm, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
     }
+
+    // On portrait mobile, shrink the canvas-wrapper to exactly the video's
+    // natural height at the current screen width — eliminating gray bars.
+    function fitCanvasToVideo() {
+      if (!bitmaps[0]) return;
+      const wrapper = document.getElementById('canvas-wrapper');
+      if (window.innerHeight > window.innerWidth) {
+        // Portrait: height = width × (videoH / videoW)
+        const h = Math.round(window.innerWidth * bitmaps[0].height / bitmaps[0].width);
+        wrapper.style.height = h + 'px';
+      } else {
+        wrapper.style.height = '100vh';
+      }
+      resizeCanvas();
+    }
+    window.addEventListener('resize', fitCanvasToVideo, { passive: true });
 
     // Scroll → frame
     function onScroll() {
@@ -1890,6 +1906,7 @@
       }
       curFrame  = 0;
       animReady = true;
+      fitCanvasToVideo(); // set canvas height before first draw
       drawFrame(0);
 
       loader.style.transition = 'opacity 0.7s ease';
