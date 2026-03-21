@@ -1150,8 +1150,7 @@
       .trust-badges { gap: 0.4rem; }
       .badge { font-size: 0.62rem; padding: 0.35rem 0.65rem; }
 
-      /* Animation header — compact on tablet */
-      .anim-header { padding: 2.5rem var(--pad-x) 0; }
+      .anim-header { padding: 1.8rem var(--pad-x) 0.8rem; }
 
       #scroll-section { height: 450vh; }
 
@@ -1176,10 +1175,9 @@
       .hero-h1 { font-size: clamp(2rem, 10vw, 2.8rem); line-height: 1.1; }
       .section-title { font-size: clamp(2rem, 9vw, 3rem); }
 
-      /* Animation header — minimal padding so no gap before canvas */
-      .anim-header { padding: 1.5rem 1.2rem 0.5rem; }
-      .anim-header .section-title { margin-bottom: 0.4rem; }
-      .anim-header p { margin-bottom: 0.8rem !important; }
+      .anim-header { padding: 1.2rem 1.2rem 0.5rem; }
+      .anim-header .section-title { font-size: 2rem; margin-bottom: 0.3rem; }
+      .anim-header p { font-size: 0.82rem !important; margin-bottom: 0.5rem !important; }
 
       #scroll-section { height: 350vh; }
 
@@ -1806,31 +1804,31 @@
     window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
-    // Draw a stored bitmap.
-    // Desktop/landscape → cover (fills viewport).
-    // Mobile portrait   → canvas is resized to video's natural aspect ratio,
-    //                      so contain == cover (no bars, no cropping).
+    // Draw with cover — always fills the canvas completely.
     function drawFrame(idx) {
       const bm = bitmaps[idx];
       if (!bm) return;
       const cw = canvas.width, ch = canvas.height;
-      const sc = Math.min(cw / bm.width, ch / bm.height); // always contain
-      // On desktop the wrapper is 100vh so contain ≈ cover (small black bars accepted).
-      // On mobile the wrapper height is set to match the video ratio → perfect fill.
+      const sc = Math.max(cw / bm.width, ch / bm.height);
       const dw = bm.width  * sc;
       const dh = bm.height * sc;
       ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(bm, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
     }
 
-    // On portrait mobile, shrink the canvas-wrapper to exactly the video's
-    // natural height at the current screen width — eliminating gray bars.
+    // Set canvas-wrapper height:
+    //   - Desktop/landscape → 100vh (full screen)
+    //   - Mobile portrait   → clamp between 35vh and 60vh, preferring the
+    //     video's natural height at screen width (avoids a tiny strip for
+    //     ultra-wide videos and avoids full-screen for normal 16:9)
     function fitCanvasToVideo() {
-      if (!bitmaps[0]) return;
       const wrapper = document.getElementById('canvas-wrapper');
-      if (window.innerHeight > window.innerWidth) {
-        // Portrait: height = width × (videoH / videoW)
-        const h = Math.round(window.innerWidth * bitmaps[0].height / bitmaps[0].width);
+      const portrait = window.innerHeight > window.innerWidth;
+      if (portrait && bitmaps[0]) {
+        const naturalH = window.innerWidth * (bitmaps[0].height / bitmaps[0].width);
+        const minH     = window.innerHeight * 0.38;
+        const maxH     = window.innerHeight * 0.60;
+        const h        = Math.round(Math.min(maxH, Math.max(naturalH, minH)));
         wrapper.style.height = h + 'px';
       } else {
         wrapper.style.height = '100vh';
