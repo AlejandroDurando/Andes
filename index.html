@@ -418,17 +418,11 @@
     }
 
     /* ═══════════════════════════════════════════════════
-       TINGLADO ANIMATION SECTION
+       ANIMATION HERO
     ═══════════════════════════════════════════════════ */
-    .anim-header {
-      background: var(--dark);
-      padding: 4rem var(--pad-x) 0;
-      text-align: center;
-    }
-
     #scroll-section {
       position: relative;
-      height: 600vh; /* ≈ 3vh per frame — adjust as needed */
+      height: 600vh;
     }
 
     #canvas-wrapper {
@@ -455,18 +449,6 @@
       pointer-events: none;
     }
 
-    #frame-counter {
-      position: absolute;
-      top: 1.4rem; right: 1.6rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #222;
-      pointer-events: none;
-      user-select: none;
-    }
-
     #scroll-hint {
       position: absolute;
       bottom: 2.5rem;
@@ -485,7 +467,52 @@
       font-size: 0.62rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: #3a3a3a;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* End overlay — fades in over the last frame */
+    #end-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10,10,10,0.52);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.4s ease;
+      padding: 2rem var(--pad-x);
+      text-align: center;
+    }
+    #end-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #end-overlay h2 {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 200;
+      font-style: italic;
+      font-size: clamp(1.6rem, 3.8vw, 3.2rem);
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 1.4rem;
+      max-width: 760px;
+    }
+    #end-overlay p {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.8rem, 1.4vw, 0.98rem);
+      color: rgba(255,255,255,0.65);
+      line-height: 1.9;
+      max-width: 600px;
+      margin-bottom: 2.2rem;
+    }
+    #end-overlay .end-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
     }
     .scroll-needle {
       width: 1px; height: 36px;
@@ -1150,7 +1177,6 @@
       .trust-badges { gap: 0.4rem; }
       .badge { font-size: 0.62rem; padding: 0.35rem 0.65rem; }
 
-      .anim-header { padding: 1.8rem var(--pad-x) 0.8rem; }
 
       #scroll-section { height: 450vh; }
 
@@ -1175,9 +1201,6 @@
       .hero-h1 { font-size: clamp(2rem, 10vw, 2.8rem); line-height: 1.1; }
       .section-title { font-size: clamp(2rem, 9vw, 3rem); }
 
-      .anim-header { padding: 1.2rem 1.2rem 0.5rem; }
-      .anim-header .section-title { font-size: 2rem; margin-bottom: 0.3rem; }
-      .anim-header p { font-size: 0.82rem !important; margin-bottom: 0.5rem !important; }
 
       #scroll-section { height: 350vh; }
 
@@ -1230,11 +1253,11 @@
        NAVBAR
   ───────────────────────────────────────────── -->
   <nav id="navbar">
-    <a href="#inicio" class="nav-logo">
+    <a href="#scroll-section" class="nav-logo">
       <img src="./logo_andes.png" alt="Andes Estructuras S.A.S.">
     </a>
     <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#scroll-section">Inicio</a></li>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#obras">Obras</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
@@ -1247,7 +1270,7 @@
   </nav>
 
   <div id="mobile-menu" aria-hidden="true">
-    <a href="#inicio"    onclick="closeMob()">Inicio</a>
+    <a href="#scroll-section"    onclick="closeMob()">Inicio</a>
     <a href="#servicios" onclick="closeMob()">Servicios</a>
     <a href="#obras"     onclick="closeMob()">Obras Realizadas</a>
     <a href="#nosotros"  onclick="closeMob()">Nosotros</a>
@@ -1257,57 +1280,26 @@
   </div>
 
   <!-- ─────────────────────────────────────────────
-       HERO
+       HERO — Scroll-driven animation
   ───────────────────────────────────────────── -->
-  <section id="inicio">
-    <!-- Drop a hero-video.mp4 in the root folder to enable the video background -->
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="./hero-video.mp4" type="video/mp4">
-    </video>
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-vignette"></div>
-
-    <div class="hero-content">
-      <div class="hero-eyebrow">Andes Estructuras S.A.S. — San Francisco, Córdoba</div>
-      <h1 class="hero-h1">
-        Estructuras<br>que acompañan<br><em>tu trabajo.</em>
-      </h1>
-      <p class="hero-sub">
-        Diseño, fabricación y montaje ágil de estructuras metálicas para el campo y la industria. Solidez que nace del trabajo.
-      </p>
-      <div class="hero-actions">
-        <a href="#contacto" class="btn-gold">Solicitá tu Presupuesto Inmediato</a>
-        <a href="#servicios" class="btn-ghost">Ver Soluciones</a>
-      </div>
-      <div class="trust-badges">
-        <span class="badge">Cotización en el día</span>
-        <span class="badge">Montaje 100% Abulonado</span>
-        <span class="badge">Diseño Modular</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────────────────
-       TINGLADO ANIMATION
-  ───────────────────────────────────────────── -->
-  <div class="anim-header">
-    <div class="eyebrow eyebrow-center">Proceso de montaje</div>
-    <h2 class="section-title" style="text-align:center; margin-bottom: 0.8rem;">
-      Así <span>construimos</span>
-    </h2>
-    <p style="font-size:clamp(0.88rem,1.6vw,1rem); font-weight:300; color:#3a3a3a; max-width:440px; margin:0 auto 1.5rem; line-height:1.85; text-align:center;">
-      Desplazate para ver la secuencia de ensamble en tiempo real.
-    </p>
-  </div>
-
   <section id="scroll-section">
     <div id="canvas-wrapper">
       <canvas id="frame-canvas"></canvas>
       <div id="seek-bar"></div>
+
       <div id="scroll-hint">
-        <span>Desplazá para construir</span>
+        <span>Desplazá para ver</span>
         <div class="scroll-needle"></div>
+      </div>
+
+      <!-- Shown once animation completes -->
+      <div id="end-overlay">
+        <h2>Soluciones integrales en estructuras metálicas</h2>
+        <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el sector agroindustrial, brindando asesoramiento técnico en cada etapa del proyecto. Trabajamos con altos estándares de calidad, combinando experiencia, innovación y un equipo profesional especializado para garantizar resultados eficientes y confiables.</p>
+        <div class="end-ctas">
+          <a href="#contacto" class="btn-gold">Solicitá tu Presupuesto</a>
+          <a href="#servicios" class="btn-ghost">Ver Servicios</a>
+        </div>
       </div>
     </div>
   </section>
@@ -1745,7 +1737,7 @@
         <div class="footer-tagline">Construir desde la tierra, con la fuerza del trabajo</div>
       </div>
       <ul class="footer-nav">
-        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#scroll-section">Inicio</a></li>
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#contacto">Contacto</a></li>
@@ -1794,6 +1786,8 @@
     const scrollSec  = document.getElementById('scroll-section');
     const scrollHint = document.getElementById('scroll-hint');
     const seekBar    = document.getElementById('seek-bar');
+    const endOverlay = document.getElementById('end-overlay');
+    const END_THRESHOLD = 0.97;
 
     // Canvas sizing — matches the wrapper's actual rendered size × devicePixelRatio
     // so the image is never squished and stays sharp on retina screens.
@@ -1861,6 +1855,11 @@
 
       seekBar.style.width = (progress * 100).toFixed(2) + '%';
       if (scrolled > 80) scrollHint.classList.add('hidden');
+
+      // Show end text when animation completes
+      if (progress >= END_THRESHOLD) endOverlay.classList.add('visible');
+      else                            endOverlay.classList.remove('visible');
+
       const fi = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * TOTAL_FRAMES));
       if (fi !== curFrame) { curFrame = fi; drawFrame(fi); }
     }
