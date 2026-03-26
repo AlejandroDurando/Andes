@@ -946,15 +946,46 @@
        VIDEO BOTTOM
     ═══════════════════════════════════════════════════ */
     #video-bottom {
+      position: relative;
       width: 100%;
       background: #000;
       line-height: 0;
+      overflow: hidden;
     }
     #video-bottom video {
       width: 100%;
-      height: auto;
+      max-height: 80vh;
+      object-fit: cover;
       display: block;
     }
+    #vb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: clamp(2.5rem, 7vh, 5rem);
+      padding-left: var(--pad-x);
+      padding-right: var(--pad-x);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.05) 70%, transparent 100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.4s ease;
+      text-align: center;
+    }
+    #vb-overlay.visible { opacity: 1; }
+    #vb-overlay p {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.68rem, 1vw, 0.88rem);
+      color: rgba(255,255,255,0.88);
+      line-height: 1.85;
+      max-width: 74ch;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.55);
+    }
+    #vb-overlay p + p { margin-top: 1rem; }
 
     /* ═══════════════════════════════════════════════════
        FOOTER
@@ -1730,6 +1761,11 @@
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
     <video id="vid-bottom" src="./video_bottom.mp4" muted playsinline preload="metadata"></video>
+    <div id="vb-overlay">
+      <p>Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial. Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
+      <p>Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis y el diseño hasta la fabricación y el montaje final. Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.</p>
+      <p>Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda. Nuestra experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar cada proyecto con seriedad, innovación y compromiso, consolidándonos como un aliado estratégico en el desarrollo de soluciones estructurales.</p>
+    </div>
   </section>
 
   <!-- ─────────────────────────────────────────────
@@ -2012,6 +2048,17 @@
       vbLastTime = null;
       requestAnimationFrame(vbReverse);
     });
+
+    // Text overlay — appears 2 s after video starts
+    const vbOverlay = document.getElementById('vb-overlay');
+    let vbOverlayTimer = null;
+    vidBottom.addEventListener('play', () => {
+      if (!vbOverlayTimer) {
+        vbOverlayTimer = setTimeout(() => {
+          vbOverlay.classList.add('visible');
+        }, 2000);
+      }
+    }, { once: true });
 
     // Autoplay when visible, pause when not
     const vbObserver = new IntersectionObserver((entries) => {
