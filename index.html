@@ -1766,28 +1766,24 @@
     const vidBottom = document.getElementById('vid-bottom');
     let vbReversing = false;
     let vbVisible   = false;
-    let vbLastTime  = null;
+    const VB_STEP   = 1 / 25; // paso ~25fps en reversa
 
-    function vbReverse(ts) {
-      if (!vbReversing) return;            // cancelado por observer
-      if (!vbLastTime) vbLastTime = ts;
-      const delta = (ts - vbLastTime) / 1000;
-      vbLastTime = ts;
-      const t = Math.max(0, vidBottom.currentTime - delta);
-      vidBottom.currentTime = t;
-      if (t <= 0.05) {
+    function vbNextStep() {
+      if (!vbReversing) return;
+      const next = Math.max(0, vidBottom.currentTime - VB_STEP);
+      vidBottom.currentTime = next;
+      if (next <= 0.04) {
         vbReversing = false;
-        vbLastTime  = null;
         if (vbVisible) vidBottom.play().catch(() => {});
         return;
       }
-      requestAnimationFrame(vbReverse);
+      // esperar a que el browser termine el seek antes del próximo paso
+      vidBottom.addEventListener('seeked', vbNextStep, { once: true });
     }
 
     vidBottom.addEventListener('ended', () => {
       vbReversing = true;
-      vbLastTime  = null;
-      requestAnimationFrame(vbReverse);
+      vbNextStep();
     });
 
     // Text overlay — aparece 2 s después del primer play
@@ -1813,43 +1809,6 @@
     }, { threshold: 0.1 });
     vbObserver.observe(vidBottom);
 
-    // ── Lead form ──────────────────────────────────────────────────────────
-    const leadForm   = document.getElementById('lead-form');
-    const formOk     = document.getElementById('form-success');
-    const reqFields  = ['f-nombre', 'f-email', 'f-msg'];
-
-    leadForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      let valid = true;
-      reqFields.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el.value.trim()) {
-          el.style.borderColor = 'rgba(200,60,60,0.45)';
-          valid = false;
-        }
-      });
-      if (!valid) return;
-
-      // Fallback: open default mail client
-      // Replace this block with a fetch() to your backend / Formspree endpoint
-      const nombre   = document.getElementById('f-nombre').value.trim();
-      const email    = document.getElementById('f-email').value.trim();
-      const tel      = document.getElementById('f-tel').value.trim();
-      const msg      = document.getElementById('f-msg').value.trim();
-      const subject  = encodeURIComponent('Consulta — ' + nombre);
-      const body     = encodeURIComponent(`Nombre: ${nombre}\nEmail: ${email}\nTeléfono: ${tel}\n\n${msg}`);
-      window.open(`mailto:contacto@andes.com.ar?subject=${subject}&body=${body}`);
-
-      leadForm.style.display = 'none';
-      formOk.style.display   = 'block';
-    });
-
-    reqFields.forEach(id => {
-      document.getElementById(id).addEventListener('input', function () {
-        this.style.borderColor = '';
-      });
-    });
   </script>
 </body>
 </html>
