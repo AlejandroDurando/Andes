@@ -962,17 +962,6 @@
       height: auto;
       display: block;
     }
-    /* Cubre la marca de agua del hero (esquina inferior derecha del canvas) */
-    .hero-wm {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 200px;
-      height: 48px;
-      z-index: 2;
-      backdrop-filter: blur(10px) brightness(0.15);
-      -webkit-backdrop-filter: blur(10px) brightness(0.15);
-    }
     #vb-overlay {
       position: absolute;
       inset: 0;
@@ -1443,9 +1432,6 @@
         <span>Desplazá para ver</span>
         <div class="scroll-needle"></div>
       </div>
-
-      <!-- Cubre marca de agua del hero -->
-      <div class="hero-wm"></div>
 
       <!-- Shown once animation completes -->
       <div id="end-overlay">
