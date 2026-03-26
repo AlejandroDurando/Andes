@@ -430,6 +430,13 @@
       background: var(--dark);
     }
 
+    #hero-mobile-vid {
+      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
     #frame-canvas {
       position: absolute;
       inset: 0;
@@ -1402,31 +1409,25 @@
 
     /* Mobile — 640px */
     @media (max-width: 640px) {
+      /* Hero: video directo en lugar del canvas */
+      #frame-canvas { display: none; }
+      #hero-mobile-vid { display: block; }
+
       /* Carousel */
-      #productos { padding: clamp(2rem, 5vh, 3.5rem) 0; }
-      .productos-carousel { height: clamp(300px, 88vw, 500px); }
+      #productos { padding: 3rem 0; }
+      .productos-carousel { height: clamp(320px, 88vw, 500px); }
       .prod-card { width: 80vw; }
       .prod-card.is-prev { transform: translateX(-90%) scale(0.82); opacity: 0.5; }
       .prod-card.is-next { transform: translateX(90%) scale(0.82); opacity: 0.5; }
       .prod-name { font-size: clamp(1.3rem, 6vw, 1.8rem); }
+      .prod-dots { margin-top: 1.8rem; }
 
-      /* Video overlay → below video */
-      #video-bottom { display: flex; flex-direction: column; }
-      .vb-frame { order: 1; }
+      /* Video overlay — se mantiene sobre el video, gradiente más fuerte */
       #vb-overlay {
-        order: 2;
-        position: static;
-        background: #1c1c1c;
-        padding: 2rem var(--pad-x) 2.5rem;
-        opacity: 1;
-        transition: none;
-        pointer-events: auto;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 55%, rgba(0,0,0,0.08) 80%, transparent 100%);
       }
-      .vb-para-wrap {
-        width: 100%;
-        min-height: 9rem;
-      }
-      .vb-para-wrap > p { font-size: 0.88rem; }
+      .vb-para-wrap { width: 94%; }
+      .vb-para-wrap > p { font-size: 0.88rem; line-height: 1.75; }
     }
 
     /* Mobile — 480px */
@@ -1480,13 +1481,11 @@
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 
       /* Carousel small */
+      #productos { padding: 2.5rem 0; }
       .productos-carousel { height: clamp(280px, 92vw, 420px); }
       .prod-card { width: 85vw; }
       .prod-card-body { padding: 1.2rem 1.2rem 1.5rem; }
-      .prod-dots { margin-top: 1.2rem; }
-
-      /* Video text below */
-      .vb-para-wrap { min-height: 10rem; }
+      .prod-dots { margin-top: 1.5rem; }
     }
   </style>
 </head>
@@ -1541,6 +1540,7 @@
   ───────────────────────────────────────────── -->
   <section id="scroll-section">
     <div id="canvas-wrapper">
+      <video id="hero-mobile-vid" src="./video_hero.mp4" muted autoplay playsinline loop></video>
       <canvas id="frame-canvas"></canvas>
       <div id="seek-bar"></div>
 
@@ -1806,22 +1806,26 @@
 
     // Boot
     async function init() {
-      try {
-        await extractFrames();
-      } catch (err) {
-        console.warn('Frame extraction failed:', err);
-        // Dismiss loader anyway so the rest of the page is usable
+      const isMobile = window.innerWidth <= 640;
+
+      if (!isMobile) {
+        try {
+          await extractFrames();
+        } catch (err) {
+          console.warn('Frame extraction failed:', err);
+        }
+        curFrame  = 0;
+        animReady = true;
+        fitCanvasToVideo();
+        drawFrame(0);
       }
-      curFrame  = 0;
-      animReady = true;
-      fitCanvasToVideo(); // set canvas height before first draw
-      drawFrame(0);
 
       loader.style.transition = 'opacity 0.7s ease';
       loader.style.opacity    = '0';
       setTimeout(() => {
         loader.style.display = 'none';
         document.getElementById('wa-fab').classList.add('show');
+        if (isMobile) endOverlay.classList.add('visible');
       }, 720);
     }
     init();
