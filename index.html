@@ -676,6 +676,82 @@
     .diff-text { font-size: 0.82rem; font-weight: 300; color: #555; line-height: 1.75; }
 
     /* ═══════════════════════════════════════════════════
+       PRODUCT SHOWCASE (Celdas / Galpones / Tinglados)
+    ═══════════════════════════════════════════════════ */
+    #productos {
+      background: var(--dark);
+      padding: 0;
+    }
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    @media (max-width: 640px) {
+      .productos-grid { grid-template-columns: 1fr; }
+    }
+    .prod-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 2 / 3;
+      cursor: pointer;
+      background: var(--dark-2);
+    }
+    .prod-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease, opacity 0.4s ease;
+      opacity: 0.85;
+    }
+    .prod-card:hover img { transform: scale(1.06); opacity: 1; }
+    .prod-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 40%);
+    }
+    .prod-card-body {
+      position: absolute;
+      top: 1.6rem;
+      left: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .prod-name {
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .prod-btn {
+      display: inline-block;
+      padding: 0.35rem 1.4rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.8);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+      width: fit-content;
+    }
+    .prod-card:hover .prod-btn {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #0a0a0a;
+    }
+    /* placeholder bg per card */
+    .prod-card:nth-child(1) { background: linear-gradient(160deg, #1a1a14, #0f0f0a); }
+    .prod-card:nth-child(2) { background: linear-gradient(160deg, #141a1a, #0a0f0f); }
+    .prod-card:nth-child(3) { background: linear-gradient(160deg, #1a1416, #0f0a0b); }
+
+    /* ═══════════════════════════════════════════════════
        NOSOTROS
     ═══════════════════════════════════════════════════ */
     #nosotros {
@@ -1277,7 +1353,7 @@
       <li><a href="#scroll-section">Inicio</a></li>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#obras">Obras</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#contacto" class="nav-cta">Presupuesto</a></li>
     </ul>
@@ -1290,7 +1366,7 @@
     <a href="#scroll-section"    onclick="closeMob()">Inicio</a>
     <a href="#servicios" onclick="closeMob()">Servicios</a>
     <a href="#obras"     onclick="closeMob()">Obras Realizadas</a>
-    <a href="#nosotros"  onclick="closeMob()">Nosotros</a>
+    <a href="nosotros.html" onclick="closeMob()">Nosotros</a>
     <a href="#faq"       onclick="closeMob()">Preguntas Frecuentes</a>
     <a href="#blog"      onclick="closeMob()">Blog</a>
     <a href="#contacto"  onclick="closeMob()" class="mob-cta">Solicitá tu Presupuesto</a>
@@ -1329,65 +1405,35 @@
   </section>
 
   <!-- ─────────────────────────────────────────────
-       NOSOTROS
+       PRODUCT SHOWCASE
   ───────────────────────────────────────────── -->
-  <section id="nosotros" class="section">
-    <div class="about-grid">
+  <section id="productos">
+    <div class="productos-grid">
 
-      <div>
-        <div class="eyebrow">Sobre nosotros</div>
-        <h2 class="section-title">Construimos<br>confianza, <span>cada día.</span></h2>
-        <p class="section-lead">
-          Más de 10 años de experiencia y más de 80 estructuras agropecuarias construidas respaldan cada proyecto que encaramos. Somos un equipo comprometido con la solución concreta y el trabajo bien hecho.
-        </p>
-
-        <div class="stats-row">
-          <div>
-            <div class="stat-num">+10</div>
-            <div class="stat-label">Años de experiencia</div>
-          </div>
-          <div>
-            <div class="stat-num">+80</div>
-            <div class="stat-label">Galpones construidos</div>
-          </div>
-          <div>
-            <div class="stat-num">100%</div>
-            <div class="stat-label">Sin soldadura en obra</div>
-          </div>
-          <div>
-            <div class="stat-num">1 día</div>
-            <div class="stat-label">Cotización express</div>
-          </div>
+      <div class="prod-card">
+        <img src="./obras/EdgardoOriglia_3.jpg" alt="Celdas">
+        <div class="prod-card-overlay"></div>
+        <div class="prod-card-body">
+          <div class="prod-name">Celdas</div>
+          <a href="#contacto" class="prod-btn">Ver más</a>
         </div>
-
-        <ul class="process-list">
-          <li class="process-item"><span class="p-num">01</span><span class="p-label">Asesoramiento & relevamiento</span></li>
-          <li class="process-item"><span class="p-num">02</span><span class="p-label">Ingeniería & diseño</span></li>
-          <li class="process-item"><span class="p-num">03</span><span class="p-label">Fabricación</span></li>
-          <li class="process-item"><span class="p-num">04</span><span class="p-label">Logística</span></li>
-          <li class="process-item"><span class="p-num">05</span><span class="p-label">Montaje</span></li>
-          <li class="process-item"><span class="p-num">06</span><span class="p-label">Entrega final</span></li>
-        </ul>
-
-        <a href="#contacto" class="btn-gold">Consultanos ahora</a>
       </div>
 
-      <!-- Recent projects grid -->
-      <div class="proj-grid">
-        <div class="proj-cell">
-          <!-- <img src="./img/obra1.jpg" alt="Obra San Francisco"> -->
-          <div class="proj-cell-inner"></div>
-          <div class="proj-label">San Francisco, Córdoba</div>
+      <div class="prod-card">
+        <img src="./obras/EdgardoOriglia.jpg" alt="Galpones">
+        <div class="prod-card-overlay"></div>
+        <div class="prod-card-body">
+          <div class="prod-name">Galpones</div>
+          <a href="#contacto" class="prod-btn">Ver más</a>
         </div>
-        <div class="proj-cell">
-          <!-- <img src="./img/obra2.jpg" alt="Obra Brinkmann"> -->
-          <div class="proj-cell-inner"></div>
-          <div class="proj-label">Brinkmann, Córdoba</div>
-        </div>
-        <div class="proj-cell">
-          <!-- <img src="./img/obra3.jpg" alt="Obra Morteros"> -->
-          <div class="proj-cell-inner"></div>
-          <div class="proj-label">Morteros, Córdoba</div>
+      </div>
+
+      <div class="prod-card">
+        <img src="./obras/EdgardoOriglia_5.jpg" alt="Tinglados">
+        <div class="prod-card-overlay"></div>
+        <div class="prod-card-body">
+          <div class="prod-name">Tinglados</div>
+          <a href="#contacto" class="prod-btn">Ver más</a>
         </div>
       </div>
 
