@@ -1776,27 +1776,33 @@
 
     // ── Video bottom — ping-pong loop ─────────────────────────────────────
     const vidBottom = document.getElementById('vid-bottom');
-    let vbLastTime = null;
+    let vbReversing = false;
+    let vbVisible   = false;
+    let vbLastTime  = null;
 
     function vbReverse(ts) {
+      if (!vbReversing) return;            // cancelado por observer
       if (!vbLastTime) vbLastTime = ts;
       const delta = (ts - vbLastTime) / 1000;
       vbLastTime = ts;
-      vidBottom.currentTime = Math.max(0, vidBottom.currentTime - delta);
-      if (vidBottom.currentTime <= 0.033) {
-        vbLastTime = null;
-        vidBottom.play();
+      const t = Math.max(0, vidBottom.currentTime - delta);
+      vidBottom.currentTime = t;
+      if (t <= 0.05) {
+        vbReversing = false;
+        vbLastTime  = null;
+        if (vbVisible) vidBottom.play().catch(() => {});
         return;
       }
       requestAnimationFrame(vbReverse);
     }
 
     vidBottom.addEventListener('ended', () => {
-      vbLastTime = null;
+      vbReversing = true;
+      vbLastTime  = null;
       requestAnimationFrame(vbReverse);
     });
 
-    // Text overlay — appears 2 s after video starts
+    // Text overlay — aparece 2 s después del primer play
     const vbOverlay = document.getElementById('vb-overlay');
     let vbOverlayTimer = null;
     vidBottom.addEventListener('play', () => {
@@ -1807,11 +1813,13 @@
       }
     }, { once: true });
 
-    // Autoplay when visible, pause when not
+    // Autoplay cuando es visible; pausa cuando no (sin interferir con reverse)
     const vbObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        if (vidBottom.paused) vidBottom.play().catch(() => {});
+      vbVisible = entries[0].isIntersecting;
+      if (vbVisible) {
+        if (!vbReversing && vidBottom.paused) vidBottom.play().catch(() => {});
       } else {
+        vbReversing = false;
         vidBottom.pause();
       }
     }, { threshold: 0.1 });
