@@ -951,11 +951,26 @@
       background: #000;
       line-height: 0;
       overflow: hidden;
+      padding: 0 clamp(2rem, 7vw, 9rem);
+    }
+    .vb-frame {
+      position: relative;
+      line-height: 0;
     }
     #video-bottom video {
       width: 100%;
       height: auto;
       display: block;
+    }
+    /* Cubre la marca de agua (esquina inferior derecha del video) */
+    .vb-wm {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 48px;
+      backdrop-filter: blur(10px) brightness(0.15);
+      -webkit-backdrop-filter: blur(10px) brightness(0.15);
     }
     #vb-overlay {
       position: absolute;
@@ -1487,7 +1502,10 @@
        VIDEO BOTTOM
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
-    <video id="vid-bottom" src="./video_bottom.mp4" muted playsinline preload="metadata"></video>
+    <div class="vb-frame">
+      <video id="vid-bottom" src="./video_bottom.mp4" muted playsinline preload="metadata"></video>
+      <div class="vb-wm"></div>
+    </div>
     <div id="vb-overlay">
       <p>Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial. Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
       <p>Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis y el diseño hasta la fabricación y el montaje final. Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.</p>
