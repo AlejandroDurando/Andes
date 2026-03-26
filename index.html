@@ -943,6 +943,20 @@
     }
 
     /* ═══════════════════════════════════════════════════
+       VIDEO BOTTOM
+    ═══════════════════════════════════════════════════ */
+    #video-bottom {
+      width: 100%;
+      background: #000;
+      line-height: 0;
+    }
+    #video-bottom video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════════════════
        FOOTER
     ═══════════════════════════════════════════════════ */
     #footer {
@@ -1712,6 +1726,13 @@
   </section>
 
   <!-- ─────────────────────────────────────────────
+       VIDEO BOTTOM
+  ───────────────────────────────────────────── -->
+  <section id="video-bottom">
+    <video id="vid-bottom" src="./video_bottom.mp4" muted playsinline preload="metadata"></video>
+  </section>
+
+  <!-- ─────────────────────────────────────────────
        FOOTER
   ───────────────────────────────────────────── -->
   <footer id="footer">
@@ -1969,6 +1990,38 @@
       document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
     }
+
+    // ── Video bottom — ping-pong loop ─────────────────────────────────────
+    const vidBottom = document.getElementById('vid-bottom');
+    let vbLastTime = null;
+
+    function vbReverse(ts) {
+      if (!vbLastTime) vbLastTime = ts;
+      const delta = (ts - vbLastTime) / 1000;
+      vbLastTime = ts;
+      vidBottom.currentTime = Math.max(0, vidBottom.currentTime - delta);
+      if (vidBottom.currentTime <= 0.033) {
+        vbLastTime = null;
+        vidBottom.play();
+        return;
+      }
+      requestAnimationFrame(vbReverse);
+    }
+
+    vidBottom.addEventListener('ended', () => {
+      vbLastTime = null;
+      requestAnimationFrame(vbReverse);
+    });
+
+    // Autoplay when visible, pause when not
+    const vbObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (vidBottom.paused) vidBottom.play().catch(() => {});
+      } else {
+        vidBottom.pause();
+      }
+    }, { threshold: 0.1 });
+    vbObserver.observe(vidBottom);
 
     // ── Lead form ──────────────────────────────────────────────────────────
     const leadForm   = document.getElementById('lead-form');
