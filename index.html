@@ -1907,11 +1907,12 @@
       if (vbVisible) vidFwd.play().catch(() => {});
     });
 
-    // Text overlay — párrafos de a 1, aparecen 2 s después del primer play
+    // Text overlay — párrafos de a 1, 5 s después de que el usuario llega a la sección
     const vbOverlay = document.getElementById('vb-overlay');
     const vbParas   = Array.from(vbOverlay.querySelectorAll('.vb-para-wrap > p'));
-    let vbParaIdx   = 0;
+    let vbParaIdx    = 0;
     let vbCycleTimer = null;
+    let vbEntryTimer = null;
 
     function vbShowNext() {
       vbParas.forEach(p => p.classList.remove('vb-active'));
@@ -1923,18 +1924,18 @@
       if (vbCycleTimer) return;
       vbOverlay.classList.add('visible');
       vbShowNext();
-      vbCycleTimer = setInterval(vbShowNext, 7800);
+      vbCycleTimer = setInterval(vbShowNext, 10000);
     }
-
-    vidFwd.addEventListener('play', () => {
-      setTimeout(vbStartCycle, 5000);
-    }, { once: true });
 
     // Autoplay cuando es visible; pausa cuando no
     const vbObserver = new IntersectionObserver((entries) => {
       vbVisible = entries[0].isIntersecting;
       if (vbVisible) {
         if (!vbReversing && vidFwd.paused) vidFwd.play().catch(() => {});
+        // Arrancar ciclo de texto 5 s después de llegar a la sección
+        if (!vbEntryTimer && !vbCycleTimer) {
+          vbEntryTimer = setTimeout(vbStartCycle, 5000);
+        }
       } else {
         vidFwd.pause();
         vidRev.pause();
