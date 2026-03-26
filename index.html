@@ -104,14 +104,10 @@
       display: flex;
       align-items: center;
       padding: 0 var(--pad-x);
-      transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
-      border-bottom: 1px solid transparent;
-    }
-    #navbar.scrolled {
       background: rgba(10,10,10,0.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border-bottom-color: var(--gold-dim);
+      border-bottom: 1px solid var(--gold-dim);
     }
     .nav-logo { text-decoration: none; flex-shrink: 0; }
     .nav-logo img { height: 38px; width: auto; }
@@ -478,13 +474,15 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding-top: clamp(3rem, 8vh, 6rem);
-      background: transparent;
+      /* push text below navbar + comfortable sky margin */
+      padding-top: calc(var(--nav-h) + clamp(2rem, 5vh, 4rem));
+      padding-left: var(--pad-x);
+      padding-right: var(--pad-x);
+      /* subtle dark wash so white text reads on bright sky */
+      background: linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.10) 45%, transparent 100%);
       opacity: 0;
       pointer-events: none;
       transition: opacity 1.4s ease;
-      padding-left: var(--pad-x);
-      padding-right: var(--pad-x);
       text-align: center;
     }
     #end-overlay.visible {
@@ -506,11 +504,11 @@
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(0.72rem, 1.1vw, 0.92rem);
-      color: rgba(255,255,255,0.75);
+      font-size: clamp(0.72rem, 1.05vw, 0.9rem);
+      color: rgba(255,255,255,0.82);
       line-height: 1.85;
-      max-width: 58ch;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      max-width: 46ch;   /* narrower column → 3 lines */
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
     }
     .scroll-needle {
       width: 1px; height: 36px;
@@ -532,7 +530,7 @@
       scroll-margin-top: var(--nav-h);
     }
     .srv-heading {
-      font-family: 'Raleway', sans-serif;
+      font-family: 'IBM Plex Serif', serif;
       font-weight: 300;
       font-style: italic;
       font-size: clamp(2rem, 5vw, 3.8rem);
@@ -1868,12 +1866,7 @@
     init();
 
     // ── Navbar scroll class ────────────────────────────────────────────────
-    const navbar = document.getElementById('navbar');
-    function updateNav() {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
-    }
-    window.addEventListener('scroll', updateNav, { passive: true });
-    updateNav();
+    // Navbar is always opaque — no scroll toggle needed.
 
     // ── Mobile menu ────────────────────────────────────────────────────────
     const navToggle  = document.getElementById('nav-toggle');
