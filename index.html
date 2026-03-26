@@ -474,7 +474,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding-top: calc(var(--nav-h) + clamp(2rem, 5vh, 4rem));
+      padding-top: calc(var(--nav-h) + clamp(1rem, 3vh, 2.5rem));
       padding-left: var(--pad-x);
       padding-right: var(--pad-x);
       background: linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.08) 65%, transparent 100%);
@@ -1923,11 +1923,11 @@
       if (vbCycleTimer) return;
       vbOverlay.classList.add('visible');
       vbShowNext();
-      vbCycleTimer = setInterval(vbShowNext, 4800);
+      vbCycleTimer = setInterval(vbShowNext, 7800);
     }
 
     vidFwd.addEventListener('play', () => {
-      setTimeout(vbStartCycle, 2000);
+      setTimeout(vbStartCycle, 5000);
     }, { once: true });
 
     // Autoplay cuando es visible; pausa cuando no
