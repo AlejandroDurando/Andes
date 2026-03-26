@@ -430,13 +430,6 @@
       background: var(--dark);
     }
 
-    #hero-mobile-vid {
-      display: none;
-      position: absolute;
-      inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-    }
     #frame-canvas {
       position: absolute;
       inset: 0;
@@ -1409,10 +1402,6 @@
 
     /* Mobile — 640px */
     @media (max-width: 640px) {
-      /* Hero: video directo en lugar del canvas */
-      #frame-canvas { display: none; }
-      #hero-mobile-vid { display: block; }
-
       /* Carousel */
       #productos { padding: 3rem 0; }
       .productos-carousel { height: clamp(320px, 88vw, 500px); }
@@ -1437,7 +1426,7 @@
       .hero-h1 { font-size: clamp(2rem, 10vw, 2.8rem); line-height: 1.1; }
       .section-title { font-size: clamp(2rem, 9vw, 3rem); }
 
-      #scroll-section { height: 100vh; }
+      #scroll-section { height: 400vh; }
 
       #end-overlay {
         padding-top: calc(var(--nav-h) + 1rem);
@@ -1540,7 +1529,6 @@
   ───────────────────────────────────────────── -->
   <section id="scroll-section">
     <div id="canvas-wrapper">
-      <video id="hero-mobile-vid" src="./video_hero.mp4" muted autoplay playsinline loop></video>
       <canvas id="frame-canvas"></canvas>
       <div id="seek-bar"></div>
 
@@ -1806,26 +1794,21 @@
 
     // Boot
     async function init() {
-      const isMobile = window.innerWidth <= 640;
-
-      if (!isMobile) {
-        try {
-          await extractFrames();
-        } catch (err) {
-          console.warn('Frame extraction failed:', err);
-        }
-        curFrame  = 0;
-        animReady = true;
-        fitCanvasToVideo();
-        drawFrame(0);
+      try {
+        await extractFrames();
+      } catch (err) {
+        console.warn('Frame extraction failed:', err);
       }
+      curFrame  = 0;
+      animReady = true;
+      fitCanvasToVideo();
+      drawFrame(0);
 
       loader.style.transition = 'opacity 0.7s ease';
       loader.style.opacity    = '0';
       setTimeout(() => {
         loader.style.display = 'none';
         document.getElementById('wa-fab').classList.add('show');
-        if (isMobile) endOverlay.classList.add('visible');
       }, 720);
     }
     init();
