@@ -477,12 +477,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      background: rgba(10,10,10,0.52);
+      justify-content: flex-start;
+      padding-top: clamp(3rem, 8vh, 6rem);
+      background: transparent;
       opacity: 0;
       pointer-events: none;
       transition: opacity 1.4s ease;
-      padding: 2rem var(--pad-x);
+      padding-left: var(--pad-x);
+      padding-right: var(--pad-x);
       text-align: center;
     }
     #end-overlay.visible {
@@ -1296,10 +1298,6 @@
       <div id="end-overlay">
         <h2>Soluciones integrales en estructuras metálicas</h2>
         <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el sector agroindustrial, brindando asesoramiento técnico en cada etapa del proyecto. Trabajamos con altos estándares de calidad, combinando experiencia, innovación y un equipo profesional especializado para garantizar resultados eficientes y confiables.</p>
-        <div class="end-ctas">
-          <a href="#contacto" class="btn-gold">Solicitá tu Presupuesto</a>
-          <a href="#servicios" class="btn-ghost">Ver Servicios</a>
-        </div>
       </div>
     </div>
   </section>
