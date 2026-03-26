@@ -474,11 +474,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      /* push text below navbar + comfortable sky margin */
-      padding-top: calc(var(--nav-h) + clamp(4rem, 10vh, 8rem));
+      padding-top: calc(var(--nav-h) + clamp(2rem, 5vh, 4rem));
       padding-left: var(--pad-x);
       padding-right: var(--pad-x);
-      /* dark wash concentrated at top so white text reads on bright sky */
       background: linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.08) 65%, transparent 100%);
       opacity: 0;
       pointer-events: none;
@@ -676,58 +674,90 @@
     .diff-text { font-size: 0.82rem; font-weight: 300; color: #555; line-height: 1.75; }
 
     /* ═══════════════════════════════════════════════════
-       PRODUCT SHOWCASE (Celdas / Galpones / Tinglados)
+       PRODUCT SHOWCASE — CARRUSEL 3D
     ═══════════════════════════════════════════════════ */
     #productos {
-      background: var(--dark);
-      padding: 0;
+      background: #111;
+      padding: clamp(3rem, 7vh, 5rem) 0;
+      overflow: hidden;
     }
-    .productos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-    }
-    @media (max-width: 640px) {
-      .productos-grid { grid-template-columns: 1fr; }
+    .productos-carousel {
+      position: relative;
+      height: clamp(380px, 68vh, 660px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .prod-card {
-      position: relative;
+      position: absolute;
+      width: clamp(220px, 30vw, 400px);
+      aspect-ratio: 3 / 4;
       overflow: hidden;
-      aspect-ratio: 4 / 5;
-      max-height: 72vh;
       cursor: pointer;
-      background: var(--dark-2);
+      background: #1a1a1a;
+      transition:
+        transform  0.72s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity    0.72s ease,
+        filter     0.72s ease,
+        box-shadow 0.72s ease;
+      will-change: transform;
     }
+    /* ── posiciones del carrusel ── */
+    .prod-card.is-active {
+      transform: translateX(0) scale(1);
+      z-index: 3;
+      opacity: 1;
+      filter: brightness(1);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    }
+    .prod-card.is-prev {
+      transform: translateX(-70%) scale(0.78);
+      z-index: 2;
+      opacity: 0.65;
+      filter: brightness(0.55) saturate(0.7);
+      box-shadow: none;
+    }
+    .prod-card.is-next {
+      transform: translateX(70%) scale(0.78);
+      z-index: 2;
+      opacity: 0.65;
+      filter: brightness(0.55) saturate(0.7);
+      box-shadow: none;
+    }
+    /* ── imagen ── */
     .prod-card img {
       position: absolute;
       inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      transform: scale(0.88);
-      transition: transform 0.7s ease, opacity 0.4s ease;
-      opacity: 0.85;
+      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .prod-card:hover img { transform: scale(0.94); opacity: 1; }
+    .prod-card.is-active:hover img { transform: scale(1.06); }
+    /* ── overlay gradiente ── */
     .prod-card-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 40%);
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.78) 0%,
+        rgba(0,0,0,0.3)  40%,
+        transparent      70%
+      );
     }
+    /* ── texto ── */
     .prod-card-body {
       position: absolute;
-      top: 1.6rem;
-      left: 1.6rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
+      top: 0; left: 0; right: 0;
+      padding: 1.8rem 1.6rem 2rem;
     }
     .prod-name {
       font-family: 'IBM Plex Serif', serif;
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
       color: #fff;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+      margin-bottom: 0.7rem;
     }
     .prod-btn {
       display: inline-block;
@@ -741,17 +771,32 @@
       text-transform: uppercase;
       text-decoration: none;
       transition: background 0.3s, border-color 0.3s, color 0.3s;
-      width: fit-content;
     }
-    .prod-card:hover .prod-btn {
+    .prod-card.is-active:hover .prod-btn {
       background: var(--gold);
       border-color: var(--gold);
       color: #0a0a0a;
     }
-    /* placeholder bg per card */
-    .prod-card:nth-child(1) { background: linear-gradient(160deg, #1a1a14, #0f0f0a); }
-    .prod-card:nth-child(2) { background: linear-gradient(160deg, #141a1a, #0a0f0f); }
-    .prod-card:nth-child(3) { background: linear-gradient(160deg, #1a1416, #0f0a0b); }
+    /* ── dots ── */
+    .prod-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-top: 2rem;
+    }
+    .prod-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      border: none;
+      padding: 0;
+    }
+    .prod-dot.is-active {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
 
     /* ═══════════════════════════════════════════════════
        NOSOTROS
@@ -958,40 +1003,53 @@
       position: relative;
       line-height: 0;
     }
-    #video-bottom video {
-      width: 100%;
+    #vid-bottom-fwd {
+      width: calc(100% / 0.96);
       height: auto;
       display: block;
       clip-path: inset(0 4% 0 0);
+    }
+    #vid-bottom-rev {
+      position: absolute;
+      top: 0; left: 0;
+      width: calc(100% / 0.96);
+      height: 100%;
+      object-fit: cover;
+      clip-path: inset(0 4% 0 0);
+      display: none;
     }
     #vb-overlay {
       position: absolute;
       inset: 0;
       display: flex;
-      flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
       padding-top: clamp(1.2rem, 3vh, 2.4rem);
       padding-left: var(--pad-x);
       padding-right: var(--pad-x);
-      background: linear-gradient(to bottom, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.05) 75%, transparent 100%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.05) 75%, transparent 100%);
       opacity: 0;
       pointer-events: none;
       transition: opacity 1.4s ease;
-      text-align: left;
     }
     #vb-overlay.visible { opacity: 1; }
-    #vb-overlay p {
+    .vb-para-wrap {
+      display: grid;
+      width: min(72ch, 88%);
+    }
+    .vb-para-wrap > p {
+      grid-area: 1 / 1;
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(0.7rem, 1.05vw, 0.9rem);
-      color: rgba(255,255,255,0.88);
-      line-height: 1.8;
-      max-width: min(80ch, 88%);
+      font-size: clamp(0.82rem, 1.25vw, 1.05rem);
+      color: rgba(255,255,255,0.9);
+      line-height: 1.85;
       text-shadow: 0 1px 8px rgba(0,0,0,0.55);
+      opacity: 0;
+      transition: opacity 1s ease;
     }
-    #vb-overlay p + p { margin-top: 0.9rem; }
+    .vb-para-wrap > p.vb-active { opacity: 1; }
 
     /* ═══════════════════════════════════════════════════
        FOOTER
@@ -1321,8 +1379,7 @@
       .trust-badges { gap: 0.4rem; }
       .badge { font-size: 0.62rem; padding: 0.35rem 0.65rem; }
 
-
-      #scroll-section { height: 450vh; }
+      #scroll-section { height: 280vh; }
 
       .services-grid { grid-template-columns: 1fr; }
       .srv-card { aspect-ratio: 16 / 9; }
@@ -1336,6 +1393,40 @@
 
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .form-row { grid-template-columns: 1fr; }
+
+      /* Carousel tablet */
+      .prod-card { width: clamp(220px, 42vw, 360px); }
+      .prod-card.is-prev { transform: translateX(-68%) scale(0.8); }
+      .prod-card.is-next { transform: translateX(68%) scale(0.8); }
+    }
+
+    /* Mobile — 640px */
+    @media (max-width: 640px) {
+      /* Carousel */
+      #productos { padding: clamp(2rem, 5vh, 3.5rem) 0; }
+      .productos-carousel { height: clamp(300px, 88vw, 500px); }
+      .prod-card { width: 80vw; }
+      .prod-card.is-prev { transform: translateX(-90%) scale(0.82); opacity: 0.5; }
+      .prod-card.is-next { transform: translateX(90%) scale(0.82); opacity: 0.5; }
+      .prod-name { font-size: clamp(1.3rem, 6vw, 1.8rem); }
+
+      /* Video overlay → below video */
+      #video-bottom { display: flex; flex-direction: column; }
+      .vb-frame { order: 1; }
+      #vb-overlay {
+        order: 2;
+        position: static;
+        background: #1c1c1c;
+        padding: 2rem var(--pad-x) 2.5rem;
+        opacity: 1;
+        transition: none;
+        pointer-events: auto;
+      }
+      .vb-para-wrap {
+        width: 100%;
+        min-height: 9rem;
+      }
+      .vb-para-wrap > p { font-size: 0.88rem; }
     }
 
     /* Mobile — 480px */
@@ -1345,8 +1436,22 @@
       .hero-h1 { font-size: clamp(2rem, 10vw, 2.8rem); line-height: 1.1; }
       .section-title { font-size: clamp(2rem, 9vw, 3rem); }
 
+      #scroll-section { height: 100vh; }
 
-      #scroll-section { height: 350vh; }
+      #end-overlay {
+        padding-top: calc(var(--nav-h) + 1rem);
+        justify-content: flex-start;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.15) 75%, transparent 100%);
+      }
+      #end-overlay h2 {
+        white-space: normal;
+        font-size: clamp(1rem, 5.5vw, 1.5rem);
+        margin-bottom: 0.7rem;
+      }
+      #end-overlay p {
+        font-size: 0.78rem;
+        max-width: 95%;
+      }
 
       #scroll-hint span { font-size: 0.55rem; letter-spacing: 0.25em; }
 
@@ -1373,6 +1478,15 @@
       .footer-top { flex-direction: column; gap: 1.5rem; }
       .footer-nav { gap: 1rem; }
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+
+      /* Carousel small */
+      .productos-carousel { height: clamp(280px, 92vw, 420px); }
+      .prod-card { width: 85vw; }
+      .prod-card-body { padding: 1.2rem 1.2rem 1.5rem; }
+      .prod-dots { margin-top: 1.2rem; }
+
+      /* Video text below */
+      .vb-para-wrap { min-height: 10rem; }
     }
   </style>
 </head>
@@ -1458,9 +1572,9 @@
        PRODUCT SHOWCASE
   ───────────────────────────────────────────── -->
   <section id="productos">
-    <div class="productos-grid">
+    <div class="productos-carousel" id="prod-carousel">
 
-      <div class="prod-card">
+      <div class="prod-card" data-idx="0">
         <img src="./fotos/celdas.png" alt="Celdas">
         <div class="prod-card-overlay"></div>
         <div class="prod-card-body">
@@ -1469,7 +1583,7 @@
         </div>
       </div>
 
-      <div class="prod-card">
+      <div class="prod-card" data-idx="1">
         <img src="./fotos/galpones.png" alt="Galpones">
         <div class="prod-card-overlay"></div>
         <div class="prod-card-body">
@@ -1478,7 +1592,7 @@
         </div>
       </div>
 
-      <div class="prod-card">
+      <div class="prod-card" data-idx="2">
         <img src="./fotos/tinglados.png" alt="Tinglados">
         <div class="prod-card-overlay"></div>
         <div class="prod-card-body">
@@ -1488,6 +1602,11 @@
       </div>
 
     </div>
+    <div class="prod-dots">
+      <button class="prod-dot" data-idx="0" aria-label="Celdas"></button>
+      <button class="prod-dot" data-idx="1" aria-label="Galpones"></button>
+      <button class="prod-dot" data-idx="2" aria-label="Tinglados"></button>
+    </div>
   </section>
 
   <!-- ─────────────────────────────────────────────
@@ -1495,12 +1614,15 @@
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
     <div class="vb-frame">
-      <video id="vid-bottom" src="./video_bottom.mp4" muted playsinline preload="metadata"></video>
+      <video id="vid-bottom-fwd" src="./video_bottom.mp4" muted playsinline preload="auto"></video>
+      <video id="vid-bottom-rev" src="./video_bottom_rev.mp4" muted playsinline preload="auto"></video>
     </div>
     <div id="vb-overlay">
-      <p>Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial. Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
-      <p>Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis y el diseño hasta la fabricación y el montaje final. Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.</p>
-      <p>Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda. Nuestra experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar cada proyecto con seriedad, innovación y compromiso, consolidándonos como un aliado estratégico en el desarrollo de soluciones estructurales.</p>
+      <div class="vb-para-wrap">
+        <p>Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial. Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
+        <p>Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis y el diseño hasta la fabricación y el montaje final. Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.</p>
+        <p>Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda. Nuestra experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar cada proyecto con seriedad, innovación y compromiso, consolidándonos como un aliado estratégico en el desarrollo de soluciones estructurales.</p>
+      </div>
     </div>
   </section>
 
@@ -1763,52 +1885,115 @@
       if (!isOpen) item.classList.add('open');
     }
 
-    // ── Video bottom — ping-pong loop ─────────────────────────────────────
-    const vidBottom = document.getElementById('vid-bottom');
-    let vbReversing = false;
-    let vbVisible   = false;
-    const VB_STEP   = 1 / 25; // paso ~25fps en reversa
+    // ── Video bottom — ping-pong con dos archivos (fluido) ────────────────
+    const vidFwd = document.getElementById('vid-bottom-fwd');
+    const vidRev = document.getElementById('vid-bottom-rev');
+    vidFwd.playbackRate = 0.8;
+    vidRev.playbackRate = 0.8;
+    let vbVisible    = false;
+    let vbReversing  = false;
 
-    function vbNextStep() {
-      if (!vbReversing) return;
-      const next = Math.max(0, vidBottom.currentTime - VB_STEP);
-      vidBottom.currentTime = next;
-      if (next <= 0.04) {
-        vbReversing = false;
-        if (vbVisible) vidBottom.play().catch(() => {});
-        return;
-      }
-      // esperar a que el browser termine el seek antes del próximo paso
-      vidBottom.addEventListener('seeked', vbNextStep, { once: true });
-    }
-
-    vidBottom.addEventListener('ended', () => {
+    vidFwd.addEventListener('ended', () => {
       vbReversing = true;
-      vbNextStep();
+      vidRev.currentTime = 0;
+      vidRev.style.display = 'block';
+      vidRev.play().catch(() => {});
     });
 
-    // Text overlay — aparece 2 s después del primer play
+    vidRev.addEventListener('ended', () => {
+      vbReversing = false;
+      vidRev.style.display = 'none';
+      vidFwd.currentTime = 0;
+      if (vbVisible) vidFwd.play().catch(() => {});
+    });
+
+    // Text overlay — párrafos de a 1, aparecen 2 s después del primer play
     const vbOverlay = document.getElementById('vb-overlay');
-    let vbOverlayTimer = null;
-    vidBottom.addEventListener('play', () => {
-      if (!vbOverlayTimer) {
-        vbOverlayTimer = setTimeout(() => {
-          vbOverlay.classList.add('visible');
-        }, 2000);
-      }
+    const vbParas   = Array.from(vbOverlay.querySelectorAll('.vb-para-wrap > p'));
+    let vbParaIdx   = 0;
+    let vbCycleTimer = null;
+
+    function vbShowNext() {
+      vbParas.forEach(p => p.classList.remove('vb-active'));
+      vbParas[vbParaIdx].classList.add('vb-active');
+      vbParaIdx = (vbParaIdx + 1) % vbParas.length;
+    }
+
+    function vbStartCycle() {
+      if (vbCycleTimer) return;
+      vbOverlay.classList.add('visible');
+      vbShowNext();
+      vbCycleTimer = setInterval(vbShowNext, 4800);
+    }
+
+    vidFwd.addEventListener('play', () => {
+      setTimeout(vbStartCycle, 2000);
     }, { once: true });
 
-    // Autoplay cuando es visible; pausa cuando no (sin interferir con reverse)
+    // Autoplay cuando es visible; pausa cuando no
     const vbObserver = new IntersectionObserver((entries) => {
       vbVisible = entries[0].isIntersecting;
       if (vbVisible) {
-        if (!vbReversing && vidBottom.paused) vidBottom.play().catch(() => {});
+        if (!vbReversing && vidFwd.paused) vidFwd.play().catch(() => {});
       } else {
+        vidFwd.pause();
+        vidRev.pause();
+        vidRev.style.display = 'none';
         vbReversing = false;
-        vidBottom.pause();
       }
     }, { threshold: 0.1 });
-    vbObserver.observe(vidBottom);
+    vbObserver.observe(vidFwd);
+
+    // ── Carrusel de productos ──────────────────────────────────────────────
+    (function () {
+      const cards = Array.from(document.querySelectorAll('.prod-card'));
+      const dots  = Array.from(document.querySelectorAll('.prod-dot'));
+      const n     = cards.length;
+      let active  = 0;
+      let timer;
+
+      function go(idx) {
+        active = (idx + n) % n;
+        cards.forEach((c, i) => {
+          c.classList.remove('is-active', 'is-prev', 'is-next');
+          if (i === active)                  c.classList.add('is-active');
+          else if (i === (active - 1 + n) % n) c.classList.add('is-prev');
+          else                               c.classList.add('is-next');
+        });
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === active));
+      }
+
+      function startAuto() {
+        clearInterval(timer);
+        timer = setInterval(() => go(active + 1), 4500);
+      }
+
+      // click en tarjeta lateral → avanzar hacia ella
+      cards.forEach((c, i) => {
+        c.addEventListener('click', () => {
+          if (i !== active) { go(i); startAuto(); }
+        });
+      });
+
+      // dots
+      dots.forEach((d, i) => {
+        d.addEventListener('click', () => { go(i); startAuto(); });
+      });
+
+      // touch swipe
+      const carousel = document.getElementById('prod-carousel');
+      let touchStartX = 0;
+      carousel.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+      carousel.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) { go(active + (dx < 0 ? 1 : -1)); startAuto(); }
+      });
+
+      go(0);
+      startAuto();
+    })();
 
   </script>
 </body>
