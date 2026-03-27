@@ -225,6 +225,24 @@
     }
     #tng-overlay p:last-child { margin-bottom: 0; }
 
+    @media (max-width: 640px) {
+      .tng-video-wrap { min-height: 68vh; }
+      #tng-vid-fwd {
+        height: 68vh;
+        object-fit: cover;
+        object-position: center center;
+      }
+      #tng-overlay {
+        padding-top: 2.5rem;
+        padding-bottom: 1.2rem;
+      }
+      #tng-overlay p {
+        font-size: 0.75rem;
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+      }
+    }
+
     .product-content {
       padding: clamp(3rem, 7vh, 5rem) var(--pad-x);
       max-width: 860px;
