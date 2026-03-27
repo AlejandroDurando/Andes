@@ -1870,7 +1870,7 @@
         heroParas.forEach(p => p.classList.remove('hero-p-active'));
         const idx = heroParaIdx;
         heroParaIdx = (heroParaIdx + 1) % heroParas.length;
-        setTimeout(() => heroParas[idx].classList.add('hero-p-active'), 900);
+        setTimeout(() => heroParas[idx].classList.add('hero-p-active'), 1100);
       }
 
       // Arrancar cuando el overlay del hero se hace visible
@@ -1977,7 +1977,7 @@
       vbParas.forEach(p => p.classList.remove('vb-active'));
       const idx = vbParaIdx;
       vbParaIdx = (vbParaIdx + 1) % vbParas.length;
-      setTimeout(() => vbParas[idx].classList.add('vb-active'), 1000);
+      setTimeout(() => vbParas[idx].classList.add('vb-active'), 1300);
     }
 
     function vbStartCycle() {
@@ -1986,6 +1986,16 @@
       vbShowNext();
       vbCycleTimer = setInterval(vbShowNext, vbInterval);
     }
+
+    // iOS unlock: primer toque/scroll "desbloquea" la reproducción programática
+    let vbUnlocked = false;
+    function vbUnlock() {
+      if (vbUnlocked) return;
+      vbUnlocked = true;
+      vidFwd.play().then(() => { if (!vbVisible) vidFwd.pause(); }).catch(() => {});
+    }
+    document.addEventListener('touchstart', vbUnlock, { once: true, passive: true });
+    document.addEventListener('scroll',     vbUnlock, { once: true, passive: true });
 
     // Autoplay cuando es visible; pausa cuando no
     const vbObserver = new IntersectionObserver((entries) => {
