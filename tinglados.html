@@ -484,7 +484,6 @@
 
   <div class="tng-video-wrap">
     <video id="tng-vid-fwd" src="./galpon.mp4" muted playsinline autoplay preload="auto"></video>
-    <video id="tng-vid-rev" src="./maquinas_rev.mp4" muted playsinline preload="auto"></video>
     <div id="tng-overlay">
       <p>Estructuras metálicas conformadas mediante sistemas reticulados de perfiles de acero redondo, diseñadas para
         optimizar la relación resistencia–peso y garantizar estabilidad estructural. La vinculación entre componentes se
@@ -538,9 +537,8 @@
       if (!document.getElementById('navbar').contains(e.target) && !mobileMenu.contains(e.target)) closeMob();
     });
 
-    // ── Video tinglados: galpon → maquinas_rev → texto ──
+    // ── Video tinglados: galpon → texto ──
     const tngFwd = document.getElementById('tng-vid-fwd');
-    const tngRev = document.getElementById('tng-vid-rev');
     const tngOverlay = document.getElementById('tng-overlay');
 
     // Fallback: si autoplay falla (algunos Android), intentar al hacer tap
@@ -548,15 +546,12 @@
       document.addEventListener('touchstart', () => tngFwd.play().catch(() => { }), { once: true });
     });
 
-    // Al terminar galpon → arranca maquinas_rev
-    tngFwd.addEventListener('ended', () => {
-      tngRev.style.display = 'block';
-      tngRev.play().catch(() => { });
-    });
-
-    // Al terminar maquinas_rev → muestra texto en el piso
-    tngRev.addEventListener('ended', () => {
-      tngOverlay.classList.add('visible');
+    // Intercept exactly before the video ends to prevent iOS Safari auto-rewind
+    tngFwd.addEventListener('timeupdate', () => {
+      if (tngFwd.duration > 0 && tngFwd.duration - tngFwd.currentTime <= 0.25) {
+        tngFwd.pause();
+        tngOverlay.classList.add('visible');
+      }
     });
   </script>
 </body>

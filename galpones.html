@@ -514,8 +514,12 @@
       document.addEventListener('touchstart', () => galpVid.play().catch(() => { }), { once: true });
     });
 
-    galpVid.addEventListener('ended', () => {
-      galpOverlay.classList.add('visible');
+    // Intercept exactly before the video ends to prevent iOS Safari auto-rewind
+    galpVid.addEventListener('timeupdate', () => {
+      if (galpVid.duration > 0 && galpVid.duration - galpVid.currentTime <= 0.25) {
+        galpVid.pause();
+        galpOverlay.classList.add('visible');
+      }
     });
   </script>
 </body>
