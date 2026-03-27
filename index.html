@@ -1960,22 +1960,16 @@
 
     vidFwd.addEventListener('ended', () => {
       vbReversing = true;
-      setTimeout(() => {
-        vidRev.currentTime = 0;
-        vidRev.style.display = 'block';
-        vidRev.play().catch(() => {});
-      }, 3000);
+      vidRev.currentTime = 0;
+      vidRev.style.display = 'block';
+      vidRev.play().catch(() => {});
     });
 
     vidRev.addEventListener('ended', () => {
       vbReversing = false;
       vidRev.style.display = 'none';
-      setTimeout(() => {
-        if (vbVisible) {
-          vidFwd.currentTime = 0;
-          vidFwd.play().catch(() => {});
-        }
-      }, 3000);
+      vidFwd.currentTime = 0;
+      if (vbVisible) vidFwd.play().catch(() => {});
     });
 
     // Text overlay — párrafos de a 1, 5 s después de que el usuario llega a la sección
