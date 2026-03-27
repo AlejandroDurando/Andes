@@ -1633,9 +1633,12 @@
     </div>
     <div id="vb-overlay">
       <div class="vb-para-wrap">
-        <p>Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial. Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
-        <p>Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis y el diseño hasta la fabricación y el montaje final. Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.</p>
-        <p>Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda. Nuestra experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar cada proyecto con seriedad, innovación y compromiso, consolidándonos como un aliado estratégico en el desarrollo de soluciones estructurales.</p>
+        <p>Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial.</p>
+        <p>Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
+        <p>Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis y el diseño hasta la fabricación y el montaje final.</p>
+        <p>Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.</p>
+        <p>Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda.</p>
+        <p>Nuestra experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar cada proyecto con seriedad, innovación y compromiso, consolidándonos como un aliado estratégico en el desarrollo de soluciones estructurales.</p>
       </div>
     </div>
   </section>
@@ -1959,7 +1962,8 @@
       if (vbCycleTimer) return;
       vbOverlay.classList.add('visible');
       vbShowNext();
-      vbCycleTimer = setInterval(vbShowNext, 10000);
+      const interval = window.innerWidth <= 640 ? 5000 : 8000;
+      vbCycleTimer = setInterval(vbShowNext, interval);
     }
 
     // Autoplay cuando es visible; pausa cuando no
