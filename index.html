@@ -1359,7 +1359,8 @@
       height: 100%;
       object-fit: cover;
       clip-path: inset(0 4% 0 0);
-      display: none;
+      opacity: 0;
+      transition: opacity 0.1s linear;
     }
 
     #vb-overlay {
@@ -2689,13 +2690,13 @@
     vidFwd.addEventListener('ended', () => {
       vbReversing = true;
       vidRev.currentTime = 0;
-      vidRev.style.display = 'block';
+      vidRev.style.opacity = '1';
       vidRev.play().catch(() => { });
     });
 
     vidRev.addEventListener('ended', () => {
       vbReversing = false;
-      vidRev.style.display = 'none';
+      vidRev.style.opacity = '0';
       vidFwd.currentTime = 0;
       if (vbVisible) vidFwd.play().catch(() => { });
     });
@@ -2745,7 +2746,7 @@
       } else {
         vidFwd.pause();
         vidRev.pause();
-        vidRev.style.display = 'none';
+        vidRev.style.opacity = '0';
         vbReversing = false;
       }
     }, { threshold: 0.1 });
