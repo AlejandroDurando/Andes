@@ -27,7 +27,12 @@
       --pad-x:      clamp(1.5rem, 8vw, 8rem);
       --pad-y:      clamp(5rem, 10vh, 8rem);
     }
-    body { background: var(--dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+    /* Fondo fijo — imagen estructural */
+    #bg-image {
+      position: fixed; inset: 0; z-index: -1;
+      background: url('./fotos/fondo_presupuesto.png') center / cover no-repeat;
+    }
+    body { background: rgba(0,0,0,0.78); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
 
@@ -84,7 +89,7 @@
     @media (max-width: 768px) { .nav-links { display: none; } #nav-toggle { display: flex; } }
 
     /* ── Page header ─────────────────────────────── */
-    .page-header { padding: calc(var(--nav-h) + 5rem) var(--pad-x) 4rem; border-bottom: 1px solid #111; }
+    .page-header { padding: calc(var(--nav-h) + 5rem) var(--pad-x) 4rem; border-bottom: 1px solid rgba(200,156,60,0.12); background: rgba(0,0,0,0.18); }
     .page-header .eyebrow {
       font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem;
       letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold);
@@ -97,7 +102,7 @@
     }
 
     /* ── Contact layout ──────────────────────────── */
-    .section { padding: var(--pad-y) var(--pad-x); }
+    .section { padding: var(--pad-y) var(--pad-x); background: rgba(0,0,0,0.55); }
     .contact-grid {
       display: grid; grid-template-columns: 1fr 1.45fr;
       gap: 5rem; align-items: start;
@@ -113,8 +118,8 @@
       flex-shrink: 0; margin-top: 2px;
     }
     .ci-ico svg { width: 15px; height: 15px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .ci-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: #333; margin-bottom: 0.2rem; }
-    .ci-val { font-size: 0.92rem; color: var(--gray-text); line-height: 1.55; }
+    .ci-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,156,60,0.75); margin-bottom: 0.2rem; }
+    .ci-val { font-size: 0.92rem; color: rgba(240,240,240,0.72); line-height: 1.55; }
     .ci-val a { text-decoration: none; transition: color 0.2s; }
     .ci-val a:hover { color: var(--gold); }
 
@@ -123,15 +128,15 @@
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
     @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
     .form-group { display: flex; flex-direction: column; gap: 0.45rem; }
-    .form-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: #333; }
+    .form-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,156,60,0.75); }
     .form-input, .form-textarea {
-      background: var(--dark-1); border: 1px solid var(--dark-3);
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(200,156,60,0.18);
       border-radius: 3px; padding: 0.78rem 1rem; color: var(--white);
       font-family: 'Barlow', sans-serif; font-size: 0.88rem;
       outline: none; width: 100%; appearance: none; transition: border-color 0.2s, background 0.2s;
     }
-    .form-input:focus, .form-textarea:focus { border-color: rgba(200,156,60,0.4); background: #121212; }
-    .form-input::placeholder, .form-textarea::placeholder { color: #252525; }
+    .form-input:focus, .form-textarea:focus { border-color: rgba(200,156,60,0.5); background: rgba(0,0,0,0.72); }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
     .form-textarea { resize: vertical; min-height: 118px; line-height: 1.65; }
     .btn-gold {
       display: inline-block; padding: 0.85rem 2rem; background: var(--gold);
@@ -149,14 +154,14 @@
     }
 
     /* ── Footer ──────────────────────────────────── */
-    #footer { background: #060606; padding: 3rem var(--pad-x); border-top: 1px solid #101010; }
+    #footer { background: rgba(0,0,0,0.9); padding: 3rem var(--pad-x); border-top: 1px solid rgba(200,156,60,0.1); }
     .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 2rem; margin-bottom: 2.5rem; }
-    .footer-tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: #252525; margin-top: 0.55rem; }
+    .footer-tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,156,60,0.35); margin-top: 0.55rem; }
     .footer-nav { display: flex; flex-wrap: wrap; gap: 1.5rem; list-style: none; }
-    .footer-nav a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: #2a2a2a; text-decoration: none; transition: color 0.2s; }
+    .footer-nav a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.28); text-decoration: none; transition: color 0.2s; }
     .footer-nav a:hover { color: var(--gold); }
-    .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid #0e0e0e; }
-    .footer-copy { font-size: 0.7rem; color: #1e1e1e; letter-spacing: 0.08em; }
+    .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    .footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.22); letter-spacing: 0.08em; }
 
     /* ── WhatsApp FAB ────────────────────────────── */
     #wa-fab {
@@ -174,6 +179,7 @@
   </style>
 </head>
 <body>
+  <div id="bg-image"></div>
 
   <nav id="navbar">
     <a href="index.html" class="nav-logo">
