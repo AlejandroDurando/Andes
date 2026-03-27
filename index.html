@@ -2699,18 +2699,25 @@
     let vbVisible = false;
     let vbReversing = false;
 
-    vidFwd.addEventListener('ended', () => {
-      vbReversing = true;
-      vidRev.currentTime = 0;
-      vidRev.style.opacity = '1';
-      vidRev.play().catch(() => { });
+    // Intercept exactly before the video ends to prevent iOS Safari from automatically rewinding to frame 0
+    vidFwd.addEventListener('timeupdate', () => {
+      if (!vbReversing && vidFwd.duration > 0 && vidFwd.duration - vidFwd.currentTime <= 0.25) {
+        vbReversing = true;
+        vidFwd.pause();
+        vidRev.currentTime = 0;
+        vidRev.style.opacity = '1';
+        vidRev.play().catch(() => { });
+      }
     });
 
-    vidRev.addEventListener('ended', () => {
-      vbReversing = false;
-      vidRev.style.opacity = '0';
-      vidFwd.currentTime = 0;
-      if (vbVisible) vidFwd.play().catch(() => { });
+    vidRev.addEventListener('timeupdate', () => {
+      if (vbReversing && vidRev.duration > 0 && vidRev.duration - vidRev.currentTime <= 0.25) {
+        vbReversing = false;
+        vidRev.pause();
+        vidRev.style.opacity = '0';
+        vidFwd.currentTime = 0;
+        if (vbVisible) vidFwd.play().catch(() => { });
+      }
     });
 
     // Text overlay — párrafos de a 1, 5 s después de que el usuario llega a la sección
