@@ -360,7 +360,7 @@
   </header>
 
   <div class="tng-video-wrap">
-    <video id="tng-vid-fwd" src="./galpon.mp4" muted playsinline preload="auto"></video>
+    <video id="tng-vid-fwd" src="./galpon.mp4" muted playsinline autoplay preload="auto"></video>
     <video id="tng-vid-rev" src="./maquinas_rev.mp4" muted playsinline preload="auto"></video>
     <div id="tng-overlay">
       <p>Estructuras metálicas conformadas mediante sistemas reticulados de perfiles de acero redondo, diseñadas para optimizar la relación resistencia–peso y garantizar estabilidad estructural. La vinculación entre componentes se realiza mediante un sistema completamente abulonado, lo que facilita su montaje, desmontaje y mantenimiento sin intervenciones de soldadura in situ.</p>
@@ -413,12 +413,10 @@
     const tngRev     = document.getElementById('tng-vid-rev');
     const tngOverlay = document.getElementById('tng-overlay');
 
-    // Autoplay cuando el video entra en pantalla
-    new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && tngFwd.paused && !tngFwd.ended) {
-        tngFwd.play().catch(() => {});
-      }
-    }, { threshold: 0.25 }).observe(tngFwd);
+    // Fallback: si autoplay falla (algunos Android), intentar al hacer tap
+    tngFwd.play().catch(() => {
+      document.addEventListener('touchstart', () => tngFwd.play().catch(() => {}), { once: true });
+    });
 
     // Al terminar galpon → arranca maquinas_rev
     tngFwd.addEventListener('ended', () => {
