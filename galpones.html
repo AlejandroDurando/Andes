@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galpones — Andes Estructuras S.A.S.</title>
-  <meta name="description" content="Estructuras metálicas reticuladas abulonadas para galpones agroindustriales. Portones corredizos, diseño modular. Andes Estructuras, San Francisco, Córdoba.">
+  <meta name="description"
+    content="Estructuras metálicas reticuladas abulonadas para galpones agroindustriales. Portones corredizos, diseño modular. Andes Estructuras, San Francisco, Córdoba.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,300;1,400&family=IBM+Plex+Sans:ital,wght@1,300;1,400&family=Raleway:wght@100;200;300;400&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,300;1,400&family=IBM+Plex+Sans:ital,wght@1,300;1,400&family=Raleway:wght@100;200;300;400&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     :root {
-      --gold:       #C89C3C;
+      --gold: #C89C3C;
       --gold-light: #D4AE54;
-      --gold-dim:   rgba(200,156,60,0.18);
-      --dark:       #606060;
-      --dark-1:     #686868;
-      --dark-2:     #585858;
-      --dark-3:     #505050;
-      --gray-line:  #707070;
-      --gray-mid:   #909090;
-      --gray-text:  #c8c8c8;
-      --white:      #ffffff;
-      --nav-h:      72px;
-      --pad-x:      clamp(1.5rem, 8vw, 8rem);
+      --gold-dim: rgba(200, 156, 60, 0.18);
+      --dark: #606060;
+      --dark-1: #686868;
+      --dark-2: #585858;
+      --dark-3: #505050;
+      --gray-line: #707070;
+      --gray-mid: #909090;
+      --gray-text: #c8c8c8;
+      --white: #ffffff;
+      --nav-h: 72px;
+      --pad-x: clamp(1.5rem, 8vw, 8rem);
     }
 
     body {
@@ -38,23 +51,37 @@
       overflow-x: hidden;
     }
 
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
     #navbar {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: var(--nav-h);
       z-index: 500;
       display: flex;
       align-items: center;
       padding: 0 var(--pad-x);
-      background: rgba(10,10,10,0.92);
+      background: rgba(10, 10, 10, 0.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--gold-dim);
     }
-    .nav-logo img { height: 38px; width: auto; }
+
+    .nav-logo img {
+      height: 38px;
+      width: auto;
+    }
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -62,6 +89,7 @@
       margin-left: auto;
       list-style: none;
     }
+
     .nav-links a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem;
@@ -70,7 +98,11 @@
       color: var(--gray-text);
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--white); }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
     .nav-cta {
       margin-left: 1.5rem;
       padding: 0.5rem 1.3rem;
@@ -81,7 +113,10 @@
       letter-spacing: 0.08em !important;
       transition: background 0.2s !important;
     }
-    .nav-cta:hover { background: var(--gold-light) !important; }
+
+    .nav-cta:hover {
+      background: var(--gold-light) !important;
+    }
 
     #nav-toggle {
       display: none;
@@ -93,21 +128,34 @@
       cursor: pointer;
       padding: 4px;
     }
+
     #nav-toggle span {
       display: block;
-      width: 24px; height: 2px;
+      width: 24px;
+      height: 2px;
       background: var(--white);
       border-radius: 2px;
       transition: transform 0.3s, opacity 0.3s;
     }
-    #nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    #nav-toggle.open span:nth-child(2) { opacity: 0; }
-    #nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    #nav-toggle.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    #nav-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #nav-toggle.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     #mobile-menu {
       position: fixed;
-      top: var(--nav-h); left: 0; right: 0;
-      background: rgba(10,10,10,0.97);
+      top: var(--nav-h);
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.97);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 499;
@@ -119,7 +167,11 @@
       transition: transform 0.35s ease;
       border-bottom: 1px solid var(--gold-dim);
     }
-    #mobile-menu.open { transform: translateY(0); }
+
+    #mobile-menu.open {
+      transform: translateY(0);
+    }
+
     #mobile-menu a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1.4rem;
@@ -130,7 +182,11 @@
       border-bottom: 1px solid #161616;
       transition: color 0.2s;
     }
-    #mobile-menu a:hover { color: var(--gold); }
+
+    #mobile-menu a:hover {
+      color: var(--gold);
+    }
+
     #mobile-menu .mob-cta {
       margin-top: 1rem;
       padding: 1rem;
@@ -141,11 +197,20 @@
       font-weight: 700;
       border-bottom: none;
     }
-    #mobile-menu .mob-cta:hover { background: var(--gold-light); color: #0a0a0a; }
+
+    #mobile-menu .mob-cta:hover {
+      background: var(--gold-light);
+      color: #0a0a0a;
+    }
 
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      #nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+      }
+
+      #nav-toggle {
+        display: flex;
+      }
     }
 
     .page-header {
@@ -156,6 +221,7 @@
       background: #3a3a3a;
       border-bottom: 1px solid var(--gold-dim);
     }
+
     .page-header .back-link {
       display: inline-flex;
       align-items: center;
@@ -168,8 +234,16 @@
       margin-bottom: 2rem;
       transition: opacity 0.2s;
     }
-    .page-header .back-link:hover { opacity: 0.75; }
-    .page-header .back-link::before { content: '←'; font-size: 1rem; }
+
+    .page-header .back-link:hover {
+      opacity: 0.75;
+    }
+
+    .page-header .back-link::before {
+      content: '←';
+      font-size: 1rem;
+    }
+
     .page-header h1 {
       font-family: 'IBM Plex Serif', serif;
       font-weight: 300;
@@ -178,6 +252,7 @@
       color: var(--white);
       line-height: 1.15;
     }
+
     .page-header .gold-bar {
       width: 48px;
       height: 2px;
@@ -185,36 +260,82 @@
       margin-top: 1.2rem;
     }
 
-    .product-image {
+    /* ── Video section ── */
+    .galp-video-wrap {
+      position: relative;
       width: 100%;
-      max-height: 60vh;
+      max-height: 92vh;
+      background: #000;
       overflow: hidden;
-      background: #2a2a2a;
     }
-    .product-image img {
+
+    #galp-vid {
       width: 100%;
-      height: 100%;
+      height: 92vh;
+      display: block;
       object-fit: cover;
       object-position: center center;
     }
 
-    .product-content {
-      padding: clamp(3rem, 7vh, 5rem) var(--pad-x);
-      max-width: 860px;
+    #galp-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: clamp(4rem, 12vh, 8rem) var(--pad-x) clamp(3.5rem, 8vh, 5.5rem);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+      opacity: 0;
+      transition: opacity 1.8s ease;
     }
-    .product-content p {
+
+    #galp-overlay.visible {
+      opacity: 1;
+    }
+
+    #galp-overlay p {
       font-family: 'Barlow', sans-serif;
       font-weight: 300;
-      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-      color: var(--gray-text);
-      line-height: 1.85;
-      margin-bottom: 1.8rem;
+      font-size: clamp(0.88rem, 1.15vw, 1rem);
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.75;
+      margin-bottom: 0.8rem;
     }
-    .product-content p:last-of-type { margin-bottom: 0; }
+
+    #galp-overlay p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 640px) {
+      .galp-video-wrap {
+        min-height: 68vh;
+        max-height: 68vh;
+      }
+
+      #galp-vid {
+        height: 68vh;
+      }
+
+      #galp-overlay {
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+        padding-top: 0;
+        padding-bottom: 1.5rem;
+      }
+
+      #galp-overlay p {
+        font-size: 0.82rem;
+        line-height: 1.6;
+        margin-bottom: 0.55rem;
+      }
+    }
 
     .product-cta {
       padding: 0 var(--pad-x) clamp(4rem, 8vh, 6rem);
     }
+
     .btn-gold {
       display: inline-block;
       padding: 0.85rem 2.2rem;
@@ -228,13 +349,17 @@
       border-radius: 3px;
       transition: background 0.2s;
     }
-    .btn-gold:hover { background: var(--gold-light); }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+    }
 
     #footer {
       background: #4a4a4a;
       padding: 3rem var(--pad-x);
       border-top: 1px solid #505050;
     }
+
     .footer-top {
       display: flex;
       flex-wrap: wrap;
@@ -245,6 +370,7 @@
       border-bottom: 1px solid #505050;
       margin-bottom: 1.5rem;
     }
+
     .footer-tagline {
       font-family: 'IBM Plex Serif', serif;
       font-style: italic;
@@ -253,12 +379,14 @@
       color: var(--gray-mid);
       margin-top: 0.5rem;
     }
+
     .footer-nav {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       gap: 1.2rem 2rem;
     }
+
     .footer-nav a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.78rem;
@@ -267,21 +395,30 @@
       color: var(--gray-mid);
       transition: color 0.2s;
     }
-    .footer-nav a:hover { color: var(--white); }
+
+    .footer-nav a:hover {
+      color: var(--white);
+    }
+
     .footer-bottom {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 0.5rem;
     }
+
     .footer-copy {
       font-size: 0.72rem;
       color: var(--gray-mid);
       letter-spacing: 0.04em;
     }
-    .footer-copy a { color: var(--gold); }
+
+    .footer-copy a {
+      color: var(--gold);
+    }
   </style>
 </head>
+
 <body>
 
   <nav id="navbar">
@@ -314,14 +451,20 @@
     <div class="gold-bar"></div>
   </header>
 
-  <div class="product-image">
-    <img src="./fotos/galpones.png" alt="Galpones — Andes Estructuras">
-  </div>
-
-  <div class="product-content">
-    <p>Estructura metálica conformada por perfilería de hierro redondo dispuesta en configuración reticulada, lo que garantiza una óptima distribución de cargas y elevada rigidez estructural. El sistema constructivo es íntegramente abulonado, permitiendo un montaje eficiente, mantenimiento simplificado y posibilidad de desmontaje sin afectar la integridad de los componentes.</p>
-    <p>Dispone de portones corredizos de accionamiento manual, montados sobre un sistema de guiado inferior mediante perfil angular, combinado con ruedas tipo "V" de alta resistencia al desgaste, lo que asegura un deslizamiento preciso, estable y de bajo mantenimiento, incluso en condiciones de uso intensivo.</p>
-    <p>El conjunto está diseñado para aplicaciones en entornos agroindustriales, siendo apto para el resguardo de herramientas agrícolas, así como para su utilización como depósito de agroquímicos y semillas, contemplando requerimientos de funcionalidad, durabilidad y adaptabilidad operativa.</p>
+  <div class="galp-video-wrap">
+    <video id="galp-vid" src="./galpones.mp4" muted playsinline autoplay preload="auto"></video>
+    <div id="galp-overlay">
+      <p>Estructura metálica conformada por perfilería de hierro redondo dispuesta en configuración reticulada, lo que
+        garantiza una óptima distribución de cargas y elevada rigidez estructural. El sistema constructivo es
+        íntegramente abulonado, permitiendo un montaje eficiente, mantenimiento simplificado y posibilidad de desmontaje
+        sin afectar la integridad de los componentes.</p>
+      <p>Dispone de portones corredizos de accionamiento manual, montados sobre un sistema de guiado inferior mediante
+        perfil angular, combinado con ruedas tipo "V" de alta resistencia al desgaste, lo que asegura un deslizamiento
+        preciso, estable y de bajo mantenimiento, incluso en condiciones de uso intensivo.</p>
+      <p>El conjunto está diseñado para aplicaciones en entornos agroindustriales, siendo apto para el resguardo de
+        herramientas agrícolas, así como para su utilización como depósito de agroquímicos y semillas, contemplando
+        requerimientos de funcionalidad, durabilidad y adaptabilidad operativa.</p>
+    </div>
   </div>
 
   <div class="product-cta">
@@ -342,12 +485,13 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2024 Andes Estructuras S.A.S. &mdash; San Francisco, Córdoba, Argentina</div>
-      <div class="footer-copy">+54 3564 413650 &mdash; <a href="mailto:contacto@andes.com.ar">contacto@andes.com.ar</a></div>
+      <div class="footer-copy">+54 3564 413650 &mdash; <a href="mailto:contacto@andes.com.ar">contacto@andes.com.ar</a>
+      </div>
     </div>
   </footer>
 
   <script>
-    const navToggle  = document.getElementById('nav-toggle');
+    const navToggle = document.getElementById('nav-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     function closeMob() {
       navToggle.classList.remove('open');
@@ -362,6 +506,18 @@
     document.addEventListener('click', e => {
       if (!document.getElementById('navbar').contains(e.target) && !mobileMenu.contains(e.target)) closeMob();
     });
+
+    const galpVid = document.getElementById('galp-vid');
+    const galpOverlay = document.getElementById('galp-overlay');
+
+    galpVid.play().catch(() => {
+      document.addEventListener('touchstart', () => galpVid.play().catch(() => { }), { once: true });
+    });
+
+    galpVid.addEventListener('ended', () => {
+      galpOverlay.classList.add('visible');
+    });
   </script>
 </body>
+
 </html>
