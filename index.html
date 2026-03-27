@@ -2013,22 +2013,17 @@
       }
 
       .hero-para-wrap {
-        display: grid;
-        max-width: 92%;
-        min-height: 5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 95%;
       }
 
       .hero-para-wrap>p {
-        grid-area: 1 / 1;
         font-size: 0.8rem;
         line-height: 1.7;
         white-space: normal;
-        opacity: 0;
-        transition: opacity 0.9s ease;
-      }
-
-      .hero-para-wrap>p.hero-p-active {
-        opacity: 1;
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
       }
 
       /* Carousel: altura controlada por vh, no por aspect-ratio */
@@ -2622,28 +2617,7 @@
     }
     init();
 
-    // ── Hero párrafos cycling en mobile ───────────────────────────────────
-    if (window.innerWidth <= 640) {
-      const heroParas = Array.from(document.querySelectorAll('.hero-para-wrap > p'));
-      let heroParaIdx = 0;
-      let heroCycleTimer = null;
-
-      function showNextHeroPara() {
-        heroParas.forEach(p => p.classList.remove('hero-p-active'));
-        const idx = heroParaIdx;
-        heroParaIdx = (heroParaIdx + 1) % heroParas.length;
-        setTimeout(() => heroParas[idx].classList.add('hero-p-active'), 1100);
-      }
-
-      // Arrancar cuando el overlay del hero se hace visible
-      new MutationObserver((_, obs) => {
-        if (endOverlay.classList.contains('visible')) {
-          showNextHeroPara();
-          heroCycleTimer = setInterval(showNextHeroPara, 4000);
-          obs.disconnect();
-        }
-      }).observe(endOverlay, { attributes: true, attributeFilter: ['class'] });
-    }
+    // ── Hero párrafos ya se muestran completos de una vez en mobile ──
 
     // ── Navbar scroll class ────────────────────────────────────────────────
     // Navbar is always opaque — no scroll toggle needed.
