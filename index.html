@@ -498,6 +498,12 @@
       white-space: nowrap;
       text-shadow: 0 1px 12px rgba(0,0,0,0.35);
     }
+    .hero-para-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-width: 78ch;
+    }
     #end-overlay p {
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 300;
@@ -505,7 +511,6 @@
       font-size: clamp(0.72rem, 1.05vw, 0.9rem);
       color: rgba(255,255,255,0.88);
       line-height: 1.85;
-      max-width: 78ch;   /* wider column → ~3 lines for this text length */
       text-shadow: 0 1px 8px rgba(0,0,0,0.5);
     }
     .scroll-needle {
@@ -1402,14 +1407,30 @@
 
     /* Mobile — 640px */
     @media (max-width: 640px) {
-      /* Carousel */
-      #productos { padding: 3rem 0; }
-      .productos-carousel { height: clamp(320px, 88vw, 500px); }
-      .prod-card { width: 80vw; }
-      .prod-card.is-prev { transform: translateX(-90%) scale(0.82); opacity: 0.5; }
-      .prod-card.is-next { transform: translateX(90%) scale(0.82); opacity: 0.5; }
+      /* Hero: título más pequeño, párrafos en ciclo de a 1 */
+      #end-overlay h2 { font-size: clamp(0.95rem, 5vw, 1.4rem); white-space: normal; margin-bottom: 0.6rem; }
+      .hero-para-wrap {
+        display: grid;
+        max-width: 92%;
+        min-height: 5rem;
+      }
+      .hero-para-wrap > p {
+        grid-area: 1 / 1;
+        font-size: 0.8rem;
+        line-height: 1.7;
+        opacity: 0;
+        transition: opacity 0.9s ease;
+      }
+      .hero-para-wrap > p.hero-p-active { opacity: 1; }
+
+      /* Carousel: altura controlada por vh, no por aspect-ratio */
+      #productos { padding: 3rem 0 2.5rem; }
+      .productos-carousel { height: 62vh; }
+      .prod-card { width: 72vw; aspect-ratio: auto; height: 54vh; }
+      .prod-card.is-prev { transform: translateX(-86%) scale(0.82); opacity: 0.5; }
+      .prod-card.is-next { transform: translateX(86%) scale(0.82); opacity: 0.5; }
       .prod-name { font-size: clamp(1.3rem, 6vw, 1.8rem); }
-      .prod-dots { margin-top: 1.8rem; }
+      .prod-dots { margin-top: 1.5rem; }
 
       /* Video overlay — se mantiene sobre el video, gradiente más fuerte */
       #vb-overlay {
@@ -1470,11 +1491,11 @@
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 
       /* Carousel small */
-      #productos { padding: 2.5rem 0; }
-      .productos-carousel { height: clamp(280px, 92vw, 420px); }
-      .prod-card { width: 85vw; }
-      .prod-card-body { padding: 1.2rem 1.2rem 1.5rem; }
-      .prod-dots { margin-top: 1.5rem; }
+      #productos { padding: 2.5rem 0 2rem; }
+      .productos-carousel { height: 58vh; }
+      .prod-card { width: 76vw; height: 50vh; }
+      .prod-card-body { padding: 1rem 1rem 1.3rem; }
+      .prod-dots { margin-top: 1.2rem; }
     }
   </style>
 </head>
@@ -1540,7 +1561,11 @@
       <!-- Shown once animation completes -->
       <div id="end-overlay">
         <h2>Soluciones integrales en estructuras metálicas</h2>
-        <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el sector agroindustrial, brindando asesoramiento técnico en cada etapa del proyecto. Trabajamos con altos estándares de calidad, combinando experiencia, innovación y un equipo profesional especializado para garantizar resultados eficientes y confiables.</p>
+        <div class="hero-para-wrap">
+          <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el sector agroindustrial.</p>
+          <p>Brindamos asesoramiento técnico en cada etapa del proyecto, trabajando con altos estándares de calidad y precisión.</p>
+          <p>Combinamos experiencia, innovación y un equipo profesional especializado para garantizar resultados eficientes y confiables.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1812,6 +1837,28 @@
       }, 720);
     }
     init();
+
+    // ── Hero párrafos cycling en mobile ───────────────────────────────────
+    if (window.innerWidth <= 640) {
+      const heroParas = Array.from(document.querySelectorAll('.hero-para-wrap > p'));
+      let heroParaIdx = 0;
+      let heroCycleTimer = null;
+
+      function showNextHeroPara() {
+        heroParas.forEach(p => p.classList.remove('hero-p-active'));
+        heroParas[heroParaIdx].classList.add('hero-p-active');
+        heroParaIdx = (heroParaIdx + 1) % heroParas.length;
+      }
+
+      // Arrancar cuando el overlay del hero se hace visible
+      new MutationObserver((_, obs) => {
+        if (endOverlay.classList.contains('visible')) {
+          showNextHeroPara();
+          heroCycleTimer = setInterval(showNextHeroPara, 4000);
+          obs.disconnect();
+        }
+      }).observe(endOverlay, { attributes: true, attributeFilter: ['class'] });
+    }
 
     // ── Navbar scroll class ────────────────────────────────────────────────
     // Navbar is always opaque — no scroll toggle needed.
