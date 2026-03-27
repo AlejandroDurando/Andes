@@ -1351,17 +1351,6 @@
       clip-path: inset(0 4% 0 0);
     }
 
-    #vid-bottom-rev {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: calc(100% / 0.96);
-      height: 100%;
-      object-fit: cover;
-      clip-path: inset(0 4% 0 0);
-      opacity: 0;
-      transition: opacity 0.1s linear;
-    }
 
     #vb-overlay {
       position: absolute;
@@ -2075,10 +2064,6 @@
         object-position: unset;
       }
 
-      #vid-bottom-rev {
-        object-position: unset;
-      }
-
       #vb-overlay {
         padding-top: clamp(0.8rem, 2vh, 1.5rem);
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.42) 55%, rgba(0, 0, 0, 0.08) 80%, transparent 100%);
@@ -2386,7 +2371,6 @@
   <section id="video-bottom">
     <div class="vb-frame">
       <video id="vid-bottom-fwd" src="./video_bottom.mp4" muted playsinline autoplay preload="auto"></video>
-      <video id="vid-bottom-rev" src="./video_bottom_rev.mp4" muted playsinline preload="auto"></video>
     </div>
     <div id="vb-overlay">
       <div class="vb-para-wrap">
@@ -2695,32 +2679,22 @@
       if (!isOpen) item.classList.add('open');
     }
 
-    // ── Video bottom — ping-pong con dos archivos (fluido) ────────────────
+    // ── Video bottom — reproduce una vez y se detiene ─────────────────────
     const vidFwd = document.getElementById('vid-bottom-fwd');
-    const vidRev = document.getElementById('vid-bottom-rev');
     vidFwd.playbackRate = 0.8;
-    vidRev.playbackRate = 0.8;
     let vbVisible = false;
-    let vbReversing = false;
 
     // Intercept exactly before the video ends to prevent iOS Safari from automatically rewinding to frame 0
     vidFwd.addEventListener('timeupdate', () => {
-      if (!vbReversing && vidFwd.duration > 0 && vidFwd.duration - vidFwd.currentTime <= 0.25) {
-        vbReversing = true;
+      if (vidFwd.duration > 0 && vidFwd.duration - vidFwd.currentTime <= 0.25) {
         vidFwd.pause();
-        vidRev.currentTime = 0;
-        vidRev.style.opacity = '1';
-        vidRev.play().catch(() => { });
-      }
-    });
-
-    vidRev.addEventListener('timeupdate', () => {
-      if (vbReversing && vidRev.duration > 0 && vidRev.duration - vidRev.currentTime <= 0.25) {
-        vbReversing = false;
-        vidRev.pause();
-        vidRev.style.opacity = '0';
-        vidFwd.currentTime = 0;
-        if (vbVisible) vidFwd.play().catch(() => { });
+        vbOverlay.classList.add('visible');
+        if (window.innerWidth > 640 && document.querySelector('.vb-desktop:not(.vb-active)')) {
+          setTimeout(() => {
+            const el = document.querySelector('.vb-desktop:not(.vb-active)');
+            if (el) el.classList.add('vb-active');
+          }, 500);
+        }
       }
     });
 
@@ -2761,16 +2735,16 @@
     const vbObserver = new IntersectionObserver((entries) => {
       vbVisible = entries[0].isIntersecting;
       if (vbVisible) {
-        if (!vbReversing && vidFwd.paused) vidFwd.play().catch(() => { });
+        // Solo darle play si no llegó al final
+        if (vidFwd.paused && (vidFwd.duration === 0 || vidFwd.duration - vidFwd.currentTime > 0.3)) {
+          vidFwd.play().catch(() => { });
+        }
         // Arrancar ciclo de texto 5 s después de llegar a la sección
         if (!vbEntryTimer && !vbCycleTimer) {
           vbEntryTimer = setTimeout(vbStartCycle, 5000);
         }
       } else {
         vidFwd.pause();
-        vidRev.pause();
-        vidRev.style.opacity = '0';
-        vbReversing = false;
       }
     }, { threshold: 0.1 });
     vbObserver.observe(vidFwd);
