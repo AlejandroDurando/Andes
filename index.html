@@ -31,7 +31,7 @@
     }
 
     :root {
-      --gold: #C89C3C;
+      --gold: #937658;
       --gold-light: #D4AE54;
       --gold-dim: rgba(200, 156, 60, 0.18);
       --dark: #606060;
@@ -2565,15 +2565,22 @@
     async function extractFrames() {
       const vid = document.createElement('video');
       vid.src = VIDEO_SRC;
+      vid.crossOrigin = 'anonymous'; // Good practice for canvas
       vid.muted = true;
+      vid.playsInline = true;        // Mandatory for iOS Background Video
+      vid.autoplay = true;           // Force Safari to initialize decoder
       vid.preload = 'auto';
 
       // Wait for metadata so we know the duration and dimensions
       await new Promise((res, rej) => {
         vid.addEventListener('loadedmetadata', res, { once: true });
         vid.addEventListener('error', () => rej(new Error('Video load error')), { once: true });
-        vid.load();
+        // Start playing silently to bypass iOS programmatic seek blocks
+        vid.play().catch(e => console.warn('iOS Autoplay bypassed', e));
       });
+
+      // Pause immediately before extraction loop
+      vid.pause();
 
       const offscreen = document.createElement('canvas');
       offscreen.width = vid.videoWidth;
@@ -2585,7 +2592,12 @@
       for (let i = 0; i < TOTAL_FRAMES; i++) {
         // Seek to the target timestamp
         vid.currentTime = (i / (TOTAL_FRAMES - 1)) * duration;
-        await new Promise(r => vid.addEventListener('seeked', r, { once: true }));
+        await new Promise(r => {
+          // Fallback timer: skip frame if Safari gets stuck seeking
+          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 500);
+          const onSeek = () => { clearTimeout(timeout); r(); };
+          vid.addEventListener('seeked', onSeek, { once: true });
+        });
 
         // Capture frame: draw video → offscreen canvas → ImageBitmap (no CORS issues)
         offCtx.drawImage(vid, 0, 0);
