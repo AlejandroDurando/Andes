@@ -1415,8 +1415,8 @@
     /* Mobile — 640px */
     @media (max-width: 640px) {
       /* Hero: título más pequeño, párrafos en ciclo de a 1 */
-      #end-overlay { padding-top: calc(var(--nav-h) + 1rem); }
-      #end-overlay h2 { font-size: clamp(0.82rem, 4vw, 1.1rem); white-space: normal; margin-bottom: 0.6rem; }
+      #end-overlay { padding-top: calc(var(--nav-h) + 2.5rem); }
+      #end-overlay h2 { font-size: clamp(0.82rem, 4vw, 1.1rem); white-space: normal; font-weight: 700; font-style: normal; margin-bottom: 0.6rem; }
       .hero-para-wrap {
         display: grid;
         max-width: 92%;
@@ -1467,7 +1467,7 @@
       #scroll-section { height: 400vh; }
 
       #end-overlay {
-        padding-top: calc(var(--nav-h) + 1rem);
+        padding-top: calc(var(--nav-h) + 2.5rem);
         justify-content: flex-start;
         overflow: hidden;
         background: linear-gradient(to bottom, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.15) 75%, transparent 100%);
@@ -1475,6 +1475,8 @@
       #end-overlay h2 {
         white-space: nowrap;
         font-size: clamp(0.68rem, 3.1vw, 0.9rem);
+        font-weight: 700;
+        font-style: normal;
         margin-bottom: 0.7rem;
       }
       #end-overlay p {
@@ -1874,8 +1876,9 @@
 
       function showNextHeroPara() {
         heroParas.forEach(p => p.classList.remove('hero-p-active'));
-        heroParas[heroParaIdx].classList.add('hero-p-active');
+        const idx = heroParaIdx;
         heroParaIdx = (heroParaIdx + 1) % heroParas.length;
+        setTimeout(() => heroParas[idx].classList.add('hero-p-active'), 900);
       }
 
       // Arrancar cuando el overlay del hero se hace visible
@@ -1986,8 +1989,9 @@
 
     function vbShowNext() {
       vbParas.forEach(p => p.classList.remove('vb-active'));
-      vbParas[vbParaIdx].classList.add('vb-active');
+      const idx = vbParaIdx;
       vbParaIdx = (vbParaIdx + 1) % vbParas.length;
+      setTimeout(() => vbParas[idx].classList.add('vb-active'), 1000);
     }
 
     function vbStartCycle() {
