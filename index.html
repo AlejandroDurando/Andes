@@ -2469,7 +2469,7 @@
     // Result: buttery-smooth scroll animation with a single video file.
     //
     const TOTAL_FRAMES = 90;    // Optimized for rapid load with tinglado_scroll.mp4
-    const VIDEO_SRC = './tinglado_scroll.mp4';
+    const VIDEO_SRC = './tinglado_fastseek.mp4';
 
     const bitmaps = new Array(TOTAL_FRAMES);
     let curFrame = -1;
@@ -2573,14 +2573,18 @@
 
       // Wait for metadata so we know the duration and dimensions
       await new Promise((res, rej) => {
-        vid.addEventListener('loadedmetadata', res, { once: true });
+        vid.addEventListener('loadedmetadata', () => {
+          // Play and immediately pause to satisfy iOS, handling promises correctly
+          vid.play().then(() => {
+            vid.pause();
+            res();
+          }).catch(e => {
+            console.warn('Autoplay blocked or unnecessary', e);
+            res();
+          });
+        }, { once: true });
         vid.addEventListener('error', () => rej(new Error('Video load error')), { once: true });
-        // Start playing silently to bypass iOS programmatic seek blocks
-        vid.play().catch(e => console.warn('iOS Autoplay bypassed', e));
       });
-
-      // Pause immediately before extraction loop
-      vid.pause();
 
       const offscreen = document.createElement('canvas');
       offscreen.width = vid.videoWidth;
