@@ -146,7 +146,7 @@
       display: flex;
       align-items: center;
       padding: 0 var(--pad-x);
-      background: rgba(10, 10, 10, 0.92);
+      background: rgba(55, 55, 55, 0.95);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--gold-dim);
@@ -2452,8 +2452,8 @@
     // frame into an ImageBitmap (GPU-resident), then animate via canvas.
     // Result: buttery-smooth scroll animation with a single video file.
     //
-    const TOTAL_FRAMES = 90;    // Optimized for rapid load with tinglado_scroll.mp4
-    const VIDEO_SRC = './tinglado_fastseek.mp4';
+    const TOTAL_FRAMES = 120;   // More frames for 16-second videoscroll
+    const VIDEO_SRC = './videoscroll_fastseek.mp4';
 
     const bitmaps = new Array(TOTAL_FRAMES);
     let curFrame = -1;
@@ -2549,7 +2549,6 @@
     async function extractFrames() {
       const vid = document.createElement('video');
       vid.src = VIDEO_SRC;
-      vid.crossOrigin = 'anonymous'; // Good practice for canvas
       vid.muted = true;
       vid.playsInline = true;        // Mandatory for iOS Background Video
       vid.autoplay = true;           // Force Safari to initialize decoder
