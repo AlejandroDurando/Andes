@@ -694,6 +694,10 @@
     #servicios {
       background: var(--dark-1);
       scroll-margin-top: var(--nav-h);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .srv-heading {
@@ -915,13 +919,18 @@
       background:
         radial-gradient(ellipse 80% 100% at 50% 50%, rgba(75, 75, 75, 0.0) 0%, rgba(40, 40, 40, 0.95) 100%),
         #555;
-      padding: clamp(3rem, 7vh, 5rem) 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
 
     .productos-carousel {
       position: relative;
-      height: clamp(380px, 68vh, 660px);
+      width: 100%;
+      height: clamp(380px, 72vh, 720px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2040,19 +2049,21 @@
         text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
       }
 
-      /* Carousel: altura controlada por vh, no por aspect-ratio */
+      /* Carousel mobile — 100vh igual que hero */
       #productos {
-        padding: 3rem 0 2.5rem;
+        height: 100vh;
+        min-height: 100vh;
+        padding: 0;
       }
 
       .productos-carousel {
-        height: 62vh;
+        height: 82vh;
       }
 
       .prod-card {
         width: 72vw;
         aspect-ratio: auto;
-        height: 54vh;
+        height: 70vh;
       }
 
       .prod-card.is-prev {
@@ -2073,9 +2084,9 @@
         margin-top: 1.5rem;
       }
 
-      /* Video overlay mobile */
+      /* Video overlay mobile — 100vh igual que hero */
       #video-bottom {
-        height: 60vh;
+        height: 100vh;
       }
 
       .vb-frame {
@@ -2232,18 +2243,20 @@
         gap: 0.5rem;
       }
 
-      /* Carousel small */
+      /* Carousel small — 100vh */
       #productos {
-        padding: 2.5rem 0 2rem;
+        height: 100vh;
+        min-height: 100vh;
+        padding: 0;
       }
 
       .productos-carousel {
-        height: 58vh;
+        height: 82vh;
       }
 
       .prod-card {
         width: 76vw;
-        height: 50vh;
+        height: 70vh;
       }
 
       .prod-card-body {
@@ -2263,7 +2276,7 @@
        LOADER
   ───────────────────────────────────────────── -->
   <div id="loader">
-    <video id="loader-video" src="./video_loading_web.mp4" muted playsinline autoplay></video>
+    <video id="loader-video" src="./video_loading_web.mp4" muted playsinline webkit-playsinline autoplay></video>
     <div id="loader-sub">Cargando&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
     <div id="progress-wrapper">
       <div id="progress-track">
