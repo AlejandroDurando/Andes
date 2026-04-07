@@ -93,6 +93,37 @@
       display: block;
     }
 
+    #loader-tap {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    #loader-tap img {
+      height: clamp(60px, 12vw, 100px);
+      width: auto;
+      opacity: 0.9;
+    }
+
+    #loader-tap span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #606060;
+      animation: tapPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes tapPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
     #loader-sub {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.68rem;
@@ -2277,6 +2308,10 @@
   ───────────────────────────────────────────── -->
   <div id="loader">
     <video id="loader-video" src="./video_loading_web.mp4" muted playsinline webkit-playsinline autoplay></video>
+    <button id="loader-tap" aria-label="Tap para continuar">
+      <img src="./logo_andes.png" alt="Andes">
+      <span>Toca para continuar</span>
+    </button>
     <div id="loader-sub">Cargando&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
     <div id="progress-wrapper">
       <div id="progress-track">
@@ -2639,9 +2674,19 @@
     // Boot
     const loaderVid = document.getElementById('loader-video');
 
-    // Forzar play en iOS — el atributo autoplay no siempre alcanza
+    // Forzar play en iOS — si falla (Low Power Mode) mostrar botón de tap
+    const loaderTap = document.getElementById('loader-tap');
     if (loaderVid) {
-      loaderVid.play().catch(() => {});
+      loaderVid.play().catch(() => {
+        // Autoplay bloqueado — mostrar tap overlay
+        loaderVid.style.display = 'none';
+        loaderTap.style.display = 'flex';
+        loaderTap.addEventListener('click', () => {
+          loaderTap.style.display = 'none';
+          loaderVid.style.display = 'block';
+          loaderVid.play().catch(() => {});
+        }, { once: true });
+      });
     }
 
     function waitForLoaderVideo() {
