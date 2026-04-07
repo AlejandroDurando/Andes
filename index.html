@@ -65,6 +65,17 @@
     }
 
     /* ═══════════════════════════════════════════════════
+       GSAP — estado inicial (evita flash antes de que cargue)
+    ═══════════════════════════════════════════════════ */
+    .srv-heading,
+    .srv-text-block p,
+    .productos-carousel,
+    .footer-top > *,
+    .footer-bottom {
+      opacity: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════
        LOADER
     ═══════════════════════════════════════════════════ */
     #loader {
@@ -146,6 +157,7 @@
       display: flex;
       align-items: center;
       padding: 0 var(--pad-x);
+      transition: height 0.35s ease, box-shadow 0.35s ease;
       background: rgba(55, 55, 55, 0.95);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -160,6 +172,16 @@
     .nav-logo img {
       height: 38px;
       width: auto;
+      transition: height 0.35s ease;
+    }
+
+    #navbar.scrolled {
+      height: 52px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    #navbar.scrolled .nav-logo img {
+      height: 28px;
     }
 
     .nav-links {
@@ -2443,6 +2465,12 @@
   </a>
 
   <!-- ─────────────────────────────────────────────
+       GSAP
+  ───────────────────────────────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- ─────────────────────────────────────────────
        JAVASCRIPT
   ───────────────────────────────────────────── -->
   <script>
@@ -2798,6 +2826,57 @@
       go(0);
       startAuto();
     })();
+
+    // ── GSAP ScrollTrigger — entradas de sección ───────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Navbar — compresión al hacer scroll
+    const navbar = document.getElementById('navbar');
+    ScrollTrigger.create({
+      start: 'top -60',
+      end: 99999,
+      onEnter: () => navbar.classList.add('scrolled'),
+      onLeaveBack: () => navbar.classList.remove('scrolled')
+    });
+
+    function reveal(targets, trigger, options = {}) {
+      gsap.fromTo(targets,
+        { opacity: 0, y: options.y ?? 48 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: options.duration ?? 0.9,
+          ease: 'power2.out',
+          stagger: options.stagger ?? 0,
+          scrollTrigger: {
+            trigger: trigger,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+
+    // Servicios
+    reveal('.srv-heading', '#servicios');
+    reveal('.srv-text-block p', '.srv-text-block', { stagger: 0.18, y: 32 });
+
+    // Productos — carrusel entra con scale + fade
+    gsap.fromTo('.productos-carousel',
+      { opacity: 0, scale: 0.96 },
+      {
+        opacity: 1, scale: 1, duration: 1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#productos', start: 'top 80%', toggleActions: 'play none none none' }
+      }
+    );
+    reveal('#productos .prod-dots', '#productos', { y: 20, duration: 0.7 });
+
+    // Video bottom — eyebrow antes del overlay
+    reveal('#video-bottom', '#video-bottom', { y: 0, duration: 1.2 });
+
+    // Footer
+    reveal('.footer-top > *', '#footer', { stagger: 0.15, y: 28, duration: 0.7 });
+    reveal('.footer-bottom', '#footer', { y: 16, duration: 0.6 });
 
   </script>
 </body>
