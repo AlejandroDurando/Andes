@@ -88,22 +88,36 @@
     }
 
     #loader-video {
-      width: min(420px, 80vw);
-      height: auto;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       display: block;
+    }
+
+    #loader-bottom {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      width: min(360px, 75vw);
     }
 
     #loader-sub {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: #606060;
+      color: #555;
     }
 
     #progress-wrapper {
-      width: min(360px, 75vw);
-      margin-top: 1.2rem;
+      width: 100%;
     }
 
     #progress-track {
@@ -2084,9 +2098,9 @@
         margin-top: 1.5rem;
       }
 
-      /* Video overlay mobile — 100vh igual que hero */
+      /* Video overlay mobile */
       #video-bottom {
-        height: 100vh;
+        height: 60vh;
       }
 
       .vb-frame {
@@ -2277,10 +2291,12 @@
   ───────────────────────────────────────────── -->
   <div id="loader">
     <video id="loader-video" src="./video_loading_web.mp4" muted playsinline webkit-playsinline autoplay></video>
-    <div id="loader-sub">Cargando&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
-    <div id="progress-wrapper">
-      <div id="progress-track">
-        <div id="progress-fill"></div>
+    <div id="loader-bottom">
+      <div id="loader-sub">Cargando&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
+      <div id="progress-wrapper">
+        <div id="progress-track">
+          <div id="progress-fill"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -2638,6 +2654,11 @@
 
     // Boot
     const loaderVid = document.getElementById('loader-video');
+
+    // Forzar play en iOS — el atributo autoplay no siempre alcanza
+    if (loaderVid) {
+      loaderVid.play().catch(() => {});
+    }
 
     function waitForLoaderVideo() {
       return new Promise(res => {
