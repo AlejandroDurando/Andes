@@ -67,8 +67,6 @@
     /* ═══════════════════════════════════════════════════
        GSAP — estado inicial (evita flash antes de que cargue)
     ═══════════════════════════════════════════════════ */
-    .srv-heading,
-    .srv-text-block p,
     .productos-carousel,
     .footer-top > *,
     .footer-bottom {
@@ -81,43 +79,31 @@
     #loader {
       position: fixed;
       inset: 0;
-      background: #4a4a4a;
+      background: #000;
       z-index: 1000;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
     }
 
-    #loader-eyebrow {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: #808080;
-    }
-
-    #loader-brand {
-      font-family: 'Raleway', sans-serif;
-      font-size: clamp(3.5rem, 12vw, 8rem);
-      font-weight: 100;
-      letter-spacing: 0.12em;
-      color: var(--white);
-      line-height: 0.9;
+    #loader-video {
+      width: min(420px, 80vw);
+      height: auto;
+      display: block;
     }
 
     #loader-sub {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.4em;
+      font-size: 0.68rem;
+      letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: #808080;
-      margin-bottom: 1.8rem;
+      color: #606060;
     }
 
     #progress-wrapper {
       width: min(360px, 75vw);
+      margin-top: 1.2rem;
     }
 
     #progress-track {
@@ -158,7 +144,7 @@
       align-items: center;
       padding: 0 var(--pad-x);
       transition: height 0.35s ease, box-shadow 0.35s ease;
-      background: rgba(55, 55, 55, 0.95);
+      background: rgba(74, 74, 74, 0.97);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--gold-dim);
@@ -208,17 +194,14 @@
 
     .nav-cta {
       margin-left: 1.5rem;
-      padding: 0.5rem 1.3rem;
-      background: var(--gold);
-      color: #0a0a0a !important;
-      border-radius: 3px;
+      color: var(--gold) !important;
       font-weight: 700 !important;
       letter-spacing: 0.08em !important;
-      transition: background 0.2s !important;
+      transition: color 0.2s !important;
     }
 
     .nav-cta:hover {
-      background: var(--gold-light) !important;
+      color: var(--gold-light) !important;
     }
 
     /* Hamburger */
@@ -731,7 +714,7 @@
 
     .srv-text-block p {
       font-family: 'Barlow', sans-serif;
-      font-size: clamp(0.85rem, 1.3vw, 0.97rem);
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
       font-weight: 300;
       line-height: 1.95;
       color: var(--gray-text);
@@ -929,7 +912,9 @@
        PRODUCT SHOWCASE — CARRUSEL 3D
     ═══════════════════════════════════════════════════ */
     #productos {
-      background: #111;
+      background:
+        radial-gradient(ellipse 80% 100% at 50% 50%, rgba(75, 75, 75, 0.0) 0%, rgba(40, 40, 40, 0.95) 100%),
+        #555;
       padding: clamp(3rem, 7vh, 5rem) 0;
       overflow: hidden;
     }
@@ -989,60 +974,75 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0.92;
+      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s;
     }
 
     .prod-card.is-active:hover img {
-      transform: scale(1.06);
+      transform: scale(1.04);
+      opacity: 1;
     }
 
     /* ── overlay gradiente ── */
     .prod-card-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom,
-          rgba(0, 0, 0, 0.78) 0%,
-          rgba(0, 0, 0, 0.3) 40%,
-          transparent 70%);
+      background: linear-gradient(to top,
+          rgba(0, 0, 0, 0.72) 0%,
+          rgba(0, 0, 0, 0.18) 45%,
+          transparent 75%);
     }
 
     /* ── texto ── */
     .prod-card-body {
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 0;
       right: 0;
-      padding: 1.8rem 1.6rem 2rem;
+      top: auto;
+      padding: 1.8rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
     }
 
     .prod-name {
       font-family: 'IBM Plex Serif', serif;
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
       color: #fff;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-      margin-bottom: 0.7rem;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+      line-height: 1.1;
     }
 
     .prod-btn {
       display: inline-block;
-      padding: 0.35rem 1.4rem;
-      border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      color: rgba(255, 255, 255, 0.8);
+      padding: 0.45rem 1.4rem;
+      border-radius: 20px;
+      border: none;
+      color: #fff;
+      background-image: linear-gradient(30deg, #937658, #C89C3C, #D4AE54);
+      background-size: 100% auto;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.72rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: background 0.3s, border-color 0.3s, color 0.3s;
+      transition: background-size 0.4s ease, background-position 0.4s ease;
     }
 
     .prod-card.is-active:hover .prod-btn {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: #0a0a0a;
+      background-position: right center;
+      background-size: 200% auto;
+      animation: pulse-gold 1.5s infinite;
+    }
+
+    @keyframes pulse-gold {
+      0%   { box-shadow: 0 0 0 0 rgba(200, 156, 60, 0.55); }
+      70%  { box-shadow: 0 0 0 10px rgba(200, 156, 60, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(200, 156, 60, 0); }
     }
 
     /* ── dots ── */
@@ -2262,14 +2262,12 @@
        LOADER
   ───────────────────────────────────────────── -->
   <div id="loader">
-    <div id="loader-eyebrow">Secuencia de ensamble</div>
-    <div id="loader-brand">Andes</div>
-    <div id="loader-sub">Estructuras metálicas</div>
+    <video id="loader-video" src="./video_loading_web.mp4" muted playsinline autoplay></video>
+    <div id="loader-sub">Cargando&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
     <div id="progress-wrapper">
       <div id="progress-track">
         <div id="progress-fill"></div>
       </div>
-      <div id="progress-label">Cargando estructura&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
     </div>
   </div>
 
@@ -2625,12 +2623,24 @@
     }
 
     // Boot
+    const loaderVid = document.getElementById('loader-video');
+
+    function waitForLoaderVideo() {
+      return new Promise(res => {
+        if (!loaderVid) return res();
+        loaderVid.addEventListener('ended', res, { once: true });
+        // fallback: si el video no dispara ended en 12s, continuamos igual
+        setTimeout(res, 12000);
+      });
+    }
+
     async function init() {
-      try {
-        await extractFrames();
-      } catch (err) {
-        console.warn('Frame extraction failed:', err);
-      }
+      // Extrae frames Y espera que el video termine — lo que dure más
+      const [,] = await Promise.all([
+        extractFrames().catch(err => console.warn('Frame extraction failed:', err)),
+        waitForLoaderVideo()
+      ]);
+
       curFrame = 0;
       animReady = true;
       fitCanvasToVideo();
@@ -2710,18 +2720,15 @@
     const vidFwd = document.getElementById('vid-bottom-fwd');
     vidFwd.playbackRate = 0.8;
     let vbVisible = false;
+    let vbEnded = false;
 
     // Intercept exactly before the video ends to prevent iOS Safari from automatically rewinding to frame 0
     vidFwd.addEventListener('timeupdate', () => {
+      if (vbEnded) return;
       if (vidFwd.duration > 0 && vidFwd.duration - vidFwd.currentTime <= 0.25) {
+        vbEnded = true;
         vidFwd.pause();
         vbOverlay.classList.add('visible');
-        if (window.innerWidth > 640 && document.querySelector('.vb-desktop:not(.vb-active)')) {
-          setTimeout(() => {
-            const el = document.querySelector('.vb-desktop:not(.vb-active)');
-            if (el) el.classList.add('vb-active');
-          }, 500);
-        }
       }
     });
 
@@ -2857,9 +2864,17 @@
       );
     }
 
-    // Servicios
-    reveal('.srv-heading', '#servicios');
-    reveal('.srv-text-block p', '.srv-text-block', { stagger: 0.18, y: 32 });
+    // Servicios — replay cada vez que entra al viewport
+    gsap.fromTo('.srv-heading',
+      { opacity: 0, y: 48 },
+      { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+        scrollTrigger: { trigger: '#servicios', start: 'top 82%', toggleActions: 'restart none restart reset' } }
+    );
+    gsap.fromTo('.srv-text-block p',
+      { opacity: 0, y: 32 },
+      { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', stagger: 0.18,
+        scrollTrigger: { trigger: '.srv-text-block', start: 'top 82%', toggleActions: 'restart none restart reset' } }
+    );
 
     // Productos — carrusel entra con scale + fade
     gsap.fromTo('.productos-carousel',
