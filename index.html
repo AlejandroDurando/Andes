@@ -2334,6 +2334,11 @@
     <div id="intro-loading">Cargando&hellip;</div>
   </div>
 
+  <!-- Black fill that covers the triangle hole — fades out near the end of the intro -->
+  <svg id="tri-inner-svg" style="position:fixed;inset:0;width:100%;height:100%;z-index:401;pointer-events:none" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none">
+    <path id="tri-fill-path" fill="#0a0a0a" d="M0.5,0.38 L0.45,0.58 L0.55,0.58 Z"/>
+  </svg>
+
   <!-- Logo + scroll hint (above overlay, fades during animation) -->
   <div id="intro-logo-wrap">
     <img id="intro-logo-img" src="./logo_andes.png" alt="Andes">
@@ -2687,12 +2692,16 @@
         offCtx.drawImage(vid, 0, 0);
         bitmaps[i] = await createImageBitmap(offscreen);
 
+        // Show frame 0 immediately so the canvas isn't gray during the intro
+        if (i === 0) { curFrame = 0; fitCanvasToVideo(); drawFrame(0); }
+
         // (progress tracked internally)
       }
     }
 
     // ── INTRO TRIANGLE REVEAL ─────────────────────────────────────────────
     const triClipPath   = document.getElementById('tri-clip-path');
+    const triFillPath   = document.getElementById('tri-fill-path');
     const introOverlay  = document.getElementById('intro-overlay');
     const introLogoWrap = document.getElementById('intro-logo-wrap');
     const introScrollHint = document.getElementById('intro-scroll-hint');
@@ -2745,6 +2754,12 @@
       triClipPath.setAttribute('d',
         `M0,0 L1,0 L1,1 L0,1 Z M${tx},${ty} L${blx},${by} L${brx},${by} Z`
       );
+
+      // 4. Keep the triangle hole black until the user is close to entering
+      triFillPath.setAttribute('d', `M${tx},${ty} L${blx},${by} L${brx},${by} Z`);
+      const fadeStart = 0.72, fadeEnd = 0.90;
+      const fillOp = p < fadeStart ? 1 : p > fadeEnd ? 0 : 1 - (p - fadeStart) / (fadeEnd - fadeStart);
+      triFillPath.setAttribute('opacity', fillOp);
     }
 
     function tickIntro() {
@@ -2791,6 +2806,7 @@
     function revealPage() {
       introOverlay.style.display  = 'none';
       introLogoWrap.style.display = 'none';
+      document.getElementById('tri-inner-svg').style.display = 'none';
       document.body.classList.remove('intro-active');
       document.getElementById('wa-fab').classList.add('show');
     }
