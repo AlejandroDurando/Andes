@@ -2703,7 +2703,7 @@
       : document.getElementById('intro-logo-img');
 
     // Desktop: logo_andes.png — A-mark is left ~28% of image
-    const DESKTOP_TRI = { tx: 0.171, ty: 0.52, blx: 0.150, brx: 0.193, by: 0.665, offset: 28 };
+    const DESKTOP_TRI = { tx: 0.171, ty: 0.52, blx: 0.150, brx: 0.193, by: 0.665, offset: 36 };
     // Mobile: logo_andes_mobile.png — A-mark is centered in square image
     // inner triangle roughly: tip ~(48%, 10%), base ~(20%, 68%), (76%, 68%)
     const MOBILE_TRI  = { tx: 0.475,  ty: 0.33, blx: 0.42,  brx: 0.53,  by: 0.43,  offset: 0  };
@@ -2716,9 +2716,9 @@
 
     const MAX_SCALE = 280;
 
-    // On mobile the logo is square and centered — scale from center so it stays put
-    const ORIGIN_X = isMobile ? '50%' : (TRI_BL_X + TRI_BR_X) / 2 * 100 + '%';
-    const ORIGIN_Y = isMobile ? '50%' : (TRI_TY + TRI_BY) / 2 * 100 + '%';
+    // Scale from the triangle centroid so the triangle stays fixed during zoom
+    const ORIGIN_X = (TRI_BL_X + TRI_BR_X) / 2 * 100 + '%';
+    const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
     introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
 
     let introP    = 0;
