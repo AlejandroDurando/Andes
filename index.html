@@ -131,6 +131,7 @@
       gap: 2.5rem;
     }
 
+
     #intro-logo-img {
       width: min(340px, 80vw);
       height: auto;
@@ -140,12 +141,7 @@
 
     @media (max-width: 600px) {
       #intro-logo-img {
-        width: min(280px, 85vw);
-      }
-      #intro-logo-wrap {
-        /* On mobile shift the logo slightly left so the A-mark (left ~28%)
-           lands closer to horizontal center of the screen */
-        padding-right: 30%;
+        width: min(260px, 80vw);
       }
     }
 
@@ -2709,10 +2705,15 @@
     const MAX_SCALE = 280;
 
     // transform-origin: center of the inner triangle in the image
-    // (so the triangle zooms from its own center, not the image center)
     const ORIGIN_X = (TRI_BL_X + TRI_BR_X) / 2 * 100 + '%';
     const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
     introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
+
+    // The logo image includes "ANDES" text on the right — the A-mark center
+    // is at ~14% of the image width. To center the A-mark on screen we
+    // translate the image left by (50% - 14%) = 36% of its own width.
+    // We store this as a base offset and compose it with scale().
+    const BASE_OFFSET = -36; // percent of image width
 
     let introP    = 0;
     let introGoal = 0;
@@ -2720,9 +2721,9 @@
     let rafId = null;
 
     function applyScaleAndClip(p) {
-      // 1. Scale the logo
+      // 1. Scale the logo, keeping A-mark centered via base translateX
       const scale = 1 + p * (MAX_SCALE - 1);
-      introLogoImg.style.transform = `scale(${scale})`;
+      introLogoImg.style.transform = `translateX(${BASE_OFFSET}%) scale(${scale})`;
 
       // 2. Read the triangle's real screen coords AFTER scale
       const rect = introLogoImg.getBoundingClientRect();
