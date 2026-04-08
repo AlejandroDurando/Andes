@@ -2778,9 +2778,10 @@
     const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
     introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
 
-    let introP    = 0;
-    let introGoal = 0;
-    let introActive = true;
+    let introP           = 0;
+    let introGoal        = 0;
+    let introActive      = true;  // animation tick runs while true
+    let introInputActive = true;  // scroll/touch input accepted while true
     let rafId = null;
 
     function applyScaleAndClip(p) {
@@ -2807,7 +2808,7 @@
       //    then reveal the page behind it. Fade starts early so content appears
       //    as the sides approach the screen edges.
       triFillPath.setAttribute('d', `M${tx},${ty} L${blx},${by} L${brx},${by} Z`);
-      const fadeStart = 0.05, fadeEnd = 0.22;
+      const fadeStart = 0.01, fadeEnd = 0.15;
       const fillOp = p < fadeStart ? 1 : p > fadeEnd ? 0 : 1 - (p - fadeStart) / (fadeEnd - fadeStart);
       triFillPath.setAttribute('opacity', fillOp);
     }
@@ -2816,7 +2817,9 @@
       rafId = null;
       if (!introActive) return;
 
-      introP += (introGoal - introP) * 0.14;
+      // Once input is locked at goal=1, snap faster so the overlay disappears quickly
+      const lerpFactor = introInputActive ? 0.14 : 0.22;
+      introP += (introGoal - introP) * lerpFactor;
       applyScaleAndClip(introP);
 
       // Logo text fades out early so only triangle remains visible
@@ -2860,25 +2863,27 @@
     }
 
     window.addEventListener('wheel', (e) => {
-      if (!introActive) return;
+      if (!introInputActive) return;
       e.preventDefault();
       hideHint();
       introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * WHEEL_SENSITIVITY)));
+      if (introGoal >= 1) introInputActive = false; // lock — no more backward scroll
       kickTick();
     }, { passive: false });
 
     let iTouchY = 0;
     window.addEventListener('touchstart', e => {
-      if (!introActive) return;
+      if (!introInputActive) return;
       iTouchY = e.touches[0].clientY;
     }, { passive: true });
     window.addEventListener('touchmove', e => {
-      if (!introActive) return;
+      if (!introInputActive) return;
       e.preventDefault();
       hideHint();
       const dy = iTouchY - e.touches[0].clientY;
       iTouchY = e.touches[0].clientY;
       introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * TOUCH_SENSITIVITY)));
+      if (introGoal >= 1) introInputActive = false; // lock — no more backward scroll
       kickTick();
     }, { passive: false });
 
