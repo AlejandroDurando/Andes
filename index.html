@@ -2593,8 +2593,18 @@
     // Result: buttery-smooth scroll animation with a single video file.
     //
     const isMobile = window.innerWidth <= 768;
-    const TOTAL_FRAMES = isMobile ? 20 : 60;
+    const TOTAL_FRAMES = isMobile ? 8 : 60;
     const VIDEO_SRC = './videoscroll_fastseek.mp4';
+
+    // Kick off video preload immediately so the browser starts buffering
+    // before extractFrames() creates its own <video> element.
+    if (isMobile) {
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'preload';
+      preloadLink.as = 'video';
+      preloadLink.href = VIDEO_SRC;
+      document.head.appendChild(preloadLink);
+    }
 
     const bitmaps = new Array(TOTAL_FRAMES);
     let curFrame = -1;
@@ -2719,7 +2729,7 @@
         vid.currentTime = (i / (TOTAL_FRAMES - 1)) * duration;
         await new Promise(r => {
           // Fallback timer: skip frame if Safari gets stuck seeking
-          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 500);
+          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, isMobile ? 200 : 500);
           const onSeek = () => { clearTimeout(timeout); r(); };
           vid.addEventListener('seeked', onSeek, { once: true });
         });
