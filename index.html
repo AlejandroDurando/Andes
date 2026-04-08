@@ -157,20 +157,53 @@
 
 
     #intro-scroll-hint {
+      position: fixed;
+      bottom: 2.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 402;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.6rem;
-      opacity: 0;
-      transition: opacity 0.8s ease;
+      gap: 0.7rem;
+      pointer-events: none;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.62rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.35);
     }
 
-    #intro-scroll-hint.ready {
+    #intro-load-bar-wrap {
+      width: 100px;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+      overflow: hidden;
+    }
+
+    #intro-load-bar {
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,0.55);
+      transition: width 0.15s linear;
+    }
+
+    #intro-load-bar-wrap {
+      transition: opacity 0.5s ease;
+    }
+
+    #intro-load-bar-wrap.done {
+      opacity: 0;
+    }
+
+    #intro-hint-text,
+    #intro-hint-needle {
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+
+    #intro-hint-text.visible,
+    #intro-hint-needle.visible {
       opacity: 1;
     }
 
@@ -2339,14 +2372,17 @@
     <path id="tri-fill-path" fill="#0a0a0a" d="M0.5,0.38 L0.45,0.58 L0.55,0.58 Z"/>
   </svg>
 
-  <!-- Logo + scroll hint (above overlay, fades during animation) -->
+  <!-- Logo (above overlay, fades during animation) -->
   <div id="intro-logo-wrap">
     <img id="intro-logo-img" src="./logo_andes.png" alt="Andes">
     <img id="intro-logo-img-mobile" src="./logo_andes_mobile.png" alt="Andes">
-    <div id="intro-scroll-hint">
-      <span>Desplazá para entrar</span>
-      <div class="scroll-needle"></div>
-    </div>
+  </div>
+
+  <!-- Loading bar + scroll hint (independent of logo fade) -->
+  <div id="intro-scroll-hint">
+    <div id="intro-load-bar-wrap"><div id="intro-load-bar"></div></div>
+    <span id="intro-hint-text">Desplazá para entrar</span>
+    <div class="scroll-needle" id="intro-hint-needle"></div>
   </div>
 
   <!-- ─────────────────────────────────────────────
@@ -2695,7 +2731,9 @@
         // Show frame 0 immediately so the canvas isn't gray during the intro
         if (i === 0) { curFrame = 0; fitCanvasToVideo(); drawFrame(0); }
 
-        // (progress tracked internally)
+        // Update loading bar progress
+        const loadBar = document.getElementById('intro-load-bar');
+        if (loadBar) loadBar.style.width = ((i + 1) / TOTAL_FRAMES * 100) + '%';
       }
     }
 
@@ -2804,9 +2842,15 @@
     const WHEEL_SENSITIVITY  = 5.0;  // desktop scroll sensitivity
     const TOUCH_SENSITIVITY  = 1.8;  // mobile swipe sensitivity
 
+    function hideHint() {
+      introScrollHint.style.transition = 'opacity 0.2s ease';
+      introScrollHint.style.opacity = '0';
+    }
+
     window.addEventListener('wheel', (e) => {
       if (!introActive) return;
       e.preventDefault();
+      hideHint();
       introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * WHEEL_SENSITIVITY)));
       kickTick();
     }, { passive: false });
@@ -2819,6 +2863,7 @@
     window.addEventListener('touchmove', e => {
       if (!introActive) return;
       e.preventDefault();
+      hideHint();
       const dy = iTouchY - e.touches[0].clientY;
       iTouchY = e.touches[0].clientY;
       introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * TOUCH_SENSITIVITY)));
@@ -2828,7 +2873,6 @@
     // Apply initial state once layout is painted
     requestAnimationFrame(() => {
       applyScaleAndClip(0);
-      introScrollHint.classList.add('ready');
     });
 
     // Boot — load frames in background; canvas ready when done
@@ -2838,6 +2882,14 @@
       animReady = true;
       fitCanvasToVideo();
       drawFrame(0);
+      // Bar done → fade it out, then show scroll hint
+      const barWrap = document.getElementById('intro-load-bar-wrap');
+      if (barWrap) barWrap.classList.add('done');
+      setTimeout(() => {
+        if (!introActive) return; // user already scrolled in
+        document.getElementById('intro-hint-text').classList.add('visible');
+        document.getElementById('intro-hint-needle').classList.add('visible');
+      }, 550); // wait for bar fade-out
     }
     init();
 
