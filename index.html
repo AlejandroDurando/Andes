@@ -74,91 +74,70 @@
     }
 
     /* ═══════════════════════════════════════════════════
-       LOADER
+       INTRO — triangle reveal
     ═══════════════════════════════════════════════════ */
-    #loader {
+    body.intro-active {
+      overflow: hidden;
+    }
+
+    #intro-overlay {
       position: fixed;
       inset: 0;
       background: #0a0a0a;
-      z-index: 1000;
+      z-index: 400;
+      pointer-events: none;
+      clip-path: url(#tri-clip);
+      will-change: clip-path;
+    }
+
+    /* Hide navbar and wa-fab while intro is active */
+    body.intro-active #mobile-menu,
+    body.intro-active #wa-fab {
+      display: none !important;
+    }
+
+    body.intro-active #navbar {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+
+    #intro-logo-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 401;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      pointer-events: none;
+      gap: 2.5rem;
     }
 
-    #loader-video {
-      width: min(420px, 80vw);
+    #intro-logo-img {
+      width: min(340px, 70vw);
       height: auto;
       display: block;
+      will-change: transform;
     }
 
-    #loader-tap {
-      display: none;
+
+    #intro-scroll-hint {
+      display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    #loader-tap img {
-      height: clamp(60px, 12vw, 100px);
-      width: auto;
-      opacity: 0.9;
-    }
-
-    #loader-tap span {
+      gap: 0.6rem;
+      opacity: 0;
+      transition: opacity 0.8s ease;
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: #606060;
-      animation: tapPulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes tapPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-
-    #loader-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: #606060;
+      color: rgba(255, 255, 255, 0.3);
     }
 
-    #progress-wrapper {
-      width: min(360px, 75vw);
-      margin-top: 1.2rem;
-    }
-
-    #progress-track {
-      height: 1px;
-      background: #505050;
-      border-radius: 2px;
-      overflow: hidden;
-      margin-bottom: 0.7rem;
-    }
-
-    #progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--gold);
-      border-radius: 2px;
-      transition: width 0.08s linear;
-    }
-
-    #progress-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: #808080;
+    #intro-scroll-hint.ready {
+      opacity: 1;
     }
 
     /* ═══════════════════════════════════════════════════
@@ -174,7 +153,7 @@
       display: flex;
       align-items: center;
       padding: 0 var(--pad-x);
-      transition: height 0.35s ease, box-shadow 0.35s ease;
+      transition: height 0.35s ease, box-shadow 0.35s ease, opacity 0.6s ease;
       background: rgba(74, 74, 74, 0.97);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -2304,19 +2283,27 @@
 <body>
 
   <!-- ─────────────────────────────────────────────
-       LOADER
+       INTRO — triangle reveal
   ───────────────────────────────────────────── -->
-  <div id="loader">
-    <video id="loader-video" src="./video_loading_web.mp4" muted playsinline webkit-playsinline autoplay></video>
-    <button id="loader-tap" aria-label="Tap para continuar">
-      <img src="./logo_andes.png" alt="Andes">
-      <span>Toca para continuar</span>
-    </button>
-    <div id="loader-sub">Cargando&hellip;&nbsp;<span id="progress-pct">0</span>%</div>
-    <div id="progress-wrapper">
-      <div id="progress-track">
-        <div id="progress-fill"></div>
-      </div>
+  <!-- SVG clip definition: outer rect + inner triangle (evenodd = cutout) -->
+  <svg id="tri-clip-svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <clipPath id="tri-clip" clipPathUnits="objectBoundingBox">
+        <path id="tri-clip-path" fill-rule="evenodd"
+          d="M0,0 L1,0 L1,1 L0,1 Z M0.50,0.38 L0.45,0.58 L0.55,0.58 Z"/>
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- Dark overlay with triangular window into the page -->
+  <div id="intro-overlay"></div>
+
+  <!-- Logo + scroll hint (above overlay, fades during animation) -->
+  <div id="intro-logo-wrap">
+    <img id="intro-logo-img" src="./logo_andes.png" alt="Andes">
+    <div id="intro-scroll-hint">
+      <span>Desplazá para entrar</span>
+      <div class="scroll-needle"></div>
     </div>
   </div>
 
@@ -2536,9 +2523,6 @@
     let animReady = false;
 
     // DOM refs
-    const loader = document.getElementById('loader');
-    const progFill = document.getElementById('progress-fill');
-    const progPct = document.getElementById('progress-pct');
     const canvas = document.getElementById('frame-canvas');
     const ctx = canvas.getContext('2d');
     const scrollSec = document.getElementById('scroll-section');
@@ -2665,57 +2649,136 @@
         offCtx.drawImage(vid, 0, 0);
         bitmaps[i] = await createImageBitmap(offscreen);
 
-        const pct = Math.round(((i + 1) / TOTAL_FRAMES) * 100);
-        progFill.style.width = pct + '%';
-        progPct.textContent = pct;
+        // (progress tracked internally)
       }
     }
 
-    // Boot
-    const loaderVid = document.getElementById('loader-video');
+    // ── INTRO TRIANGLE REVEAL ─────────────────────────────────────────────
+    const triClipPath   = document.getElementById('tri-clip-path');
+    const introOverlay  = document.getElementById('intro-overlay');
+    const introLogoWrap = document.getElementById('intro-logo-wrap');
+    const introLogoImg  = document.getElementById('intro-logo-img');
+    const introScrollHint = document.getElementById('intro-scroll-hint');
 
-    // Forzar play en iOS — si falla (Low Power Mode) mostrar botón de tap
-    const loaderTap = document.getElementById('loader-tap');
-    if (loaderVid) {
-      loaderVid.play().catch(() => {
-        // Autoplay bloqueado — mostrar tap overlay
-        loaderVid.style.display = 'none';
-        loaderTap.style.display = 'flex';
-        loaderTap.addEventListener('click', () => {
-          loaderTap.style.display = 'none';
-          loaderVid.style.display = 'block';
-          loaderVid.play().catch(() => {});
-        }, { once: true });
-      });
+    // ── INTRO: logo scales up, clip follows the triangle inside it ───────────
+    // Strategy:
+    //   1. Scale the logo image up from 1x → MAX_SCALE.
+    //   2. Every frame, read the triangle's real screen position from
+    //      getBoundingClientRect() after the scale is applied.
+    //   3. Set the clip-path to that exact triangle → it's always glued to the logo.
+    //   4. When the triangle fills the screen, remove the overlay.
+
+    // Ratios of the INNER triangle vertices within logo_andes.png
+    // mark is left ~28% of total image; inner tri is centered inside the A
+    const TRI_TX   = 0.171, TRI_TY = 0.52;    // tip  (x%, y% of img)
+    const TRI_BL_X = 0.150, TRI_BR_X = 0.193; // base x — narrower for isosceles
+    const TRI_BY   = 0.665;                    // base y
+
+    // Scale multiplier: how big the logo grows before finishing
+    // Large enough so the triangle completely covers the viewport
+    const MAX_SCALE = 280;
+
+    // transform-origin: center of the inner triangle in the image
+    // (so the triangle zooms from its own center, not the image center)
+    const ORIGIN_X = (TRI_BL_X + TRI_BR_X) / 2 * 100 + '%';
+    const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
+    introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
+
+    let introP    = 0;
+    let introGoal = 0;
+    let introActive = true;
+    let rafId = null;
+
+    function applyScaleAndClip(p) {
+      // 1. Scale the logo
+      const scale = 1 + p * (MAX_SCALE - 1);
+      introLogoImg.style.transform = `scale(${scale})`;
+
+      // 2. Read the triangle's real screen coords AFTER scale
+      const rect = introLogoImg.getBoundingClientRect();
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const tx  = (rect.left + rect.width  * TRI_TX)    / vw;
+      const ty  = (rect.top  + rect.height * TRI_TY)    / vh;
+      const blx = (rect.left + rect.width  * TRI_BL_X)  / vw;
+      const brx = (rect.left + rect.width  * TRI_BR_X)  / vw;
+      const by  = (rect.top  + rect.height * TRI_BY)    / vh;
+
+      // 3. Punch the hole in the overlay to match
+      triClipPath.setAttribute('d',
+        `M0,0 L1,0 L1,1 L0,1 Z M${tx},${ty} L${blx},${by} L${brx},${by} Z`
+      );
     }
 
-    function waitForLoaderVideo() {
-      return new Promise(res => {
-        if (!loaderVid) return res();
-        loaderVid.addEventListener('ended', res, { once: true });
-        // fallback: si el video no dispara ended en 12s, continuamos igual
-        setTimeout(res, 12000);
-      });
+    function tickIntro() {
+      rafId = null;
+      if (!introActive) return;
+
+      introP += (introGoal - introP) * 0.08;
+      applyScaleAndClip(introP);
+
+      // Logo text fades out early so only triangle remains visible
+      const fadeStart = 0.05, fadeEnd = 0.25;
+      const op = introP < fadeStart ? 1
+               : introP > fadeEnd   ? 0
+               : 1 - (introP - fadeStart) / (fadeEnd - fadeStart);
+      introLogoWrap.style.opacity = op;
+
+      if (introGoal >= 1 && introP >= 0.999) { finishIntro(); return; }
+      if (Math.abs(introGoal - introP) > 0.0001) {
+        rafId = requestAnimationFrame(tickIntro);
+      }
     }
 
+    function kickTick() {
+      if (!rafId) rafId = requestAnimationFrame(tickIntro);
+    }
+
+    function finishIntro() {
+      introActive = false;
+      introOverlay.style.display  = 'none';
+      introLogoWrap.style.display = 'none';
+      document.body.classList.remove('intro-active');
+      document.getElementById('wa-fab').classList.add('show');
+    }
+
+    document.body.classList.add('intro-active');
+
+    const SCROLL_SENSITIVITY = 5.0;
+
+    window.addEventListener('wheel', (e) => {
+      if (!introActive) return;
+      e.preventDefault();
+      introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * SCROLL_SENSITIVITY)));
+      kickTick();
+    }, { passive: false });
+
+    let iTouchY = 0;
+    window.addEventListener('touchstart', e => {
+      if (!introActive) return;
+      iTouchY = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchmove', e => {
+      if (!introActive) return;
+      e.preventDefault();
+      const dy = iTouchY - e.touches[0].clientY;
+      iTouchY = e.touches[0].clientY;
+      introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * SCROLL_SENSITIVITY)));
+      kickTick();
+    }, { passive: false });
+
+    // Apply initial state once layout is painted
+    requestAnimationFrame(() => {
+      applyScaleAndClip(0);
+      introScrollHint.classList.add('ready');
+    });
+
+    // Boot — load frames in background; canvas ready when done
     async function init() {
-      // Extrae frames Y espera que el video termine — lo que dure más
-      const [,] = await Promise.all([
-        extractFrames().catch(err => console.warn('Frame extraction failed:', err)),
-        waitForLoaderVideo()
-      ]);
-
+      await extractFrames().catch(err => console.warn('Frame extraction failed:', err));
       curFrame = 0;
       animReady = true;
       fitCanvasToVideo();
       drawFrame(0);
-
-      loader.style.transition = 'opacity 0.7s ease';
-      loader.style.opacity = '0';
-      setTimeout(() => {
-        loader.style.display = 'none';
-        document.getElementById('wa-fab').classList.add('show');
-      }, 720);
     }
     init();
 
