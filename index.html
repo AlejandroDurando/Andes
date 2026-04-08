@@ -2216,7 +2216,7 @@
       }
 
       #scroll-section {
-        height: 200vh;
+        height: 350vh;
       }
 
       #end-overlay {
@@ -2593,8 +2593,8 @@
     // Result: buttery-smooth scroll animation with a single video file.
     //
     const isMobile = window.innerWidth <= 768;
-    const TOTAL_FRAMES = isMobile ? 8 : 60;
-    const VIDEO_SRC = './videoscroll_fastseek.mp4';
+    const TOTAL_FRAMES = isMobile ? 12 : 60;
+    const VIDEO_SRC = isMobile ? './videoscroll_mobile.mp4' : './videoscroll_fastseek.mp4';
 
     // Kick off video preload immediately so the browser starts buffering
     // before extractFrames() creates its own <video> element.
@@ -2729,7 +2729,7 @@
         vid.currentTime = (i / (TOTAL_FRAMES - 1)) * duration;
         await new Promise(r => {
           // Fallback timer: skip frame if Safari gets stuck seeking
-          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, isMobile ? 200 : 500);
+          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 300);
           const onSeek = () => { clearTimeout(timeout); r(); };
           vid.addEventListener('seeked', onSeek, { once: true });
         });
@@ -2867,7 +2867,7 @@
       e.preventDefault();
       hideHint();
       introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * WHEEL_SENSITIVITY)));
-      if (introGoal >= 1) introInputActive = false; // lock — no more backward scroll
+      if (introGoal >= 1) { introInputActive = false; introActive = false; revealPage(); }
       kickTick();
     }, { passive: false });
 
@@ -2883,7 +2883,7 @@
       const dy = iTouchY - e.touches[0].clientY;
       iTouchY = e.touches[0].clientY;
       introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * TOUCH_SENSITIVITY)));
-      if (introGoal >= 1) introInputActive = false; // lock — no more backward scroll
+      if (introGoal >= 1) { introInputActive = false; introActive = false; revealPage(); }
       kickTick();
     }, { passive: false });
 
