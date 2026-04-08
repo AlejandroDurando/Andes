@@ -2709,11 +2709,10 @@
     const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
     introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
 
-    // The logo image includes "ANDES" text on the right — the A-mark center
-    // is at ~14% of the image width. To center the A-mark on screen we
-    // translate the image left by (50% - 14%) = 36% of its own width.
-    // We store this as a base offset and compose it with scale().
-    const BASE_OFFSET = -36; // percent of image width
+    // The A-mark center is at ~14% of the image width.
+    // Flexbox centers the image → A-mark is 36% of imgWidth LEFT of screen center.
+    // Shift RIGHT by +36% to center the A-mark on screen.
+    const BASE_OFFSET = 36; // percent of image width
 
     let introP    = 0;
     let introGoal = 0;
@@ -2771,8 +2770,9 @@
       } else {
         // Frames still loading — show subtle indicator, wait for canvas
         document.getElementById('intro-loading').classList.add('visible');
+        const start = Date.now();
         const waitForFrames = setInterval(() => {
-          if (animReady) {
+          if (animReady || Date.now() - start > 8000) {
             clearInterval(waitForFrames);
             revealPage();
           }
@@ -2789,12 +2789,13 @@
 
     document.body.classList.add('intro-active');
 
-    const SCROLL_SENSITIVITY = 12.0;
+    const WHEEL_SENSITIVITY  = 8.0;  // desktop: ~13 scroll clicks to complete
+    const TOUCH_SENSITIVITY  = 2.5;  // mobile: ~2.5 screen-heights of swipe
 
     window.addEventListener('wheel', (e) => {
       if (!introActive) return;
       e.preventDefault();
-      introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * SCROLL_SENSITIVITY)));
+      introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * WHEEL_SENSITIVITY)));
       kickTick();
     }, { passive: false });
 
@@ -2808,7 +2809,7 @@
       e.preventDefault();
       const dy = iTouchY - e.touches[0].clientY;
       iTouchY = e.touches[0].clientY;
-      introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * SCROLL_SENSITIVITY)));
+      introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * TOUCH_SENSITIVITY)));
       kickTick();
     }, { passive: false });
 
