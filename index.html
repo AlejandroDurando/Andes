@@ -2557,7 +2557,7 @@
     // Result: buttery-smooth scroll animation with a single video file.
     //
     const isMobile = window.innerWidth <= 768;
-    const TOTAL_FRAMES = isMobile ? 40 : 120;
+    const TOTAL_FRAMES = isMobile ? 20 : 60;
     const VIDEO_SRC = './videoscroll_fastseek.mp4';
 
     const bitmaps = new Array(TOTAL_FRAMES);
@@ -2788,19 +2788,7 @@
 
     function finishIntro() {
       introActive = false;
-      if (animReady) {
-        revealPage();
-      } else {
-        // Frames still loading — show subtle indicator, wait for canvas
-        document.getElementById('intro-loading').classList.add('visible');
-        const start = Date.now();
-        const waitForFrames = setInterval(() => {
-          if (animReady || Date.now() - start > 8000) {
-            clearInterval(waitForFrames);
-            revealPage();
-          }
-        }, 50);
-      }
+      revealPage();
     }
 
     function revealPage() {
