@@ -139,9 +139,19 @@
       will-change: transform;
     }
 
-    @media (max-width: 600px) {
+    #intro-logo-img-mobile {
+      display: none;
+      will-change: transform;
+    }
+
+    @media (max-width: 768px) {
       #intro-logo-img {
-        width: min(260px, 80vw);
+        display: none;
+      }
+      #intro-logo-img-mobile {
+        display: block;
+        width: min(200px, 55vw);
+        height: auto;
       }
     }
 
@@ -2327,6 +2337,7 @@
   <!-- Logo + scroll hint (above overlay, fades during animation) -->
   <div id="intro-logo-wrap">
     <img id="intro-logo-img" src="./logo_andes.png" alt="Andes">
+    <img id="intro-logo-img-mobile" src="./logo_andes_mobile.png" alt="Andes">
     <div id="intro-scroll-hint">
       <span>Desplazá para entrar</span>
       <div class="scroll-needle"></div>
@@ -2540,7 +2551,8 @@
     // frame into an ImageBitmap (GPU-resident), then animate via canvas.
     // Result: buttery-smooth scroll animation with a single video file.
     //
-    const TOTAL_FRAMES = 120;   // More frames for 16-second videoscroll
+    const isMobile = window.innerWidth <= 768;
+    const TOTAL_FRAMES = isMobile ? 40 : 120;
     const VIDEO_SRC = './videoscroll_fastseek.mp4';
 
     const bitmaps = new Array(TOTAL_FRAMES);
@@ -2683,36 +2695,30 @@
     const triClipPath   = document.getElementById('tri-clip-path');
     const introOverlay  = document.getElementById('intro-overlay');
     const introLogoWrap = document.getElementById('intro-logo-wrap');
-    const introLogoImg  = document.getElementById('intro-logo-img');
     const introScrollHint = document.getElementById('intro-scroll-hint');
 
-    // ── INTRO: logo scales up, clip follows the triangle inside it ───────────
-    // Strategy:
-    //   1. Scale the logo image up from 1x → MAX_SCALE.
-    //   2. Every frame, read the triangle's real screen position from
-    //      getBoundingClientRect() after the scale is applied.
-    //   3. Set the clip-path to that exact triangle → it's always glued to the logo.
-    //   4. When the triangle fills the screen, remove the overlay.
+    // Pick the correct logo element and triangle coords based on device
+    const introLogoImg = isMobile
+      ? document.getElementById('intro-logo-img-mobile')
+      : document.getElementById('intro-logo-img');
 
-    // Ratios of the INNER triangle vertices within logo_andes.png
-    // mark is left ~28% of total image; inner tri is centered inside the A
-    const TRI_TX   = 0.171, TRI_TY = 0.52;    // tip  (x%, y% of img)
-    const TRI_BL_X = 0.150, TRI_BR_X = 0.193; // base x — narrower for isosceles
-    const TRI_BY   = 0.665;                    // base y
+    // Desktop: logo_andes.png — A-mark is left ~28% of image
+    const DESKTOP_TRI = { tx: 0.171, ty: 0.52, blx: 0.150, brx: 0.193, by: 0.665, offset: 36 };
+    // Mobile: logo_andes_mobile.png — A-mark is centered in square image
+    // inner triangle roughly: tip ~(48%, 10%), base ~(20%, 68%), (76%, 68%)
+    const MOBILE_TRI  = { tx: 0.48,  ty: 0.10, blx: 0.20,  brx: 0.76,  by: 0.68,  offset: 0  };
 
-    // Scale multiplier: how big the logo grows before finishing
-    // Large enough so the triangle completely covers the viewport
+    const TRI = isMobile ? MOBILE_TRI : DESKTOP_TRI;
+    const TRI_TX = TRI.tx, TRI_TY = TRI.ty;
+    const TRI_BL_X = TRI.blx, TRI_BR_X = TRI.brx;
+    const TRI_BY = TRI.by;
+    const BASE_OFFSET = TRI.offset;
+
     const MAX_SCALE = 280;
 
-    // transform-origin: center of the inner triangle in the image
     const ORIGIN_X = (TRI_BL_X + TRI_BR_X) / 2 * 100 + '%';
     const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
     introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
-
-    // The A-mark center is at ~14% of the image width.
-    // Flexbox centers the image → A-mark is 36% of imgWidth LEFT of screen center.
-    // Shift RIGHT by +36% to center the A-mark on screen.
-    const BASE_OFFSET = 36; // percent of image width
 
     let introP    = 0;
     let introGoal = 0;
@@ -2720,9 +2726,10 @@
     let rafId = null;
 
     function applyScaleAndClip(p) {
-      // 1. Scale the logo, keeping A-mark centered via base translateX
       const scale = 1 + p * (MAX_SCALE - 1);
-      introLogoImg.style.transform = `translateX(${BASE_OFFSET}%) scale(${scale})`;
+      introLogoImg.style.transform = BASE_OFFSET
+        ? `translateX(${BASE_OFFSET}%) scale(${scale})`
+        : `scale(${scale})`;
 
       // 2. Read the triangle's real screen coords AFTER scale
       const rect = introLogoImg.getBoundingClientRect();
