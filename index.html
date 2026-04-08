@@ -2807,7 +2807,7 @@
       //    then reveal the page behind it. Fade starts early so content appears
       //    as the sides approach the screen edges.
       triFillPath.setAttribute('d', `M${tx},${ty} L${blx},${by} L${brx},${by} Z`);
-      const fadeStart = 0.20, fadeEnd = 0.42;
+      const fadeStart = 0.05, fadeEnd = 0.22;
       const fillOp = p < fadeStart ? 1 : p > fadeEnd ? 0 : 1 - (p - fadeStart) / (fadeEnd - fadeStart);
       triFillPath.setAttribute('opacity', fillOp);
     }
