@@ -106,7 +106,7 @@
     #mobile-menu {
       position: fixed;
       top: var(--nav-h); left: 0; right: 0;
-      background: rgba(10,10,10,0.97);
+      background: rgba(74,74,74,0.97);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 499;
@@ -116,6 +116,7 @@
       gap: 0;
       transform: translateY(-110%);
       transition: transform 0.35s ease;
+      border-top: none;
       border-bottom: 1px solid var(--gold-dim);
     }
     #mobile-menu.open { transform: translateY(0); }
@@ -245,45 +246,51 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid #505050;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
     .footer-tagline {
-      font-family: 'IBM Plex Serif', serif;
-      font-style: italic;
-      font-weight: 300;
-      font-size: 0.8rem;
-      color: var(--gray-mid);
-      margin-top: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #909090;
+      margin-top: 0.55rem;
     }
     .footer-nav {
-      list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 1.2rem 2rem;
+      gap: 1.5rem;
+      list-style: none;
     }
     .footer-nav a {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--gray-mid);
+      color: #909090;
+      text-decoration: none;
       transition: color 0.2s;
     }
-    .footer-nav a:hover { color: var(--white); }
+    .footer-nav a:hover { color: var(--gold); }
     .footer-bottom {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #505050;
     }
     .footer-copy {
-      font-size: 0.72rem;
-      color: var(--gray-mid);
-      letter-spacing: 0.04em;
+      font-size: 0.7rem;
+      color: #909090;
+      letter-spacing: 0.08em;
     }
-    .footer-copy a { color: var(--gold); }
+    .footer-copy a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .footer-copy a:hover { color: var(--gold); }
   </style>
 </head>
 <body>
@@ -309,7 +316,7 @@
     <a href="./index.html#servicios">Servicios</a>
     <a href="obras.html">Obras Realizadas</a>
     <a href="faq.html">Preguntas Frecuentes</a>
-    <a href="contacto.html" class="mob-cta">Solicitá tu Presupuesto</a>
+    <a href="contacto.html" class="mob-cta">Presupuesto</a>
   </div>
 
   <header class="page-header">
