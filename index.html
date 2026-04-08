@@ -2766,7 +2766,7 @@
       rafId = null;
       if (!introActive) return;
 
-      introP += (introGoal - introP) * 0.08;
+      introP += (introGoal - introP) * 0.14;
       applyScaleAndClip(introP);
 
       // Logo text fades out early so only triangle remains visible
@@ -2801,8 +2801,8 @@
 
     document.body.classList.add('intro-active');
 
-    const WHEEL_SENSITIVITY  = 8.0;  // desktop: ~13 scroll clicks to complete
-    const TOUCH_SENSITIVITY  = 2.5;  // mobile: ~2.5 screen-heights of swipe
+    const WHEEL_SENSITIVITY  = 5.0;  // desktop scroll sensitivity
+    const TOUCH_SENSITIVITY  = 1.8;  // mobile swipe sensitivity
 
     window.addEventListener('wheel', (e) => {
       if (!introActive) return;
