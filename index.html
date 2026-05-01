@@ -2771,7 +2771,7 @@
     const vbOverlay = document.getElementById('vb-overlay');
     const vbIsMobile = window.innerWidth <= 640;
     const vbParas = Array.from(vbOverlay.querySelectorAll(vbIsMobile ? '.vb-mobile' : '.vb-desktop'));
-    const vbInterval = vbIsMobile ? 5000 : 10000;
+    const vbInterval = 16000;
     let vbParaIdx = 0;
     let vbCycleTimer = null;
     let vbEntryTimer = null;
