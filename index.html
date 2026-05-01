@@ -74,104 +74,47 @@
     }
 
     /* ═══════════════════════════════════════════════════
-       INTRO — triangle reveal
+       INTRO — splash screen
     ═══════════════════════════════════════════════════ */
     body.intro-active {
       overflow: hidden;
     }
 
-    #intro-overlay {
+    #intro-splash {
       position: fixed;
       inset: 0;
       background: #0a0a0a;
       z-index: 400;
-      pointer-events: none;
-      clip-path: url(#tri-clip);
-      will-change: clip-path;
-    }
-
-    #intro-loading {
-      display: none;
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-    }
-
-    #intro-loading.visible {
-      display: block;
-    }
-
-    /* Hide navbar and wa-fab while intro is active */
-    body.intro-active #mobile-menu,
-    body.intro-active #wa-fab {
-      display: none !important;
-    }
-
-    body.intro-active #navbar {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-
-    #intro-logo-wrap {
-      position: fixed;
-      inset: 0;
-      z-index: 401;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      pointer-events: none;
       gap: 2.5rem;
+      transition: opacity 0.7s ease;
     }
 
+    #intro-splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     #intro-logo-img {
       width: min(340px, 80vw);
       height: auto;
       display: block;
-      will-change: transform;
     }
 
     #intro-logo-img-mobile {
       display: none;
-      will-change: transform;
     }
 
     @media (max-width: 768px) {
-      #intro-logo-img {
-        display: none;
-      }
+      #intro-logo-img { display: none; }
       #intro-logo-img-mobile {
         display: block;
         width: min(200px, 55vw);
         height: auto;
       }
-    }
-
-
-    #intro-scroll-hint {
-      position: fixed;
-      bottom: 2.8rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 402;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.7rem;
-      pointer-events: none;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.35);
     }
 
     #intro-load-bar-wrap {
@@ -188,23 +131,15 @@
       transition: width 0.15s linear;
     }
 
-    #intro-load-bar-wrap {
-      transition: opacity 0.5s ease;
+    /* Hide navbar and wa-fab while intro is active */
+    body.intro-active #mobile-menu,
+    body.intro-active #wa-fab {
+      display: none !important;
     }
 
-    #intro-load-bar-wrap.done {
+    body.intro-active #navbar {
       opacity: 0;
-    }
-
-    #intro-hint-text,
-    #intro-hint-needle {
-      opacity: 0;
-      transition: opacity 0.7s ease;
-    }
-
-    #intro-hint-text.visible,
-    #intro-hint-needle.visible {
-      opacity: 1;
+      pointer-events: none;
     }
 
     /* ═══════════════════════════════════════════════════
@@ -2349,39 +2284,12 @@
 <body>
 
   <!-- ─────────────────────────────────────────────
-       INTRO — triangle reveal
+       INTRO — splash screen
   ───────────────────────────────────────────── -->
-  <!-- SVG clip definition: outer rect + inner triangle (evenodd = cutout) -->
-  <svg id="tri-clip-svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
-    <defs>
-      <clipPath id="tri-clip" clipPathUnits="objectBoundingBox">
-        <path id="tri-clip-path" fill-rule="evenodd"
-          d="M0,0 L1,0 L1,1 L0,1 Z M0.50,0.38 L0.45,0.58 L0.55,0.58 Z"/>
-      </clipPath>
-    </defs>
-  </svg>
-
-  <!-- Dark overlay with triangular window into the page -->
-  <div id="intro-overlay">
-    <div id="intro-loading">Cargando&hellip;</div>
-  </div>
-
-  <!-- Black fill that covers the triangle hole — fades out near the end of the intro -->
-  <svg id="tri-inner-svg" style="position:fixed;inset:0;width:100%;height:100%;z-index:401;pointer-events:none" aria-hidden="true" viewBox="0 0 1 1" preserveAspectRatio="none">
-    <path id="tri-fill-path" fill="#0a0a0a" d="M0.5,0.38 L0.45,0.58 L0.55,0.58 Z"/>
-  </svg>
-
-  <!-- Logo (above overlay, fades during animation) -->
-  <div id="intro-logo-wrap">
-    <img id="intro-logo-img" src="./logo_andes.png" alt="Andes">
-    <img id="intro-logo-img-mobile" src="./logo_andes_mobile.png" alt="Andes">
-  </div>
-
-  <!-- Loading bar + scroll hint (independent of logo fade) -->
-  <div id="intro-scroll-hint">
+  <div id="intro-splash">
+    <img id="intro-logo-img" src="./logo_andes.png" alt="Andes Estructuras">
+    <img id="intro-logo-img-mobile" src="./logo_andes_mobile.png" alt="Andes Estructuras">
     <div id="intro-load-bar-wrap"><div id="intro-load-bar"></div></div>
-    <span id="intro-hint-text">Desplazá para entrar</span>
-    <div class="scroll-needle" id="intro-hint-needle"></div>
   </div>
 
   <!-- ─────────────────────────────────────────────
@@ -2746,178 +2654,35 @@
       }
     }
 
-    // ── INTRO TRIANGLE REVEAL ─────────────────────────────────────────────
-    const triClipPath   = document.getElementById('tri-clip-path');
-    const triFillPath   = document.getElementById('tri-fill-path');
-    const introOverlay  = document.getElementById('intro-overlay');
-    const introLogoWrap = document.getElementById('intro-logo-wrap');
-    const introScrollHint = document.getElementById('intro-scroll-hint');
-
-    // Pick the correct logo element and triangle coords based on device
-    const introLogoImg = isMobile
-      ? document.getElementById('intro-logo-img-mobile')
-      : document.getElementById('intro-logo-img');
-
-    // Desktop: logo_andes.png — A-mark is left ~28% of image
-    const DESKTOP_TRI = { tx: 0.171, ty: 0.52, blx: 0.150, brx: 0.193, by: 0.665, offset: 0 };
-    // Mobile: logo_andes_mobile.png — A-mark is centered in square image
-    // inner triangle roughly: tip ~(48%, 10%), base ~(20%, 68%), (76%, 68%)
-    const MOBILE_TRI  = { tx: 0.475,  ty: 0.33, blx: 0.42,  brx: 0.53,  by: 0.43,  offset: 0  };
-
-    const TRI = isMobile ? MOBILE_TRI : DESKTOP_TRI;
-    const TRI_TX = TRI.tx, TRI_TY = TRI.ty;
-    const TRI_BL_X = TRI.blx, TRI_BR_X = TRI.brx;
-    const TRI_BY = TRI.by;
-    const BASE_OFFSET = TRI.offset;
-
-    const MAX_SCALE = 280;
-
-    // Scale from the triangle centroid so the triangle stays fixed during zoom
-    const ORIGIN_X = (TRI_BL_X + TRI_BR_X) / 2 * 100 + '%';
-    const ORIGIN_Y = (TRI_TY + TRI_BY) / 2 * 100 + '%';
-    introLogoImg.style.transformOrigin = ORIGIN_X + ' ' + ORIGIN_Y;
-
-    let introP           = 0;
-    let introGoal        = 0;
-    let introActive      = true;  // animation tick runs while true
-    let introInputActive = true;  // scroll/touch input accepted while true
-    let rafId = null;
-
-    function applyScaleAndClip(p) {
-      const scale = 1 + p * (MAX_SCALE - 1);
-      introLogoImg.style.transform = BASE_OFFSET
-        ? `translateX(${BASE_OFFSET}%) scale(${scale})`
-        : `scale(${scale})`;
-
-      // 2. Read the triangle's real screen coords AFTER scale
-      const rect = introLogoImg.getBoundingClientRect();
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const tx  = (rect.left + rect.width  * TRI_TX)    / vw;
-      const ty  = (rect.top  + rect.height * TRI_TY)    / vh;
-      const blx = (rect.left + rect.width  * TRI_BL_X)  / vw;
-      const brx = (rect.left + rect.width  * TRI_BR_X)  / vw;
-      const by  = (rect.top  + rect.height * TRI_BY)    / vh;
-
-      // 3. Punch the hole in the overlay to match
-      triClipPath.setAttribute('d',
-        `M0,0 L1,0 L1,1 L0,1 Z M${tx},${ty} L${blx},${by} L${brx},${by} Z`
-      );
-
-      // 4. Keep the triangle hole black until the triangle nearly fills the screen,
-      //    then reveal the page behind it. Fade starts early so content appears
-      //    as the sides approach the screen edges.
-      triFillPath.setAttribute('d', `M${tx},${ty} L${blx},${by} L${brx},${by} Z`);
-      const fadeStart = 0.01, fadeEnd = 0.15;
-      const fillOp = p < fadeStart ? 1 : p > fadeEnd ? 0 : 1 - (p - fadeStart) / (fadeEnd - fadeStart);
-      triFillPath.setAttribute('opacity', fillOp);
-    }
-
-    function tickIntro() {
-      rafId = null;
-      if (!introActive) return;
-
-      // Once input is locked at goal=1, snap faster so the overlay disappears quickly
-      const lerpFactor = introInputActive ? 0.14 : 0.22;
-      introP += (introGoal - introP) * lerpFactor;
-      applyScaleAndClip(introP);
-
-      // Logo text fades out early so only triangle remains visible
-      const fadeStart = 0.05, fadeEnd = 0.25;
-      const op = introP < fadeStart ? 1
-               : introP > fadeEnd   ? 0
-               : 1 - (introP - fadeStart) / (fadeEnd - fadeStart);
-      introLogoWrap.style.opacity = op;
-
-      if (introGoal >= 1 && introP >= 0.999) { finishIntro(); return; }
-      if (Math.abs(introGoal - introP) > 0.0001) {
-        rafId = requestAnimationFrame(tickIntro);
-      }
-    }
-
-    function kickTick() {
-      if (!rafId) rafId = requestAnimationFrame(tickIntro);
-    }
-
-    function finishIntro() {
-      introActive = false;
-      revealPage();
-    }
+    // ── INTRO SPLASH ─────────────────────────────────────────────────────────
+    document.body.classList.add('intro-active');
 
     let pageRevealed = false;
     function revealPage() {
       if (pageRevealed) return;
       pageRevealed = true;
-      introActive = false;
-      introInputActive = false;
-      introOverlay.style.display  = 'none';
-      introLogoWrap.style.display = 'none';
-      document.getElementById('tri-inner-svg').style.display = 'none';
-      // Show navbar instantly (override the opacity transition for this one moment)
-      const nb = document.getElementById('navbar');
-      nb.style.transition = 'none';
-      nb.style.opacity = '1';
-      nb.style.pointerEvents = 'auto';
-      requestAnimationFrame(() => { nb.style.transition = ''; }); // restore transition
-      document.body.classList.remove('intro-active');
-      document.getElementById('wa-fab').classList.add('show');
+      const splash = document.getElementById('intro-splash');
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+        document.body.classList.remove('intro-active');
+        document.getElementById('wa-fab').classList.add('show');
+        const nb = document.getElementById('navbar');
+        nb.style.transition = 'none';
+        nb.style.opacity = '1';
+        nb.style.pointerEvents = 'auto';
+        requestAnimationFrame(() => { nb.style.transition = ''; });
+      }, 750);
     }
 
-    document.body.classList.add('intro-active');
-
-    const WHEEL_SENSITIVITY  = 5.0;   // desktop scroll sensitivity
-    const TOUCH_SENSITIVITY  = 1.3;   // mobile swipe sensitivity
-    const REVEAL_THRESHOLD   = isMobile ? 0.80 : 1.0; // reveal page before full zoom on mobile
-
-    function hideHint() {
-      introScrollHint.style.transition = 'opacity 0.2s ease';
-      introScrollHint.style.opacity = '0';
-    }
-
-    window.addEventListener('wheel', (e) => {
-      if (!introInputActive) return;
-      e.preventDefault();
-      hideHint();
-      introGoal = Math.min(1, Math.max(0, introGoal + e.deltaY / (window.innerHeight * WHEEL_SENSITIVITY)));
-      if (introGoal >= REVEAL_THRESHOLD) revealPage();
-      kickTick();
-    }, { passive: false });
-
-    let iTouchY = 0;
-    window.addEventListener('touchstart', e => {
-      if (!introInputActive) return;
-      iTouchY = e.touches[0].clientY;
-    }, { passive: true });
-    window.addEventListener('touchmove', e => {
-      if (!introInputActive) return;
-      e.preventDefault();
-      hideHint();
-      const dy = iTouchY - e.touches[0].clientY;
-      iTouchY = e.touches[0].clientY;
-      introGoal = Math.min(1, Math.max(0, introGoal + dy / (window.innerHeight * TOUCH_SENSITIVITY)));
-      if (introGoal >= REVEAL_THRESHOLD) revealPage();
-      kickTick();
-    }, { passive: false });
-
-    // Apply initial state once layout is painted
-    requestAnimationFrame(() => {
-      applyScaleAndClip(0);
-    });
-
-    // Boot — load frames in background; canvas ready when done
+    // Boot — extract frames, then reveal the page
     async function init() {
       await extractFrames().catch(err => console.warn('Frame extraction failed:', err));
       curFrame = 0;
       animReady = true;
       fitCanvasToVideo();
       drawFrame(0);
-      // Bar done → fade it out, then show scroll hint
-      const barWrap = document.getElementById('intro-load-bar-wrap');
-      if (barWrap) barWrap.classList.add('done');
-      setTimeout(() => {
-        if (!introActive) return; // user already scrolled in
-        document.getElementById('intro-hint-text').classList.add('visible');
-        document.getElementById('intro-hint-needle').classList.add('visible');
-      }, 550); // wait for bar fade-out
+      revealPage();
     }
     init();
 
