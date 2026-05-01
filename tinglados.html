@@ -284,34 +284,6 @@
       display: none;
     }
 
-    #tng-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: clamp(4rem, 12vh, 8rem) var(--pad-x) clamp(3.5rem, 8vh, 5.5rem);
-      background: rgba(0, 0, 0, 0.55);
-      opacity: 0;
-      transition: opacity 1.6s ease;
-    }
-
-    #tng-overlay.visible {
-      opacity: 1;
-    }
-
-    #tng-overlay p {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      font-size: clamp(0.88rem, 1.15vw, 1rem);
-      color: rgba(255, 255, 255, 0.88);
-      line-height: 1.75;
-      margin-bottom: 0.8rem;
-    }
-
-    #tng-overlay p:last-child {
-      margin-bottom: 0;
-    }
-
     @media (max-width: 640px) {
       .tng-video-wrap {
         min-height: 68vh;
@@ -323,44 +295,101 @@
         object-fit: cover;
         object-position: center center;
       }
-
-      #tng-overlay {
-        top: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        background: rgba(0, 0, 0, 0.55);
-        padding-top: 0;
-        padding-bottom: 1.5rem;
-      }
-
-      #tng-overlay p {
-        font-size: 0.82rem;
-        line-height: 1.6;
-        margin-bottom: 0.55rem;
-      }
     }
 
-    .product-content {
-      padding: clamp(3rem, 7vh, 5rem) var(--pad-x);
-      max-width: 860px;
+    /* ── Spec Panel ── */
+    #spec-panel {
+      padding: clamp(4rem, 8vh, 6rem) var(--pad-x);
+      background: #3a3a3a;
+      border-top: 1px solid var(--gold-dim);
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s ease, transform 1s ease;
     }
 
-    .product-content p {
+    #spec-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .spec-inner {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      max-width: 1100px;
+      align-items: start;
+    }
+
+    .spec-label {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+
+    .spec-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .spec-label h2 {
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--white);
+      line-height: 1.15;
+    }
+
+    .spec-label .gold-bar {
+      width: 32px;
+      height: 2px;
+      background: var(--gold);
+      margin-top: 1rem;
+    }
+
+    .spec-text p {
       font-family: 'Barlow', sans-serif;
       font-weight: 300;
-      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-      color: var(--gray-text);
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.82);
       line-height: 1.85;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.6rem;
     }
 
-    .product-content p:last-of-type {
-      margin-bottom: 0;
+    .spec-text p:last-of-type {
+      margin-bottom: 2rem;
     }
 
-    .product-cta {
-      padding: clamp(3rem, 6vh, 4.5rem) var(--pad-x) clamp(4rem, 8vh, 6rem);
+    .spec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .spec-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      padding: 0.38rem 0.8rem;
+      border: 1px solid rgba(147, 118, 88, 0.38);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .spec-inner {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+
+      .spec-label {
+        position: static;
+      }
     }
 
     .btn-gold {
@@ -474,22 +503,31 @@
 
   <div class="tng-video-wrap">
     <video id="tng-vid-fwd" src="./galpon.mp4" muted playsinline autoplay preload="auto"></video>
-    <div id="tng-overlay">
-      <p>Estructuras metálicas conformadas mediante sistemas reticulados de perfiles de acero redondo, diseñadas para
-        optimizar la relación resistencia–peso y garantizar estabilidad estructural. La vinculación entre componentes se
-        realiza mediante un sistema completamente abulonado, lo que facilita su montaje, desmontaje y mantenimiento sin
-        intervenciones de soldadura in situ.</p>
-      <p>A diferencia de los galpones convencionales, estas estructuras prescinden de cerramientos laterales en chapa,
-        configurándose como espacios abiertos que permiten una circulación fluida, ventilación natural y un acceso
-        irrestricto para el ingreso y egreso de maquinaria agrícola.</p>
-      <p>Esta tipología resulta especialmente adecuada para usos temporales o semicubiertos, brindando protección
-        superior frente a las inclemencias climáticas sin comprometer la operatividad del entorno.</p>
-    </div>
   </div>
 
-  <div class="product-cta">
-    <a href="contacto.html" class="btn-gold">Solicitá tu presupuesto</a>
-  </div>
+  <section id="spec-panel">
+    <div class="spec-inner">
+      <div class="spec-label">
+        <div class="spec-eyebrow">Especificaciones Técnicas</div>
+        <h2>Tinglado<br>Abierto</h2>
+        <div class="gold-bar"></div>
+      </div>
+      <div class="spec-content">
+        <div class="spec-text">
+          <p>Estructuras metálicas conformadas mediante sistemas reticulados de perfiles de acero redondo, diseñadas para optimizar la relación resistencia–peso y garantizar estabilidad estructural. La vinculación entre componentes se realiza mediante un sistema completamente abulonado, lo que facilita su montaje, desmontaje y mantenimiento sin intervenciones de soldadura in situ.</p>
+          <p>A diferencia de los galpones convencionales, estas estructuras prescinden de cerramientos laterales en chapa, configurándose como espacios abiertos que permiten una circulación fluida, ventilación natural y un acceso irrestricto para el ingreso y egreso de maquinaria agrícola.</p>
+          <p>Esta tipología resulta especialmente adecuada para usos temporales o semicubiertos, brindando protección superior frente a las inclemencias climáticas sin comprometer la operatividad del entorno.</p>
+        </div>
+        <div class="spec-tags">
+          <span class="spec-tag">Sistema abulonado</span>
+          <span class="spec-tag">Sin cerramiento lateral</span>
+          <span class="spec-tag">Ventilación natural</span>
+          <span class="spec-tag">Uso semicubierto</span>
+        </div>
+        <a href="contacto.html" class="btn-gold">Solicitá tu presupuesto</a>
+      </div>
+    </div>
+  </section>
 
     <footer id="footer">
     <div class="footer-top">
@@ -526,11 +564,9 @@
       if (!document.getElementById('navbar').contains(e.target) && !mobileMenu.contains(e.target)) closeMob();
     });
 
-    // ── Video tinglados: galpon → texto ──
     const tngFwd = document.getElementById('tng-vid-fwd');
-    const tngOverlay = document.getElementById('tng-overlay');
+    const specPanel = document.getElementById('spec-panel');
 
-    // Fallback: si autoplay falla (algunos Android), intentar al hacer tap
     tngFwd.play().catch(() => {
       document.addEventListener('touchstart', () => tngFwd.play().catch(() => { }), { once: true });
     });
@@ -539,7 +575,7 @@
     tngFwd.addEventListener('timeupdate', () => {
       if (tngFwd.duration > 0 && tngFwd.duration - tngFwd.currentTime <= 0.25) {
         tngFwd.pause();
-        tngOverlay.classList.add('visible');
+        specPanel.classList.add('visible');
       }
     });
   </script>
