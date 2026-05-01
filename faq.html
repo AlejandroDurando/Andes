@@ -335,6 +335,20 @@
     navToggle.addEventListener('click', () => { const o = navToggle.classList.toggle('open'); mobileMenu.classList.toggle('open', o); mobileMenu.setAttribute('aria-hidden', String(!o)); });
     document.addEventListener('click', (e) => { if (!navbar.contains(e.target) && !mobileMenu.contains(e.target)) closeMob(); });
 
+    // FAQ background video — play when section enters viewport (needed on iOS)
+    const faqVid = document.querySelector('.faq-bg-video');
+    if (faqVid) {
+      faqVid.play().catch(() => {});
+      const faqObs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          faqVid.play().catch(() => {});
+        }
+      }, { threshold: 0.1 });
+      faqObs.observe(faqVid);
+      // iOS unlock on first touch anywhere
+      document.addEventListener('touchstart', () => faqVid.play().catch(() => {}), { once: true, passive: true });
+    }
+
     function toggleFaq(btn) {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
