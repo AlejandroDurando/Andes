@@ -2939,9 +2939,11 @@
     // Video bottom — eyebrow antes del overlay
     reveal('#video-bottom', '#video-bottom', { y: 0, duration: 1.2 });
 
-    // Footer
-    reveal('.footer-top > *', '#footer', { stagger: 0.15, y: 28, duration: 0.7 });
-    reveal('.footer-bottom', '#footer', { y: 16, duration: 0.6 });
+    // Footer — en mobile no se aplica la animación GSAP para que siempre sea visible
+    if (!isMobile) {
+      reveal('.footer-top > *', '#footer', { stagger: 0.15, y: 28, duration: 0.7 });
+      reveal('.footer-bottom', '#footer', { y: 16, duration: 0.6 });
+    }
 
   </script>
 </body>

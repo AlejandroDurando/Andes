@@ -302,14 +302,6 @@
       padding: clamp(4rem, 8vh, 6rem) var(--pad-x);
       background: #3a3a3a;
       border-top: 1px solid var(--gold-dim);
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    #spec-panel.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .spec-inner {
@@ -392,6 +384,13 @@
       }
     }
 
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
     .btn-gold {
       display: inline-block;
       padding: 0.85rem 2.2rem;
@@ -410,6 +409,26 @@
       background: var(--gold-light);
     }
 
+    .btn-outline {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
     #footer {
       background: #4a4a4a;
       padding: 3rem var(--pad-x);
@@ -421,7 +440,7 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 2rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0;
     }
     .footer-tagline {
       font-family: 'Barlow Condensed', sans-serif;
@@ -524,7 +543,10 @@
           <span class="spec-tag">Ventilación natural</span>
           <span class="spec-tag">Uso semicubierto</span>
         </div>
-        <a href="contacto.html" class="btn-gold">Solicitá tu presupuesto</a>
+        <div class="btn-row">
+          <a href="obras.html" class="btn-outline">Ver obras</a>
+          <a href="contacto.html" class="btn-gold">Solicitá tu presupuesto</a>
+        </div>
       </div>
     </div>
   </section>
@@ -559,17 +581,15 @@
     });
 
     const tngFwd = document.getElementById('tng-vid-fwd');
-    const specPanel = document.getElementById('spec-panel');
 
     tngFwd.play().catch(() => {
       document.addEventListener('touchstart', () => tngFwd.play().catch(() => { }), { once: true });
     });
 
-    // Intercept exactly before the video ends to prevent iOS Safari auto-rewind
+    // Pause near the end to prevent iOS Safari auto-rewind
     tngFwd.addEventListener('timeupdate', () => {
       if (tngFwd.duration > 0 && tngFwd.duration - tngFwd.currentTime <= 0.25) {
         tngFwd.pause();
-        specPanel.classList.add('visible');
       }
     });
   </script>
