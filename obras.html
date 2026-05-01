@@ -28,7 +28,7 @@
       --pad-x:      clamp(1.5rem, 8vw, 8rem);
       --pad-y:      clamp(5rem, 10vh, 8rem);
     }
-    body { background: var(--dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+    body { background: var(--dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
 
@@ -169,6 +169,7 @@
     /* ── Works section ───────────────────────────── */
     .obras-section {
       padding: 3.5rem var(--pad-x) var(--pad-y);
+      flex: 1 0 auto;
     }
 
     .obras-grid {
@@ -304,7 +305,7 @@
 
     /* ── Footer ──────────────────────────────────── */
     #footer { background: #4a4a4a; padding: 3rem var(--pad-x); border-top: 1px solid #505050; }
-    .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 2rem; margin-bottom: 2.5rem; }
+    .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 2rem; margin-bottom: 0; }
     .footer-tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: #909090; margin-top: 0.55rem; }
     .footer-nav { display: flex; flex-wrap: wrap; gap: 1.5rem; list-style: none; }
     .footer-nav a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: #909090; text-decoration: none; transition: color 0.2s; }
@@ -425,22 +426,22 @@
 
       <div class="obra-card" data-cat="galpones">
         <div class="obra-photos" id="photos-origlia">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-1.JPG"  alt="Edgardo Origlia — 1"  class="active">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-2.JPG"  alt="Edgardo Origlia — 2">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-3.JPG"  alt="Edgardo Origlia — 3">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-4.JPG"  alt="Edgardo Origlia — 4">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-5.JPG"  alt="Edgardo Origlia — 5">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-6.JPG"  alt="Edgardo Origlia — 6">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-7.JPG"  alt="Edgardo Origlia — 7">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-8.JPG"  alt="Edgardo Origlia — 8">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-9.JPG"  alt="Edgardo Origlia — 9">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-10.JPG" alt="Edgardo Origlia — 10">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-11.JPG" alt="Edgardo Origlia — 11">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-12.JPG" alt="Edgardo Origlia — 12">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-13.JPG" alt="Edgardo Origlia — 13">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-14.JPG" alt="Edgardo Origlia — 14">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-15.JPG" alt="Edgardo Origlia — 15">
-          <img src="./obras/EDGARDO%20ORIGLIA/ORDF-16.JPG" alt="Edgardo Origlia — 16">
+          <img src="./obras/EDGARDO%20ORIGLIA/web/ORDF-1.jpg"  alt="Edgardo Origlia — 1"  class="active">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-2.jpg"  alt="Edgardo Origlia — 2">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-3.jpg"  alt="Edgardo Origlia — 3">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-4.jpg"  alt="Edgardo Origlia — 4">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-5.jpg"  alt="Edgardo Origlia — 5">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-6.jpg"  alt="Edgardo Origlia — 6">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-7.jpg"  alt="Edgardo Origlia — 7">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-8.jpg"  alt="Edgardo Origlia — 8">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-9.jpg"  alt="Edgardo Origlia — 9">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-10.jpg" alt="Edgardo Origlia — 10">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-11.jpg" alt="Edgardo Origlia — 11">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-12.jpg" alt="Edgardo Origlia — 12">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-13.jpg" alt="Edgardo Origlia — 13">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-14.jpg" alt="Edgardo Origlia — 14">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-15.jpg" alt="Edgardo Origlia — 15">
+          <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-16.jpg" alt="Edgardo Origlia — 16">
           <div class="obra-dots" id="dots-origlia"></div>
           <div class="obra-photo-nav">
             <button onclick="navFoto('origlia',-1)" aria-label="Foto anterior">&#8592;</button>
@@ -464,20 +465,20 @@
 
       <div class="obra-card" data-cat="galpones">
         <div class="obra-photos" id="photos-rosa">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-1.JPG"  alt="Juan Carlos Rosa — 1"  class="active">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-2.JPG"  alt="Juan Carlos Rosa — 2">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-3.JPG"  alt="Juan Carlos Rosa — 3">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-4.JPG"  alt="Juan Carlos Rosa — 4">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-5.JPG"  alt="Juan Carlos Rosa — 5">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-6.JPG"  alt="Juan Carlos Rosa — 6">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-7.JPG"  alt="Juan Carlos Rosa — 7">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-8.JPG"  alt="Juan Carlos Rosa — 8">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-9.JPG"  alt="Juan Carlos Rosa — 9">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-10.JPG" alt="Juan Carlos Rosa — 10">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-11.JPG" alt="Juan Carlos Rosa — 11">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-12.JPG" alt="Juan Carlos Rosa — 12">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-13.JPG" alt="Juan Carlos Rosa — 13">
-          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/MJ%20DF-14.JPG" alt="Juan Carlos Rosa — 14">
+          <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-1.jpg"  alt="Juan Carlos Rosa — 1"  class="active">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-2.jpg"  alt="Juan Carlos Rosa — 2">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-3.jpg"  alt="Juan Carlos Rosa — 3">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-4.jpg"  alt="Juan Carlos Rosa — 4">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-5.jpg"  alt="Juan Carlos Rosa — 5">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-6.jpg"  alt="Juan Carlos Rosa — 6">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-7.jpg"  alt="Juan Carlos Rosa — 7">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-8.jpg"  alt="Juan Carlos Rosa — 8">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-9.jpg"  alt="Juan Carlos Rosa — 9">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-10.jpg" alt="Juan Carlos Rosa — 10">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-11.jpg" alt="Juan Carlos Rosa — 11">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-12.jpg" alt="Juan Carlos Rosa — 12">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-13.jpg" alt="Juan Carlos Rosa — 13">
+          <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-14.jpg" alt="Juan Carlos Rosa — 14">
           <div class="obra-dots" id="dots-rosa"></div>
           <div class="obra-photo-nav">
             <button onclick="navFoto('rosa',-1)" aria-label="Foto anterior">&#8592;</button>
@@ -500,20 +501,20 @@
 
       <div class="obra-card" data-cat="galpones">
         <div class="obra-photos" id="photos-ribodino">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-1.JPG"  alt="Sergio Ribodino — 1"  class="active">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-2.JPG"  alt="Sergio Ribodino — 2">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-3.JPG"  alt="Sergio Ribodino — 3">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-4.JPG"  alt="Sergio Ribodino — 4">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-5.JPG"  alt="Sergio Ribodino — 5">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-6.JPG"  alt="Sergio Ribodino — 6">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-7.JPG"  alt="Sergio Ribodino — 7">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-8.JPG"  alt="Sergio Ribodino — 8">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-9.JPG"  alt="Sergio Ribodino — 9">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-10.JPG" alt="Sergio Ribodino — 10">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-11.JPG" alt="Sergio Ribodino — 11">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-12.JPG" alt="Sergio Ribodino — 12">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-13.JPG" alt="Sergio Ribodino — 13">
-          <img src="./obras/SERGIO%20RIBODINO/SRDF-14.JPG" alt="Sergio Ribodino — 14">
+          <img src="./obras/SERGIO%20RIBODINO/web/SRDF-1.jpg"  alt="Sergio Ribodino — 1"  class="active">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-2.jpg"  alt="Sergio Ribodino — 2">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-3.jpg"  alt="Sergio Ribodino — 3">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-4.jpg"  alt="Sergio Ribodino — 4">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-5.jpg"  alt="Sergio Ribodino — 5">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-6.jpg"  alt="Sergio Ribodino — 6">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-7.jpg"  alt="Sergio Ribodino — 7">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-8.jpg"  alt="Sergio Ribodino — 8">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-9.jpg"  alt="Sergio Ribodino — 9">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-10.jpg" alt="Sergio Ribodino — 10">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-11.jpg" alt="Sergio Ribodino — 11">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-12.jpg" alt="Sergio Ribodino — 12">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-13.jpg" alt="Sergio Ribodino — 13">
+          <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-14.jpg" alt="Sergio Ribodino — 14">
           <div class="obra-dots" id="dots-ribodino"></div>
           <div class="obra-photo-nav">
             <button onclick="navFoto('ribodino',-1)" aria-label="Foto anterior">&#8592;</button>
@@ -624,7 +625,10 @@
       imgs[fotoState[id]].classList.remove('active');
       dots[fotoState[id]].classList.remove('active');
       fotoState[id] = (fotoState[id] + dir + imgs.length) % imgs.length;
-      imgs[fotoState[id]].classList.add('active');
+      const target = imgs[fotoState[id]];
+      // lazy load: fetch image only when first needed
+      if (target.dataset.src) { target.src = target.dataset.src; delete target.dataset.src; }
+      target.classList.add('active');
       dots[fotoState[id]].classList.add('active');
       if (cnt) cnt.textContent = (fotoState[id] + 1) + ' / ' + imgs.length;
     }

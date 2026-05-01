@@ -1,2 +1,7 @@
 .DS_Store
 frames/
+# Originales pesados de obras (se sirven las versiones web/ comprimidas)
+obras/**/*.JPG
+obras/**/*.jpg
+# Excluir solo los originales, no las versiones comprimidas en web/
+!obras/**/web/*.jpg
