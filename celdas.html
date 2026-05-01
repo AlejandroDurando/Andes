@@ -186,39 +186,102 @@
       margin-top: 1.2rem;
     }
 
-    /* ── Product image ── */
-    .product-image {
+    /* ── Video section ── */
+    .celda-video-wrap {
+      position: relative;
       width: 100%;
-      max-height: 60vh;
+      max-height: 92vh;
+      background: #000;
       overflow: hidden;
-      background: #2a2a2a;
     }
-    .product-image img {
+    #celda-vid {
       width: 100%;
-      height: 100%;
+      height: 92vh;
+      display: block;
       object-fit: cover;
       object-position: center center;
     }
-
-    /* ── Content ── */
-    .product-content {
-      padding: clamp(3rem, 7vh, 5rem) var(--pad-x);
-      max-width: 860px;
+    @media (max-width: 640px) {
+      .celda-video-wrap { min-height: 68vh; max-height: 68vh; }
+      #celda-vid { height: 68vh; }
     }
-    .product-content p {
+
+    /* ── Spec Panel ── */
+    #spec-panel {
+      padding: clamp(4rem, 8vh, 6rem) var(--pad-x);
+      background: #3a3a3a;
+      border-top: 1px solid var(--gold-dim);
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    #spec-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .spec-inner {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      max-width: 1100px;
+      align-items: start;
+    }
+    .spec-label {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+    .spec-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .spec-label h2 {
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--white);
+      line-height: 1.15;
+    }
+    .spec-label .gold-bar {
+      width: 32px;
+      height: 2px;
+      background: var(--gold);
+      margin-top: 1rem;
+    }
+    .spec-text p {
       font-family: 'Barlow', sans-serif;
       font-weight: 300;
-      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-      color: var(--gray-text);
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      color: rgba(255,255,255,0.82);
       line-height: 1.85;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.6rem;
     }
-    .product-content p:last-of-type { margin-bottom: 0; }
+    .spec-text p:last-of-type { margin-bottom: 2rem; }
+    .spec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 2.5rem;
+    }
+    .spec-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      padding: 0.38rem 0.8rem;
+      border: 1px solid rgba(147,118,88,0.38);
+      border-radius: 2px;
+    }
+    @media (max-width: 768px) {
+      .spec-inner { grid-template-columns: 1fr; gap: 1.8rem; }
+      .spec-label { position: static; }
+    }
 
-    /* ── CTA ── */
-    .product-cta {
-      padding: 0 var(--pad-x) clamp(4rem, 8vh, 6rem);
-    }
     .btn-gold {
       display: inline-block;
       padding: 0.85rem 2.2rem;
@@ -325,19 +388,33 @@
     <div class="gold-bar"></div>
   </header>
 
-  <div class="product-image">
-    <img src="./fotos/celdas.png" alt="Celdas de almacenamiento — Andes Estructuras">
+  <div class="celda-video-wrap">
+    <video id="celda-vid" src="./celda.mp4" muted playsinline autoplay preload="auto"></video>
   </div>
 
-  <div class="product-content">
-    <p>Sistema de cerramiento metálico diseñado para almacenamiento a granel, fabricado en hierro redondo conformado en estructura reticulada de alta resistencia. La totalidad del conjunto se encuentra ensamblado mediante uniones abulonadas, lo que garantiza precisión en el montaje, facilidad de mantenimiento y posibilidad de desmontaje modular.</p>
-    <p>La configuración estructural externa permite absorber y distribuir eficientemente las cargas generadas por la presión lateral del material almacenado, optimizando el comportamiento mecánico del conjunto y prolongando su vida útil operativa.</p>
-    <p>Este equipo está específicamente desarrollado para el almacenamiento de semillas, asegurando condiciones adecuadas de contención y manipulación. Incorpora bocas de carga y descarga tanto en la cubierta superior como en el lateral, compatibles con sistemas de transporte tipo chimango, facilitando operaciones ágiles, seguras y eficientes en entornos productivos.</p>
-  </div>
-
-  <div class="product-cta">
-    <a href="contacto.html" class="btn-gold">Solicitá tu presupuesto</a>
-  </div>
+  <section id="spec-panel">
+    <div class="spec-inner">
+      <div class="spec-label">
+        <div class="spec-eyebrow">Especificaciones Técnicas</div>
+        <h2>Celda de<br>Almacenamiento</h2>
+        <div class="gold-bar"></div>
+      </div>
+      <div class="spec-content">
+        <div class="spec-text">
+          <p>Sistema de cerramiento metálico diseñado para almacenamiento a granel, fabricado en hierro redondo conformado en estructura reticulada de alta resistencia. La totalidad del conjunto se encuentra ensamblado mediante uniones abulonadas, lo que garantiza precisión en el montaje, facilidad de mantenimiento y posibilidad de desmontaje modular.</p>
+          <p>La configuración estructural externa permite absorber y distribuir eficientemente las cargas generadas por la presión lateral del material almacenado, optimizando el comportamiento mecánico del conjunto y prolongando su vida útil operativa.</p>
+          <p>Este equipo está específicamente desarrollado para el almacenamiento de semillas, asegurando condiciones adecuadas de contención y manipulación. Incorpora bocas de carga y descarga tanto en la cubierta superior como en el lateral, compatibles con sistemas de transporte tipo chimango, facilitando operaciones ágiles, seguras y eficientes en entornos productivos.</p>
+        </div>
+        <div class="spec-tags">
+          <span class="spec-tag">Sistema abulonado</span>
+          <span class="spec-tag">Almacenamiento a granel</span>
+          <span class="spec-tag">Bocas de carga/descarga</span>
+          <span class="spec-tag">Compatible chimango</span>
+        </div>
+        <a href="contacto.html" class="btn-gold">Solicitá tu presupuesto</a>
+      </div>
+    </div>
+  </section>
 
     <footer id="footer">
     <div class="footer-top">
@@ -372,6 +449,21 @@
     });
     document.addEventListener('click', e => {
       if (!document.getElementById('navbar').contains(e.target) && !mobileMenu.contains(e.target)) closeMob();
+    });
+
+    const celdaVid = document.getElementById('celda-vid');
+    const specPanel = document.getElementById('spec-panel');
+
+    celdaVid.play().catch(() => {
+      document.addEventListener('touchstart', () => celdaVid.play().catch(() => {}), { once: true });
+    });
+
+    // Intercept exactly before the video ends to prevent iOS Safari auto-rewind
+    celdaVid.addEventListener('timeupdate', () => {
+      if (celdaVid.duration > 0 && celdaVid.duration - celdaVid.currentTime <= 0.25) {
+        celdaVid.pause();
+        specPanel.classList.add('visible');
+      }
     });
   </script>
 </body>
