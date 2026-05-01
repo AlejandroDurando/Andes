@@ -577,6 +577,7 @@
       height: 100vh;
       overflow: hidden;
       background: var(--dark);
+      will-change: transform;
     }
 
     #frame-canvas {
@@ -2500,7 +2501,7 @@
     // Result: buttery-smooth scroll animation with a single video file.
     //
     const isMobile = window.innerWidth <= 768;
-    const TOTAL_FRAMES = isMobile ? 12 : 60;
+    const TOTAL_FRAMES = isMobile ? 30 : 60;
     const VIDEO_SRC = isMobile ? './videoscroll_mobile.mp4' : './videoscroll_fastseek.mp4';
 
     // Kick off video preload immediately so the browser starts buffering
@@ -2572,6 +2573,16 @@
     }
     window.addEventListener('resize', fitCanvasToVideo, { passive: true });
 
+    // Cache section offset so tick() never forces a layout recalculation
+    let secTop = 0;
+    let secMaxScroll = 0;
+    function cacheScrollMetrics() {
+      secTop = scrollSec.offsetTop;
+      secMaxScroll = scrollSec.offsetHeight - window.innerHeight;
+    }
+    cacheScrollMetrics();
+    window.addEventListener('resize', cacheScrollMetrics, { passive: true });
+
     // Scroll → frame
     function onScroll() {
       if (!animReady || rafPending) return;
@@ -2580,10 +2591,8 @@
     }
     function tick() {
       rafPending = false;
-      const rect = scrollSec.getBoundingClientRect();
-      const maxScroll = scrollSec.offsetHeight - window.innerHeight;
-      const scrolled = Math.max(0, -rect.top);
-      const progress = maxScroll > 0 ? Math.min(1, scrolled / maxScroll) : 0;
+      const scrolled = Math.max(0, window.scrollY - secTop);
+      const progress = secMaxScroll > 0 ? Math.min(1, scrolled / secMaxScroll) : 0;
 
       seekBar.style.width = (progress * 100).toFixed(2) + '%';
       if (scrolled > 80) scrollHint.classList.add('hidden');
