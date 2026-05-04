@@ -1,0 +1,12 @@
+{
+  "name": "andes-audit",
+  "version": "1.0.0",
+  "description": "Playwright audit for andes-gamma.vercel.app",
+  "scripts": {
+    "audit": "playwright test --reporter=list",
+    "audit:report": "playwright test --reporter=html"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1"
+  }
+}
