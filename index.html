@@ -2632,7 +2632,7 @@
       // Animation uses first ANIM_END fraction of scroll; rest is reading time.
       const animProgress = Math.min(1, progress / ANIM_END);
       const fi = Math.min(TOTAL_FRAMES - 1, Math.floor(animProgress * TOTAL_FRAMES));
-      if (fi !== curFrame) { const prev = curFrame; curFrame = fi; transitionTo(prev, fi); }
+      if (fi !== curFrame && bitmaps[fi]) { const prev = curFrame; curFrame = fi; transitionTo(prev, fi); }
 
       // Show end text slightly after animation completes
       if (progress >= END_THRESHOLD) endOverlay.classList.add('visible');
@@ -2686,8 +2686,14 @@
         offCtx.drawImage(vid, 0, 0);
         bitmaps[i] = await createImageBitmap(offscreen);
 
-        // Show frame 0 immediately so the canvas isn't gray during the intro
-        if (i === 0) { curFrame = 0; fitCanvasToVideo(); drawFrame(0); }
+        // Frame 0 ready: reveal page and enable scroll immediately, don't wait for all frames
+        if (i === 0) {
+          curFrame = 0;
+          animReady = true;
+          fitCanvasToVideo();
+          drawFrame(0);
+          revealPage();
+        }
 
         // Update loading bar progress
         const loadBar = document.getElementById('intro-load-bar');
@@ -2716,14 +2722,15 @@
       }, 750);
     }
 
-    // Boot — extract frames, then reveal the page
+    // Boot — extract frames then ensure page is revealed even if frame 0 failed
     async function init() {
       await extractFrames().catch(err => console.warn('Frame extraction failed:', err));
-      curFrame = 0;
-      animReady = true;
-      fitCanvasToVideo();
-      drawFrame(0);
-      revealPage();
+      // Fallback: if frame 0 extraction failed, reveal anyway rather than staying stuck
+      if (!animReady) {
+        animReady = true;
+        fitCanvasToVideo();
+        revealPage();
+      }
     }
     init();
 
