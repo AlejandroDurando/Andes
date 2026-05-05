@@ -2632,7 +2632,7 @@
       // Animation uses first ANIM_END fraction of scroll; rest is reading time.
       const animProgress = Math.min(1, progress / ANIM_END);
       const fi = Math.min(TOTAL_FRAMES - 1, Math.floor(animProgress * TOTAL_FRAMES));
-      if (fi !== curFrame && bitmaps[fi]) { const prev = curFrame; curFrame = fi; transitionTo(prev, fi); }
+      if (fi !== curFrame) { const prev = curFrame; curFrame = fi; transitionTo(prev, fi); }
 
       // Show end text slightly after animation completes
       if (progress >= END_THRESHOLD) endOverlay.classList.add('visible');
@@ -2665,9 +2665,10 @@
         vid.addEventListener('error', () => rej(new Error('Video load error')), { once: true });
       });
 
-      // Capture at half resolution — enough for display, saves ~75% memory
-      const frameW = Math.round(vid.videoWidth  / 2);
-      const frameH = Math.round(vid.videoHeight / 2);
+      const offscreen = document.createElement('canvas');
+      offscreen.width = vid.videoWidth;
+      offscreen.height = vid.videoHeight;
+      const offCtx = offscreen.getContext('2d');
 
       const duration = vid.duration;
 
@@ -2675,27 +2676,18 @@
         // Seek to the target timestamp
         vid.currentTime = (i / (TOTAL_FRAMES - 1)) * duration;
         await new Promise(r => {
-          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 500);
+          // Fallback timer: skip frame if Safari gets stuck seeking
+          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 300);
           const onSeek = () => { clearTimeout(timeout); r(); };
           vid.addEventListener('seeked', onSeek, { once: true });
         });
 
-        // Capture frame: draw video directly into a per-frame canvas.
-        // Avoids createImageBitmap() which returns transparent bitmaps on Chrome iOS.
-        const fc = document.createElement('canvas');
-        fc.width = frameW;
-        fc.height = frameH;
-        fc.getContext('2d').drawImage(vid, 0, 0, frameW, frameH);
-        bitmaps[i] = fc;
+        // Capture frame: draw video → offscreen canvas → ImageBitmap (no CORS issues)
+        offCtx.drawImage(vid, 0, 0);
+        bitmaps[i] = await createImageBitmap(offscreen);
 
-        // Frame 0 ready: reveal page and enable scroll immediately, don't wait for all frames
-        if (i === 0) {
-          curFrame = 0;
-          animReady = true;
-          fitCanvasToVideo();
-          drawFrame(0);
-          revealPage();
-        }
+        // Show frame 0 immediately so the canvas isn't gray during the intro
+        if (i === 0) { curFrame = 0; fitCanvasToVideo(); drawFrame(0); }
 
         // Update loading bar progress
         const loadBar = document.getElementById('intro-load-bar');
@@ -2724,15 +2716,14 @@
       }, 750);
     }
 
-    // Boot — extract frames then ensure page is revealed even if frame 0 failed
+    // Boot — extract frames, then reveal the page
     async function init() {
       await extractFrames().catch(err => console.warn('Frame extraction failed:', err));
-      // Fallback: if frame 0 extraction failed, reveal anyway rather than staying stuck
-      if (!animReady) {
-        animReady = true;
-        fitCanvasToVideo();
-        revealPage();
-      }
+      curFrame = 0;
+      animReady = true;
+      fitCanvasToVideo();
+      drawFrame(0);
+      revealPage();
     }
     init();
 
