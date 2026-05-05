@@ -2665,10 +2665,9 @@
         vid.addEventListener('error', () => rej(new Error('Video load error')), { once: true });
       });
 
-      const offscreen = document.createElement('canvas');
-      offscreen.width = vid.videoWidth;
-      offscreen.height = vid.videoHeight;
-      const offCtx = offscreen.getContext('2d');
+      // Capture at half resolution — enough for display, saves ~75% memory
+      const frameW = Math.round(vid.videoWidth  / 2);
+      const frameH = Math.round(vid.videoHeight / 2);
 
       const duration = vid.duration;
 
@@ -2676,15 +2675,18 @@
         // Seek to the target timestamp
         vid.currentTime = (i / (TOTAL_FRAMES - 1)) * duration;
         await new Promise(r => {
-          // Fallback timer: skip frame if Safari gets stuck seeking
           let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 500);
           const onSeek = () => { clearTimeout(timeout); r(); };
           vid.addEventListener('seeked', onSeek, { once: true });
         });
 
-        // Capture frame: draw video → offscreen canvas → ImageBitmap (no CORS issues)
-        offCtx.drawImage(vid, 0, 0);
-        bitmaps[i] = await createImageBitmap(offscreen);
+        // Capture frame: draw video directly into a per-frame canvas.
+        // Avoids createImageBitmap() which returns transparent bitmaps on Chrome iOS.
+        const fc = document.createElement('canvas');
+        fc.width = frameW;
+        fc.height = frameH;
+        fc.getContext('2d').drawImage(vid, 0, 0, frameW, frameH);
+        bitmaps[i] = fc;
 
         // Frame 0 ready: reveal page and enable scroll immediately, don't wait for all frames
         if (i === 0) {
