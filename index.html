@@ -2677,7 +2677,7 @@
         vid.currentTime = (i / (TOTAL_FRAMES - 1)) * duration;
         await new Promise(r => {
           // Fallback timer: skip frame if Safari gets stuck seeking
-          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 300);
+          let timeout = setTimeout(() => { vid.removeEventListener('seeked', onSeek); r(); }, 500);
           const onSeek = () => { clearTimeout(timeout); r(); };
           vid.addEventListener('seeked', onSeek, { once: true });
         });
