@@ -3,6 +3,10 @@ frames/
 # Videos originales mobile (se sube solo la version comprimida videoscroll_mobile.mp4)
 video_hero_mobile_1.mp4
 video_hero_mobile_2.mp4
+# Videos originales desktop (se sube solo videoscroll_fastseek.mp4 procesado)
+videoscroll.mp4
+videoscroll1.mp4
+videoscroll2.mp4
 # Originales pesados de obras (se sirven las versiones web/ comprimidas)
 obras/**/*.JPG
 obras/**/*.jpg
