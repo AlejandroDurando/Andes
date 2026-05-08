@@ -2571,33 +2571,25 @@
       ctx.drawImage(bm, (cw - bm.width * sc) / 2, (ch - bm.height * sc) / 2, bm.width * sc, bm.height * sc);
     }
 
-    // Cross-fade between two frames over FADE_MS milliseconds.
-    // Drawing `from` at alpha 1 then `to` at alpha t gives correct 50/50 blend at midpoint
-    // because source-over onto an opaque layer = to*t + from*(1-t).
-    let fadeRaf = null;
-    const FADE_MS = 60;
-    function cancelFade() { if (fadeRaf) { cancelAnimationFrame(fadeRaf); fadeRaf = null; } }
-    function transitionTo(from, to) {
-      cancelFade();
-      if (from < 0 || !bitmaps[from]) { drawFrame(to); return; }
+    // Continuous blend between two adjacent frames based on fractional scroll position.
+    // Every scroll tick re-renders with exact interpolation — no time-based fade, no "snap"
+    // between discrete frames. source-over compositing on an opaque base = to*t + from*(1-t).
+    function drawBlend(low, high, t) {
+      const bmL = bitmaps[low];
+      if (!bmL) return;
       const cw = wrapper.offsetWidth || window.innerWidth;
       const ch = wrapper.offsetHeight || window.innerHeight;
-      const bmF = bitmaps[from], bmT = bitmaps[to];
-      if (!bmT) return;
-      const scF = Math.max(cw / bmF.width, ch / bmF.height);
-      const scT = Math.max(cw / bmT.width, ch / bmT.height);
-      const t0 = performance.now();
-      function step() {
-        const t = Math.min(1, (performance.now() - t0) / FADE_MS);
-        ctx.clearRect(0, 0, cw, ch);
-        ctx.globalAlpha = 1;
-        ctx.drawImage(bmF, (cw - bmF.width * scF) / 2, (ch - bmF.height * scF) / 2, bmF.width * scF, bmF.height * scF);
+      const scL = Math.max(cw / bmL.width, ch / bmL.height);
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(bmL, (cw - bmL.width * scL) / 2, (ch - bmL.height * scL) / 2, bmL.width * scL, bmL.height * scL);
+      const bmH = bitmaps[high];
+      if (bmH && t > 0 && low !== high) {
+        const scH = Math.max(cw / bmH.width, ch / bmH.height);
         ctx.globalAlpha = t;
-        ctx.drawImage(bmT, (cw - bmT.width * scT) / 2, (ch - bmT.height * scT) / 2, bmT.width * scT, bmT.height * scT);
+        ctx.drawImage(bmH, (cw - bmH.width * scH) / 2, (ch - bmH.height * scH) / 2, bmH.width * scH, bmH.height * scH);
         ctx.globalAlpha = 1;
-        fadeRaf = t < 1 ? requestAnimationFrame(step) : null;
       }
-      step();
     }
 
     // Set canvas-wrapper height:
@@ -2638,9 +2630,13 @@
       if (scrolled > 80) scrollHint.classList.add('hidden');
 
       // Animation uses first ANIM_END fraction of scroll; rest is reading time.
+      // Fractional frame index → continuous blend between the two nearest frames.
       const animProgress = Math.min(1, progress / ANIM_END);
-      const fi = Math.min(TOTAL_FRAMES - 1, Math.floor(animProgress * TOTAL_FRAMES));
-      if (fi !== curFrame) { const prev = curFrame; curFrame = fi; transitionTo(prev, fi); }
+      const exact = animProgress * (TOTAL_FRAMES - 1);
+      const fLow = Math.floor(exact);
+      const fHigh = Math.min(TOTAL_FRAMES - 1, fLow + 1);
+      curFrame = fLow;
+      drawBlend(fLow, fHigh, exact - fLow);
 
       // Show end text slightly after animation completes
       if (progress >= END_THRESHOLD) endOverlay.classList.add('visible');
