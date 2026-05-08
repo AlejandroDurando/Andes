@@ -2498,6 +2498,11 @@
        JAVASCRIPT
   ───────────────────────────────────────────── -->
   <script>
+    // Prevent browser scroll restoration from jumping the page to a non-zero
+    // position before the animation is ready, which would show the last frame.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
     // ── Frame extraction from video → canvas animation ────────────────────
     //
     // Strategy: seek the video to N evenly-spaced timestamps, capture each
@@ -2705,6 +2710,8 @@
       setTimeout(() => {
         splash.style.display = 'none';
         document.body.classList.remove('intro-active');
+        // Recalculate section offsets now that the splash is gone and layout is stable.
+        cacheScrollMetrics();
         document.getElementById('wa-fab').classList.add('show');
         const nb = document.getElementById('navbar');
         nb.style.transition = 'none';
