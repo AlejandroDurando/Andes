@@ -1399,11 +1399,10 @@
     }
 
     #vid-bottom-fwd {
-      width: calc(100% / 0.96);
+      width: 100%;
       height: 100%;
       display: block;
       object-fit: cover;
-      clip-path: inset(0 4% 0 0);
     }
 
 
@@ -1416,7 +1415,6 @@
       padding-top: clamp(3.5rem, 9vh, 6rem);
       padding-left: var(--pad-x);
       padding-right: var(--pad-x);
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.05) 75%, transparent 100%);
       opacity: 0;
       pointer-events: none;
       transition: opacity 1.4s ease;
@@ -2122,7 +2120,6 @@
 
       #vb-overlay {
         padding-top: clamp(0.8rem, 2vh, 1.5rem);
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.42) 55%, rgba(0, 0, 0, 0.08) 80%, transparent 100%);
       }
 
       .vb-para-wrap {
@@ -2422,7 +2419,7 @@
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
     <div class="vb-frame">
-      <video id="vid-bottom-fwd" src="./video_bottom.mp4" muted playsinline autoplay preload="auto"></video>
+      <video id="vid-bottom-fwd" src="./video_bottom2.mp4" muted playsinline autoplay preload="auto"></video>
     </div>
     <div id="vb-overlay">
       <div class="vb-para-wrap">
