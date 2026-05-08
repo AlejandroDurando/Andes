@@ -2512,9 +2512,16 @@
     const isMobile = window.innerWidth <= 768;
     const TOTAL_FRAMES = isMobile ? 60 : 60;
     const VIDEO_SRC = isMobile ? './videoscroll_mobile.mp4' : './videoscroll_fastseek.mp4';
-    // Cap bitmap resolution: enough for Retina (2× DPR at ~1440 CSS = 2880 physical),
-    // but lower than the 4K source so 60 frames don't exhaust RAM.
-    const MAX_BITMAP_W = isMobile ? 1920 : 2880;
+    // Adaptive bitmap resolution per device class:
+    //   - Retina/2× DPR → high-res bitmaps so canvas isn't upscaled
+    //   - Standard 1× DPR → no benefit from extra pixels, save the RAM
+    //   - Low-memory devices (Android <4GB) → drop a tier to avoid OOM crashes
+    // navigator.deviceMemory is undefined on Safari (treated as "unknown, assume fine").
+    const _dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const _lowMem = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4;
+    const MAX_BITMAP_W = isMobile
+      ? (_lowMem ? 720  : (_dpr >= 2 ? 1920 : 1080))
+      : (_lowMem ? 1920 : (_dpr >= 2 ? 2880 : 1920));
 
     // Kick off video preload immediately so the browser starts buffering
     // before extractFrames() creates its own <video> element.
@@ -2644,6 +2651,23 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
 
+    // Capture the offscreen canvas as a drawable source. ImageBitmap is faster
+    // (GPU-resident) when available, but iOS Safari ≤14 and some legacy Android
+    // WebViews don't support it — fall back to cloning the canvas, which works
+    // because drawImage() accepts canvases as sources.
+    const _supportsImageBitmap = typeof createImageBitmap === 'function';
+    async function captureFrame(srcCanvas) {
+      if (_supportsImageBitmap) {
+        try { return await createImageBitmap(srcCanvas); }
+        catch (_) { /* fall through to canvas clone */ }
+      }
+      const clone = document.createElement('canvas');
+      clone.width = srcCanvas.width;
+      clone.height = srcCanvas.height;
+      clone.getContext('2d').drawImage(srcCanvas, 0, 0);
+      return clone;
+    }
+
     // Extract TOTAL_FRAMES evenly-spaced frames from the video into ImageBitmaps.
     // Uses an offscreen canvas as the bridge so there are no CORS restrictions.
     async function extractFrames() {
@@ -2694,9 +2718,9 @@
           vid.addEventListener('seeked', onSeek, { once: true });
         });
 
-        // Capture frame: draw video → offscreen canvas (downscaled if 4K) → ImageBitmap.
+        // Capture frame: draw video → offscreen canvas → ImageBitmap (or canvas fallback).
         offCtx.drawImage(vid, 0, 0, srcW, srcH, 0, 0, offW, offH);
-        bitmaps[i] = await createImageBitmap(offscreen);
+        bitmaps[i] = await captureFrame(offscreen);
 
         // Show frame 0 immediately so the canvas isn't gray during the intro
         if (i === 0) { curFrame = 0; fitCanvasToVideo(); drawFrame(0); }
