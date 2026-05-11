@@ -67,7 +67,7 @@
     /* ═══════════════════════════════════════════════════
        GSAP — estado inicial (evita flash antes de que cargue)
     ═══════════════════════════════════════════════════ */
-    .productos-carousel {
+    .productos-grid {
       opacity: 0;
     }
 
@@ -1991,18 +1991,6 @@
         grid-template-columns: 1fr;
       }
 
-      /* Carousel tablet */
-      .prod-card {
-        width: clamp(220px, 42vw, 360px);
-      }
-
-      .prod-card.is-prev {
-        transform: translateX(-68%) scale(0.8);
-      }
-
-      .prod-card.is-next {
-        transform: translateX(68%) scale(0.8);
-      }
     }
 
     /* Mobile — 640px */
@@ -2033,41 +2021,6 @@
         line-height: 1.7;
         white-space: normal;
         text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
-      }
-
-      /* Carousel mobile — 100vh igual que hero */
-      #productos {
-        height: 100vh;
-        min-height: 100vh;
-        padding: 0;
-      }
-
-      .productos-carousel {
-        height: 82vh;
-      }
-
-      .prod-card {
-        width: 72vw;
-        aspect-ratio: auto;
-        height: 70vh;
-      }
-
-      .prod-card.is-prev {
-        transform: translateX(-86%) scale(0.82);
-        opacity: 0.5;
-      }
-
-      .prod-card.is-next {
-        transform: translateX(86%) scale(0.82);
-        opacity: 0.5;
-      }
-
-      .prod-name {
-        font-size: clamp(1.3rem, 6vw, 1.8rem);
-      }
-
-      .prod-dots {
-        margin-top: 1.5rem;
       }
 
       /* Video overlay mobile */
@@ -2228,29 +2181,6 @@
         gap: 0.5rem;
       }
 
-      /* Carousel small — 100vh */
-      #productos {
-        height: 100vh;
-        min-height: 100vh;
-        padding: 0;
-      }
-
-      .productos-carousel {
-        height: 82vh;
-      }
-
-      .prod-card {
-        width: 76vw;
-        height: 70vh;
-      }
-
-      .prod-card-body {
-        padding: 1rem 1rem 1.3rem;
-      }
-
-      .prod-dots {
-        margin-top: 1.2rem;
-      }
     }
   </style>
 </head>
@@ -2889,15 +2819,14 @@
         scrollTrigger: { trigger: '.srv-text-block', start: 'top 82%', toggleActions: 'restart none restart reset' } }
     );
 
-    // Productos — carrusel entra con scale + fade
-    gsap.fromTo('.productos-carousel',
+    // Productos — cards entran con scale + fade
+    gsap.fromTo('.productos-grid',
       { opacity: 0, scale: 0.96 },
       {
         opacity: 1, scale: 1, duration: 1, ease: 'power2.out',
         scrollTrigger: { trigger: '#productos', start: 'top 80%', toggleActions: 'play none none none' }
       }
     );
-    reveal('#productos .prod-dots', '#productos', { y: 20, duration: 0.7 });
 
     // Video bottom — eyebrow antes del overlay
     reveal('#video-bottom', '#video-bottom', { y: 0, duration: 1.2 });
