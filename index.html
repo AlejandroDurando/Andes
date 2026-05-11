@@ -941,12 +941,11 @@
       background:
         radial-gradient(ellipse 80% 100% at 50% 50%, rgba(75, 75, 75, 0.0) 0%, rgba(40, 40, 40, 0.95) 100%),
         #555;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: clamp(4rem, 8vh, 7rem) var(--pad-x);
+      padding: clamp(3rem, 6vh, 5rem) var(--pad-x);
       overflow: hidden;
     }
 
@@ -961,8 +960,9 @@
 
     .prod-card {
       position: relative;
-      width: clamp(260px, 42vw, 560px);
+      width: clamp(220px, 34vw, 440px);
       aspect-ratio: 3 / 4;
+      border-radius: 6px;
       overflow: hidden;
       cursor: pointer;
       background: #1a1a1a;
@@ -1061,7 +1061,7 @@
         gap: 1.2rem;
       }
       .prod-card {
-        width: 88vw;
+        width: 80vw;
       }
     }
 
@@ -1405,9 +1405,9 @@
       font-weight: 300;
       font-style: italic;
       font-size: clamp(1rem, 1.7vw, 1.4rem);
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(40, 40, 40, 0.92);
       line-height: 1.85;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+      text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
       opacity: 0;
       transition: opacity 1s ease;
     }
