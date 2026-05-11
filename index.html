@@ -949,53 +949,30 @@
       overflow: hidden;
     }
 
-    .productos-carousel {
-      position: relative;
-      width: 100%;
-      height: clamp(380px, 72vh, 720px);
+    .productos-grid {
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: stretch;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      padding: 0 clamp(1.5rem, 6vw, 6rem);
     }
 
     .prod-card {
-      position: absolute;
-      width: clamp(220px, 30vw, 400px);
+      position: relative;
+      flex: 1;
+      max-width: clamp(260px, 40vw, 560px);
       aspect-ratio: 3 / 4;
       overflow: hidden;
       cursor: pointer;
       background: #1a1a1a;
-      transition:
-        transform 0.72s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        opacity 0.72s ease,
-        filter 0.72s ease,
-        box-shadow 0.72s ease;
-      will-change: transform;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  box-shadow 0.5s ease;
     }
 
-    /* ── posiciones del carrusel ── */
-    .prod-card.is-active {
-      transform: translateX(0) scale(1);
-      z-index: 3;
-      opacity: 1;
-      filter: brightness(1);
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
-    }
-
-    .prod-card.is-prev {
-      transform: translateX(-70%) scale(0.78);
-      z-index: 2;
-      opacity: 0.65;
-      filter: brightness(0.55) saturate(0.7);
-      box-shadow: none;
-    }
-
-    .prod-card.is-next {
-      transform: translateX(70%) scale(0.78);
-      z-index: 2;
-      opacity: 0.65;
-      filter: brightness(0.55) saturate(0.7);
-      box-shadow: none;
+    .prod-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 72px rgba(0, 0, 0, 0.65);
     }
 
     /* ── imagen ── */
@@ -1009,7 +986,7 @@
       transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s;
     }
 
-    .prod-card.is-active:hover img {
+    .prod-card:hover img {
       transform: scale(1.04);
       opacity: 1;
     }
@@ -1064,7 +1041,7 @@
       transition: background-size 0.4s ease, background-position 0.4s ease;
     }
 
-    .prod-card.is-active:hover .prod-btn {
+    .prod-card:hover .prod-btn {
       background-position: right center;
       background-size: 200% auto;
       animation: pulse-gold 1.5s infinite;
@@ -1076,28 +1053,17 @@
       100% { box-shadow: 0 0 0 0 rgba(200, 156, 60, 0); }
     }
 
-    /* ── dots ── */
-    .prod-dots {
-      display: flex;
-      justify-content: center;
-      gap: 0.55rem;
-      margin-top: 2rem;
-    }
-
-    .prod-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-      border: none;
-      padding: 0;
-    }
-
-    .prod-dot.is-active {
-      background: var(--gold);
-      transform: scale(1.4);
+    @media (max-width: 600px) {
+      .productos-grid {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 1.2rem;
+        gap: 1.2rem;
+      }
+      .prod-card {
+        max-width: 88vw;
+        width: 88vw;
+      }
     }
 
     /* ═══════════════════════════════════════════════════
@@ -2377,27 +2343,9 @@
        PRODUCT SHOWCASE
   ───────────────────────────────────────────── -->
   <section id="productos">
-    <div class="productos-carousel" id="prod-carousel">
+    <div class="productos-grid">
 
-      <div class="prod-card" data-idx="0">
-        <img src="./fotos/celdas.png" alt="Celdas">
-        <div class="prod-card-overlay"></div>
-        <div class="prod-card-body">
-          <div class="prod-name">Celdas</div>
-          <a href="celdas.html" class="prod-btn">Ver más</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-idx="1">
-        <img src="./fotos/galpones.png" alt="Galpones">
-        <div class="prod-card-overlay"></div>
-        <div class="prod-card-body">
-          <div class="prod-name">Galpones</div>
-          <a href="galpones.html" class="prod-btn">Ver más</a>
-        </div>
-      </div>
-
-      <div class="prod-card" data-idx="2">
+      <div class="prod-card">
         <img src="./fotos/tinglados.png" alt="Tinglados">
         <div class="prod-card-overlay"></div>
         <div class="prod-card-body">
@@ -2406,11 +2354,15 @@
         </div>
       </div>
 
-    </div>
-    <div class="prod-dots">
-      <button class="prod-dot" data-idx="0" aria-label="Celdas"></button>
-      <button class="prod-dot" data-idx="1" aria-label="Galpones"></button>
-      <button class="prod-dot" data-idx="2" aria-label="Tinglados"></button>
+      <div class="prod-card">
+        <img src="./fotos/galpones.png" alt="Galpones">
+        <div class="prod-card-overlay"></div>
+        <div class="prod-card-body">
+          <div class="prod-name">Galpones</div>
+          <a href="galpones.html" class="prod-btn">Ver más</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -2894,56 +2846,6 @@
     }, { threshold: 0.1 });
     vbObserver.observe(vidFwd);
 
-    // ── Carrusel de productos ──────────────────────────────────────────────
-    (function () {
-      const cards = Array.from(document.querySelectorAll('.prod-card'));
-      const dots = Array.from(document.querySelectorAll('.prod-dot'));
-      const n = cards.length;
-      let active = 0;
-      let timer;
-
-      function go(idx) {
-        active = (idx + n) % n;
-        cards.forEach((c, i) => {
-          c.classList.remove('is-active', 'is-prev', 'is-next');
-          if (i === active) c.classList.add('is-active');
-          else if (i === (active - 1 + n) % n) c.classList.add('is-prev');
-          else c.classList.add('is-next');
-        });
-        dots.forEach((d, i) => d.classList.toggle('is-active', i === active));
-      }
-
-      function startAuto() {
-        clearInterval(timer);
-        timer = setInterval(() => go(active + 1), 4500);
-      }
-
-      // click en tarjeta lateral → avanzar hacia ella
-      cards.forEach((c, i) => {
-        c.addEventListener('click', () => {
-          if (i !== active) { go(i); startAuto(); }
-        });
-      });
-
-      // dots
-      dots.forEach((d, i) => {
-        d.addEventListener('click', () => { go(i); startAuto(); });
-      });
-
-      // touch swipe
-      const carousel = document.getElementById('prod-carousel');
-      let touchStartX = 0;
-      carousel.addEventListener('touchstart', e => {
-        touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-      carousel.addEventListener('touchend', e => {
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(dx) > 40) { go(active + (dx < 0 ? 1 : -1)); startAuto(); }
-      });
-
-      go(0);
-      startAuto();
-    })();
 
     // ── GSAP ScrollTrigger — entradas de sección ───────────────────────────
     gsap.registerPlugin(ScrollTrigger);
