@@ -938,6 +938,7 @@
        PRODUCT SHOWCASE — CARRUSEL 3D
     ═══════════════════════════════════════════════════ */
     #productos {
+      height: 100vh;
       background:
         radial-gradient(ellipse 80% 100% at 50% 50%, rgba(75, 75, 75, 0.0) 0%, rgba(40, 40, 40, 0.95) 100%),
         #555;
@@ -945,14 +946,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: clamp(3rem, 6vh, 5rem) var(--pad-x);
+      padding: 0 var(--pad-x);
       overflow: hidden;
     }
 
     .productos-grid {
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       gap: clamp(1rem, 3vw, 2.5rem);
       width: 100%;
       max-width: 1200px;
@@ -960,7 +961,8 @@
 
     .prod-card {
       position: relative;
-      width: clamp(220px, 34vw, 440px);
+      height: clamp(320px, 68vh, 600px);
+      width: auto;
       aspect-ratio: 3 / 4;
       border-radius: 6px;
       overflow: hidden;
@@ -1058,10 +1060,12 @@
       .productos-grid {
         flex-direction: column;
         align-items: center;
-        gap: 1.2rem;
+        gap: 1rem;
       }
       .prod-card {
-        width: 80vw;
+        height: clamp(220px, 36vh, 340px);
+        width: auto;
+        max-width: 78vw;
       }
     }
 
