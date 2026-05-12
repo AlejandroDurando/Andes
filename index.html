@@ -714,7 +714,11 @@
        SERVICIOS
     ═══════════════════════════════════════════════════ */
     #servicios {
-      background: var(--dark-1);
+      /* Fade hacia ~#2a2a2a (color del borde superior de #productos) en el último 25% */
+      background: linear-gradient(to bottom,
+        var(--dark-1) 0%,
+        var(--dark-1) 75%,
+        #2a2a2a 100%);
       scroll-margin-top: var(--nav-h);
       min-height: 100vh;
       display: flex;
