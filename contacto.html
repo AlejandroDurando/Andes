@@ -27,9 +27,9 @@
     }
 
     :root {
-      --gold: #C89C3C;
+      --gold: #937658;
       --gold-light: #D4AE54;
-      --gold-dim: rgba(200, 156, 60, 0.15);
+      --gold-dim: rgba(147, 118, 88, 0.15);
       --dark: #0a0a0a;
       --dark-1: #0f0f0f;
       --dark-2: #141414;
@@ -53,7 +53,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.4);
     }
 
     body {
@@ -229,7 +229,7 @@
     /* ── Page header ─────────────────────────────── */
     .page-header {
       padding: calc(var(--nav-h) + 5rem) var(--pad-x) 4rem;
-      border-bottom: 1px solid rgba(200, 156, 60, 0.12);
+      border-bottom: 1px solid rgba(147, 118, 88, 0.12);
       background: rgba(0, 0, 0, 0.18);
     }
 
@@ -327,7 +327,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: rgba(200, 156, 60, 0.75);
+      color: rgba(147, 118, 88, 0.75);
       margin-bottom: 0.2rem;
     }
 
@@ -376,14 +376,16 @@
       font-size: 0.62rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: rgba(200, 156, 60, 0.75);
+      color: rgba(147, 118, 88, 0.75);
     }
 
     .form-input,
     .form-textarea {
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(200, 156, 60, 0.18);
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 4px;
       padding: 0.78rem 1rem;
       color: var(--white);
       font-family: 'Barlow', sans-serif;
@@ -391,18 +393,19 @@
       outline: none;
       width: 100%;
       appearance: none;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     }
 
     .form-input:focus,
     .form-textarea:focus {
-      border-color: rgba(200, 156, 60, 0.5);
-      background: rgba(0, 0, 0, 0.72);
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 0 0 3px rgba(147, 118, 88, 0.18);
     }
 
     .form-input::placeholder,
     .form-textarea::placeholder {
-      color: rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.42);
     }
 
     .form-textarea {
@@ -436,8 +439,8 @@
     #form-success {
       display: none;
       padding: 1.2rem 1.5rem;
-      background: rgba(200, 156, 60, 0.06);
-      border: 1px solid rgba(200, 156, 60, 0.22);
+      background: rgba(147, 118, 88, 0.06);
+      border: 1px solid rgba(147, 118, 88, 0.22);
       border-radius: 3px;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1rem;
