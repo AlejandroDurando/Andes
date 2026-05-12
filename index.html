@@ -714,11 +714,7 @@
        SERVICIOS
     ═══════════════════════════════════════════════════ */
     #servicios {
-      /* Fade hacia ~#2a2a2a (color del borde superior de #productos) en el último 25% */
-      background: linear-gradient(to bottom,
-        var(--dark-1) 0%,
-        var(--dark-1) 75%,
-        #2a2a2a 100%);
+      background: var(--dark-1);
       scroll-margin-top: var(--nav-h);
       min-height: 100vh;
       display: flex;
@@ -943,9 +939,13 @@
     ═══════════════════════════════════════════════════ */
     #productos {
       height: 100vh;
-      background:
-        radial-gradient(ellipse 80% 100% at 50% 50%, rgba(75, 75, 75, 0.0) 0%, rgba(40, 40, 40, 0.95) 100%),
-        #555;
+      /* Seamless con #servicios: arranca al mismo #686868 y se hunde a #2a2a2a en el fondo.
+         La 'spotlight' del radial-gradient anterior se reemplaza por la sombra propia de
+         las cards (box-shadow ya define la jerarquía visual). */
+      background: linear-gradient(to bottom,
+        var(--dark-1) 0%,
+        #4a4a4a 35%,
+        #2a2a2a 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
