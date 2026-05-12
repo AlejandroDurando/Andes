@@ -939,19 +939,14 @@
     ═══════════════════════════════════════════════════ */
     #productos {
       height: 100vh;
-      /* Tres capas apiladas (la primera arriba):
-         1) Linear que cubre el primer 8% con #686868 puro = continuidad con #servicios.
-         2) Radial vignette que aporta profundidad (más liviano que el de antes).
-         3) Base color. */
+      /* Corte intencional con #servicios. Radial vignette: centro claro
+         (donde están las cards) → bordes oscuros. Versión más liviana del
+         original — base #5c5c5c (antes #555), edges al 65% de alpha (antes 95%). */
       background:
-        linear-gradient(to bottom,
-          var(--dark-1) 0%,
-          var(--dark-1) 8%,
-          transparent 35%),
         radial-gradient(ellipse 80% 100% at 50% 50%,
-          rgba(80, 80, 80, 0) 0%,
-          rgba(25, 25, 25, 0.55) 100%),
-        var(--dark-1);
+          rgba(85, 85, 85, 0) 0%,
+          rgba(35, 35, 35, 0.65) 100%),
+        #5c5c5c;
       display: flex;
       flex-direction: column;
       align-items: center;
