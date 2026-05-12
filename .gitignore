@@ -16,6 +16,9 @@ FAQ.MP4
 video_loading.mp4
 video_bottom_nuevo.mp4
 video_bottom_definitivo.mp4
+v_bottom1.mp4
+v_bottom2.mp4
+v_bottom3.mp4
 # Originales pesados de obras (se sirven las versiones web/ comprimidas)
 obras/**/*.JPG
 obras/**/*.jpg
