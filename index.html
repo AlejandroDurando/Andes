@@ -67,7 +67,7 @@
     /* ═══════════════════════════════════════════════════
        GSAP — estado inicial (evita flash antes de que cargue)
     ═══════════════════════════════════════════════════ */
-    .productos-grid {
+    .prod-card {
       opacity: 0;
     }
 
@@ -2826,12 +2826,15 @@
         scrollTrigger: { trigger: '.srv-text-block', start: 'top 82%', toggleActions: 'restart none restart reset' } }
     );
 
-    // Productos — cards entran con scale + fade
-    gsap.fromTo('.productos-grid',
-      { opacity: 0, scale: 0.96 },
+    // Productos — cards entran con fade + slide-up, stagger
+    gsap.fromTo('.prod-card',
+      { opacity: 0, y: 50 },
       {
-        opacity: 1, scale: 1, duration: 1, ease: 'power2.out',
-        scrollTrigger: { trigger: '#productos', start: 'top 80%', toggleActions: 'play none none none' }
+        opacity: 1, y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.18,
+        scrollTrigger: { trigger: '#productos', start: 'top 75%', toggleActions: 'play none none none' }
       }
     );
 
