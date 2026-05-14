@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obras Realizadas — Andes Estructuras S.A.S.</title>
-  <meta name="description" content="Portfolio de obras realizadas por Andes Estructuras. Galpones, tinglados y celdas en Córdoba y Santa Fe.">
+  <meta name="description" content="Portfolio de obras realizadas por Andes Estructuras. Galpones y tinglados en Córdoba y Santa Fe.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,6 +166,50 @@
     }
     .cat-btn.active .cat-count { color: var(--gold); }
 
+    /* ── Techo sub-filter ───────────────────────── */
+    .techo-bar {
+      position: sticky;
+      top: calc(var(--nav-h) + 80px);
+      z-index: 99;
+      background: var(--dark-1);
+      border-bottom: 1px solid #0d0d0d;
+      padding: 0.75rem var(--pad-x);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .techo-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #333;
+      margin-right: 0.3rem;
+      flex-shrink: 0;
+    }
+
+    .techo-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #444;
+      background: none;
+      border: 1px solid #1c1c1c;
+      border-radius: 2px;
+      padding: 0.3rem 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .techo-btn:hover { color: var(--gray-text); border-color: #2a2a2a; }
+    .techo-btn.active {
+      color: var(--white);
+      border-color: var(--gold);
+      background: rgba(200,156,60,0.06);
+    }
+
     /* ── Works section ───────────────────────────── */
     .obras-section {
       padding: 3.5rem var(--pad-x) var(--pad-y);
@@ -242,7 +286,6 @@
     }
     .obra-dot.active { background: var(--gold); }
 
-    /* cursor hint on carousel images */
     .obra-photos img { cursor: zoom-in; }
 
     /* expand trigger button (mobile only) */
@@ -328,10 +371,7 @@
       user-select: none; -webkit-user-select: none;
     }
     .lb-thumb:hover { opacity: 0.85; }
-    .lb-thumb.active {
-      opacity: 1;
-      border-color: var(--gold);
-    }
+    .lb-thumb.active { opacity: 1; border-color: var(--gold); }
     @media (max-width: 768px) {
       #lb-img { max-height: 72vh; }
       .lb-arrow { top: calc(50% - 3rem); }
@@ -429,6 +469,7 @@
       .cat-btn { padding: 1.1rem 0.5rem; }
       .cat-label { font-size: 0.72rem; letter-spacing: 0.12em; }
       .cat-icon { width: 26px; height: 26px; }
+      .techo-bar { top: calc(var(--nav-h) + 68px); }
     }
   </style>
 </head>
@@ -465,17 +506,15 @@
   <div class="cat-bar" role="tablist" aria-label="Categorías de obras">
 
     <button class="cat-btn active" data-cat="galpones" role="tab" aria-selected="true">
-      <!-- Warehouse icon -->
       <svg class="cat-icon" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2 14 L20 2 L38 14 L38 26 L2 26 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
         <rect x="14" y="16" width="12" height="10" stroke="currentColor" stroke-width="1.2" fill="none"/>
       </svg>
       <span class="cat-label">Galpones</span>
-      <span class="cat-count" id="count-galpones">4 obras</span>
+      <span class="cat-count" id="count-galpones">13 obras</span>
     </button>
 
     <button class="cat-btn" data-cat="tinglados" role="tab" aria-selected="false">
-      <!-- Shed / lean-to icon -->
       <svg class="cat-icon" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2 8 L38 18 L38 26 L2 26 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
         <line x1="2" y1="8" x2="2" y2="26" stroke="currentColor" stroke-width="1.2"/>
@@ -483,27 +522,23 @@
         <line x1="26" y1="14.5" x2="26" y2="26" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
       </svg>
       <span class="cat-label">Tinglados</span>
-      <span class="cat-count" id="count-tinglados">Próximamente</span>
+      <span class="cat-count" id="count-tinglados">1 obra</span>
     </button>
 
-    <button class="cat-btn" data-cat="celdas" role="tab" aria-selected="false">
-      <!-- Grid/cell icon -->
-      <svg class="cat-icon" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="14" height="11" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/>
-        <rect x="20" y="2" width="14" height="11" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/>
-        <rect x="2" y="17" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/>
-        <rect x="20" y="17" width="14" height="9" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/>
-      </svg>
-      <span class="cat-label">Celdas</span>
-      <span class="cat-count" id="count-celdas">Próximamente</span>
-    </button>
+  </div>
 
+  <!-- Techo sub-filter -->
+  <div class="techo-bar" aria-label="Filtro por tipo de techo">
+    <span class="techo-label">Techo</span>
+    <button class="techo-btn active" data-techo="todos">Todos</button>
+    <button class="techo-btn" data-techo="un-agua">A un agua</button>
+    <button class="techo-btn" data-techo="dos-aguas">A dos aguas</button>
+    <button class="techo-btn" data-techo="parabolico">Parabólico</button>
   </div>
 
   <!-- Works grid -->
   <section class="obras-section" id="obras-section">
 
-    <!-- Empty state (shown when category has no obras) -->
     <div class="cat-empty" id="cat-empty">
       <svg width="64" height="48" viewBox="0 0 64 48" fill="none">
         <rect x="4" y="4" width="56" height="40" rx="2" stroke="white" stroke-width="1.5"/>
@@ -512,14 +547,14 @@
         <circle cx="20" cy="9" r="2" fill="white"/>
         <path d="M24 28 L40 28 M28 35 L36 35" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
-      <p>Las fotos de esta categoría estarán disponibles pronto</p>
+      <p>Sin obras en esta combinación de filtros</p>
     </div>
 
     <div class="obras-grid" id="obras-grid">
 
-      <!-- ── GALPONES ─────────────────────────────── -->
+      <!-- ── GALPONES — A un agua ─────────────────── -->
 
-      <div class="obra-card" data-cat="galpones">
+      <div class="obra-card" data-cat="galpones" data-techo="un-agua">
         <div class="obra-photos" id="photos-origlia">
           <img src="./obras/EDGARDO%20ORIGLIA/web/ORDF-1.jpg"  alt="Edgardo Origlia — 1"  class="active">
           <img data-src="./obras/EDGARDO%20ORIGLIA/web/ORDF-2.jpg"  alt="Edgardo Origlia — 2">
@@ -549,8 +584,8 @@
           <div class="obra-location">Josefina, Santa Fe</div>
           <div class="obra-name">Edgardo Origlia</div>
           <div class="obra-specs">
-            <span class="obra-spec">Una caída</span>
-            <span class="obra-spec">13 × 20 m — 260 m²</span>
+            <span class="obra-spec">A un agua</span>
+            <span class="obra-spec">14 × 12 m</span>
             <span class="obra-spec">Hierro redondo reticulado</span>
             <span class="obra-spec">Lateral: T-101 Cincalum</span>
             <span class="obra-spec">Cubierta: Acanalada Cincalum</span>
@@ -558,7 +593,9 @@
         </div>
       </div>
 
-      <div class="obra-card" data-cat="galpones">
+      <!-- ── GALPONES — Dos aguas ─────────────────── -->
+
+      <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
         <div class="obra-photos" id="photos-rosa">
           <img src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-1.jpg"  alt="Juan Carlos Rosa — 1"  class="active">
           <img data-src="./obras/JUAN%20CARLOS%20ROSA/D%C3%8DA%20FINAL/web/MJ%20DF-2.jpg"  alt="Juan Carlos Rosa — 2">
@@ -594,7 +631,84 @@
         </div>
       </div>
 
-      <div class="obra-card" data-cat="galpones">
+      <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Humberto Primo, Santa Fe</div>
+          <div class="obra-name">Bauduco</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Dos aguas</span>
+            <span class="obra-spec">20 × 20 m — 400 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Josefina, Santa Fe</div>
+          <div class="obra-name">Faci</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Dos aguas</span>
+            <span class="obra-spec">15 × 20 m — 300 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Susana, Santa Fe</div>
+          <div class="obra-name">Susana</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Dos aguas</span>
+            <span class="obra-spec">15 × 25 m — 375 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">San Jorge, Santa Fe</div>
+          <div class="obra-name">Vital Crops</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Dos aguas</span>
+            <span class="obra-spec">24 × 60 m — 1440 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Las Rosas, Santa Fe</div>
+          <div class="obra-name">RRTV SA — Douglas</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Dos aguas</span>
+            <span class="obra-spec">20 × 30 m — 600 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GALPONES — Parabólico ─────────────────── -->
+
+      <div class="obra-card" data-cat="galpones" data-techo="parabolico">
         <div class="obra-photos" id="photos-ribodino">
           <img src="./obras/SERGIO%20RIBODINO/web/SRDF-1.jpg"  alt="Sergio Ribodino — 1"  class="active">
           <img data-src="./obras/SERGIO%20RIBODINO/web/SRDF-2.jpg"  alt="Sergio Ribodino — 2">
@@ -631,26 +745,97 @@
         </div>
       </div>
 
-      <div class="obra-card" data-cat="galpones">
+      <div class="obra-card" data-cat="galpones" data-techo="parabolico">
         <div class="obra-photos">
           <div class="foto-placeholder"><span>Fotos próximamente</span></div>
         </div>
         <div class="obra-info">
           <span class="obra-cat-tag">Galpón</span>
-          <div class="obra-location">San Antonio, Santa Fe</div>
-          <div class="obra-name">Miguel Ardisono</div>
+          <div class="obra-location">Freyre, Córdoba</div>
+          <div class="obra-name">Macento</div>
           <div class="obra-specs">
             <span class="obra-spec">Parabólico</span>
-            <span class="obra-spec">21 × 40 m — 840 m²</span>
+            <span class="obra-spec">20 × 65 m — 1300 m²</span>
           </div>
         </div>
       </div>
 
-      <!-- ── TINGLADOS (vacío por ahora) ─────────── -->
-      <!-- Agregar cards con data-cat="tinglados" cuando haya obras -->
+      <div class="obra-card" data-cat="galpones" data-techo="parabolico">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Susana, Santa Fe</div>
+          <div class="obra-name">Calcha</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Parabólico</span>
+            <span class="obra-spec">20 × 20 m — 400 m²</span>
+          </div>
+        </div>
+      </div>
 
-      <!-- ── CELDAS (vacío por ahora) ─────────────── -->
-      <!-- Agregar cards con data-cat="celdas" cuando haya obras -->
+      <div class="obra-card" data-cat="galpones" data-techo="parabolico">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Balnearia, Córdoba</div>
+          <div class="obra-name">Balnearia</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Parabólico</span>
+            <span class="obra-spec">25 × 30 m — 750 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="obra-card" data-cat="galpones" data-techo="parabolico">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Sastre, Santa Fe</div>
+          <div class="obra-name">Colla</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Parabólico</span>
+            <span class="obra-spec">20 × 30 m — 600 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="obra-card" data-cat="galpones" data-techo="parabolico">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Galpón</span>
+          <div class="obra-location">Devoto, Córdoba</div>
+          <div class="obra-name">Pina</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Parabólico</span>
+            <span class="obra-spec">20 × 25 m — 500 m²</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TINGLADOS ──────────────────────────────── -->
+
+      <div class="obra-card" data-cat="tinglados" data-techo="dos-aguas">
+        <div class="obra-photos">
+          <div class="foto-placeholder"><span>Fotos próximamente</span></div>
+        </div>
+        <div class="obra-info">
+          <span class="obra-cat-tag">Tinglado</span>
+          <div class="obra-location">Los Cardos, Santa Fe</div>
+          <div class="obra-name">Ciucchi</div>
+          <div class="obra-specs">
+            <span class="obra-spec">Dos aguas</span>
+            <span class="obra-spec">25 × 40 m — 1000 m²</span>
+          </div>
+        </div>
+      </div>
 
     </div>
   </section>
@@ -704,7 +889,6 @@
     });
 
     // ── Lightbox ─────────────────────────────────
-    // (HTML injected before </body>)
     let lbId = null, lbIdx = 0, lbTouchX = 0;
 
     function lbGetImgs() {
@@ -750,7 +934,6 @@
 
     function openLightbox(id, startIdx) {
       lbId = id;
-      // sync to current carousel position if startIdx not supplied
       if (startIdx === undefined) startIdx = fotoState[id] || 0;
       document.getElementById('lightbox').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -761,7 +944,6 @@
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
       document.body.style.overflow = '';
-      // sync carousel to lightbox position
       if (lbId !== null) {
         const diff = lbIdx - fotoState[lbId];
         if (diff !== 0) navFoto(lbId, diff);
@@ -788,8 +970,6 @@
     });
 
     document.getElementById('lightbox').addEventListener('touchstart', e => {
-      // Ignore touches on the thumbnail strip so horizontal scroll there
-      // doesn't get hijacked as a navigation swipe.
       if (e.target.closest('#lb-thumbs')) { lbTouchX = null; return; }
       lbTouchX = e.changedTouches[0].clientX;
     }, { passive: true });
@@ -799,7 +979,6 @@
       if (Math.abs(dx) > 40) lbNav(dx < 0 ? 1 : -1);
     }, { passive: true });
 
-    // open lightbox on photo click (ignore nav buttons)
     document.getElementById('obras-section').addEventListener('click', e => {
       const img = e.target.closest('.obra-photos img');
       if (!img) return;
@@ -810,7 +989,7 @@
     });
 
     // ── Photo carousel ───────────────────────────
-    const fotoState = {};  // must be declared before lightbox code references navFoto
+    const fotoState = {};
 
     function initFotos(id) {
       const wrap = document.getElementById('photos-' + id);
@@ -825,7 +1004,6 @@
         dots.appendChild(d);
       });
       if (cnt) cnt.textContent = '1 / ' + imgs.length;
-      // expand button (shown on mobile)
       const btn = document.createElement('button');
       btn.className = 'lb-trigger';
       btn.setAttribute('aria-label', 'Ver foto ampliada');
@@ -843,7 +1021,6 @@
       dots[fotoState[id]].classList.remove('active');
       fotoState[id] = (fotoState[id] + dir + imgs.length) % imgs.length;
       const target = imgs[fotoState[id]];
-      // lazy load: fetch image only when first needed
       if (target.dataset.src) { target.src = target.dataset.src; delete target.dataset.src; }
       target.classList.add('active');
       dots[fotoState[id]].classList.add('active');
@@ -854,29 +1031,25 @@
     initFotos('rosa');
     initFotos('ribodino');
 
-    // ── Category filter ──────────────────────────
+    // ── Category + Techo filter ──────────────────
     const allCards  = document.querySelectorAll('.obra-card');
     const catBtns   = document.querySelectorAll('.cat-btn');
+    const techoBtns = document.querySelectorAll('.techo-btn');
     const grid      = document.getElementById('obras-grid');
     const emptyMsg  = document.getElementById('cat-empty');
 
-    function setCategory(cat) {
-      // update buttons
-      catBtns.forEach(btn => {
-        const active = btn.dataset.cat === cat;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-selected', String(active));
-      });
+    let currentCat   = 'galpones';
+    let currentTecho = 'todos';
 
-      // filter cards with staggered animation
+    function filterCards() {
       let visible = 0;
-      allCards.forEach((card, i) => {
-        const show = card.dataset.cat === cat;
-        if (show) {
+      allCards.forEach(card => {
+        const matchCat   = card.dataset.cat === currentCat;
+        const matchTecho = currentTecho === 'todos' || card.dataset.techo === currentTecho;
+        if (matchCat && matchTecho) {
           card.style.display = '';
           card.style.animationDelay = (visible * 60) + 'ms';
           card.style.animation = 'none';
-          // force reflow then re-apply
           void card.offsetWidth;
           card.style.animation = '';
           visible++;
@@ -884,16 +1057,31 @@
           card.style.display = 'none';
         }
       });
-
       emptyMsg.classList.toggle('visible', visible === 0);
       grid.style.display = visible === 0 ? 'none' : '';
     }
 
-    catBtns.forEach(btn => {
-      btn.addEventListener('click', () => setCategory(btn.dataset.cat));
-    });
+    function setCategory(cat) {
+      currentCat   = cat;
+      currentTecho = 'todos';
+      catBtns.forEach(btn => {
+        const active = btn.dataset.cat === cat;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', String(active));
+      });
+      techoBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.techo === 'todos'));
+      filterCards();
+    }
 
-    // start on galpones
+    function setTecho(techo) {
+      currentTecho = techo;
+      techoBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.techo === techo));
+      filterCards();
+    }
+
+    catBtns.forEach(btn => btn.addEventListener('click', () => setCategory(btn.dataset.cat)));
+    techoBtns.forEach(btn => btn.addEventListener('click', () => setTecho(btn.dataset.techo)));
+
     setCategory('galpones');
   </script>
 </body>
