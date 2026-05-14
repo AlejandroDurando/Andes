@@ -79,97 +79,135 @@
     #navbar.menu-open { border-bottom-color: transparent; }
     @media (max-width: 768px) { .nav-links { display: none; } #nav-toggle { display: flex; } }
 
-    /* ── Page header ─────────────────────────────── */
-    .page-header {
-      padding: calc(var(--nav-h) + 5rem) var(--pad-x) 3rem;
-    }
-    .page-header .eyebrow {
-      font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem;
-      letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold);
-      margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.7rem;
-    }
-    .page-header .eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: var(--gold); flex-shrink: 0; }
-    .page-header h1 {
-      font-family: 'IBM Plex Serif', serif; font-weight: 300; font-style: italic;
-      font-size: clamp(2.5rem, 6vw, 5rem); color: var(--white); line-height: 1.05;
-      margin-bottom: 1.2rem;
-    }
-    .page-header p {
-      font-size: clamp(0.9rem, 1.6vw, 1rem); font-weight: 300;
-      line-height: 1.85; color: var(--gray-text); max-width: 520px;
-    }
-
-    /* ── Category selector ───────────────────────── */
-    .cat-bar {
-      position: sticky;
-      top: var(--nav-h);
-      z-index: 100;
-      background: var(--dark);
-      border-bottom: 1px solid #111;
-      padding: 0 var(--pad-x);
+    /* ── Category split panels ──────────────────── */
+    .cat-panels {
       display: flex;
-      gap: 0;
+      height: calc(100vh - var(--nav-h));
+      margin-top: var(--nav-h);
+      overflow: hidden;
     }
 
-    .cat-btn {
+    .cat-panel {
       flex: 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 1.4rem 1rem;
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      transition: border-color 0.25s, background 0.25s;
+      justify-content: space-between;
+      padding: clamp(2rem, 5vw, 4rem);
+      transition: flex 0.55s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      overflow: hidden;
+      background: var(--dark-2);
+      border-right: 1px solid #0d0d0d;
+      cursor: pointer;
+      user-select: none;
     }
+    .cat-panel:last-child { border-right: none; }
+    .cat-panel:hover { flex: 3; }
 
-    .cat-btn:not(:last-child)::after {
+    .cat-panel.active {
+      background: linear-gradient(140deg, #191310, var(--dark-2));
+    }
+    .cat-panel.active::after {
       content: '';
       position: absolute;
-      right: 0; top: 20%; bottom: 20%;
-      width: 1px;
-      background: #1a1a1a;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent 70%);
     }
 
-    .cat-btn:hover { background: rgba(255,255,255,0.02); }
-    .cat-btn.active { border-bottom-color: var(--gold); }
+    .panel-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .panel-bg svg {
+      width: min(55%, 280px);
+      opacity: 0.04;
+      transition: opacity 0.4s;
+    }
+    .cat-panel:hover .panel-bg svg,
+    .cat-panel.active .panel-bg svg { opacity: 0.07; }
 
-    .cat-icon {
-      width: 32px; height: 32px;
-      opacity: 0.35;
-      transition: opacity 0.25s;
+    .panel-top { position: relative; z-index: 1; }
+
+    .panel-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .panel-eyebrow::before {
+      content: '';
+      display: block;
+      width: 18px; height: 1px;
+      background: var(--gold);
       flex-shrink: 0;
     }
-    .cat-btn.active .cat-icon,
-    .cat-btn:hover .cat-icon { opacity: 0.8; }
 
-    .cat-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.82rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gray-text);
-      transition: color 0.25s;
+    .panel-name {
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+      color: var(--white);
+      line-height: 1;
     }
-    .cat-btn.active .cat-label,
-    .cat-btn:hover .cat-label { color: var(--white); }
 
-    .cat-count {
+    .panel-bottom {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+
+    .panel-count {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.6rem;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
       color: #333;
-      transition: color 0.25s;
+      transition: color 0.3s;
     }
-    .cat-btn.active .cat-count { color: var(--gold); }
+    .cat-panel.active .panel-count { color: var(--gold); }
+
+    .panel-btn {
+      padding: 0.55rem 2rem;
+      border-radius: 999px;
+      border: 1.5px solid #252525;
+      background: transparent;
+      color: #444;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      white-space: nowrap;
+    }
+    .cat-panel:hover .panel-btn {
+      border-color: rgba(147,118,88,0.45);
+      color: var(--gray-text);
+    }
+    .cat-panel.active .panel-btn {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--dark);
+    }
 
     /* ── Techo sub-filter ───────────────────────── */
     .techo-bar {
       position: sticky;
-      top: calc(var(--nav-h) + 80px);
+      top: var(--nav-h);
       z-index: 99;
       background: var(--dark-1);
       border-bottom: 1px solid #0d0d0d;
@@ -466,10 +504,10 @@
 
     @media (max-width: 640px) {
       .obras-section { padding: 2.5rem 1.5rem 4rem; }
-      .cat-btn { padding: 1.1rem 0.5rem; }
-      .cat-label { font-size: 0.72rem; letter-spacing: 0.12em; }
-      .cat-icon { width: 26px; height: 26px; }
-      .techo-bar { top: calc(var(--nav-h) + 68px); }
+      .cat-panels { flex-direction: column; height: 65vh; }
+      .panel-name { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+      .panel-eyebrow { margin-bottom: 0.5rem; font-size: 0.55rem; }
+      .cat-panel { padding: 1.5rem; }
     }
   </style>
 </head>
@@ -495,40 +533,49 @@
     <a href="contacto.html"        onclick="closeMob()" class="mob-cta">Presupuesto</a>
   </div>
 
-  <!-- Page header -->
-  <div class="page-header">
-    <div class="eyebrow">Portfolio</div>
-    <h1>Obras Realizadas</h1>
-    <p>Cada estructura es una solución concreta. Seleccioná una categoría para explorar nuestros trabajos.</p>
-  </div>
+  <!-- Category split panels -->
+  <div class="cat-panels" id="cat-panels">
 
-  <!-- Category bar -->
-  <div class="cat-bar" role="tablist" aria-label="Categorías de obras">
+    <div class="cat-panel active" data-cat="galpones" id="panel-galpones">
+      <div class="panel-bg">
+        <svg viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 14 L20 2 L38 14 L38 26 L2 26 Z" stroke="currentColor" stroke-width="0.7" fill="none"/>
+          <rect x="14" y="16" width="12" height="10" stroke="currentColor" stroke-width="0.6" fill="none"/>
+        </svg>
+      </div>
+      <div class="panel-top">
+        <div class="panel-eyebrow">Portfolio</div>
+        <div class="panel-name">Galpones</div>
+      </div>
+      <div class="panel-bottom">
+        <div class="panel-count" id="count-galpones">13 obras</div>
+        <button class="panel-btn">Ver obras</button>
+      </div>
+    </div>
 
-    <button class="cat-btn active" data-cat="galpones" role="tab" aria-selected="true">
-      <svg class="cat-icon" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2 14 L20 2 L38 14 L38 26 L2 26 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        <rect x="14" y="16" width="12" height="10" stroke="currentColor" stroke-width="1.2" fill="none"/>
-      </svg>
-      <span class="cat-label">Galpones</span>
-      <span class="cat-count" id="count-galpones">13 obras</span>
-    </button>
-
-    <button class="cat-btn" data-cat="tinglados" role="tab" aria-selected="false">
-      <svg class="cat-icon" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2 8 L38 18 L38 26 L2 26 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        <line x1="2" y1="8" x2="2" y2="26" stroke="currentColor" stroke-width="1.2"/>
-        <line x1="14" y1="11" x2="14" y2="26" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
-        <line x1="26" y1="14.5" x2="26" y2="26" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
-      </svg>
-      <span class="cat-label">Tinglados</span>
-      <span class="cat-count" id="count-tinglados">1 obra</span>
-    </button>
+    <div class="cat-panel" data-cat="tinglados" id="panel-tinglados">
+      <div class="panel-bg">
+        <svg viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 8 L38 18 L38 26 L2 26 Z" stroke="currentColor" stroke-width="0.7" fill="none"/>
+          <line x1="2" y1="8" x2="2" y2="26" stroke="currentColor" stroke-width="0.6"/>
+          <line x1="14" y1="11" x2="14" y2="26" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1.5 1.5"/>
+          <line x1="26" y1="14.5" x2="26" y2="26" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1.5 1.5"/>
+        </svg>
+      </div>
+      <div class="panel-top">
+        <div class="panel-eyebrow">Portfolio</div>
+        <div class="panel-name">Tinglados</div>
+      </div>
+      <div class="panel-bottom">
+        <div class="panel-count" id="count-tinglados">1 obra</div>
+        <button class="panel-btn">Ver obras</button>
+      </div>
+    </div>
 
   </div>
 
   <!-- Techo sub-filter -->
-  <div class="techo-bar" aria-label="Filtro por tipo de techo">
+  <div class="techo-bar" id="techo-bar" aria-label="Filtro por tipo de techo">
     <span class="techo-label">Techo</span>
     <button class="techo-btn active" data-techo="todos">Todos</button>
     <button class="techo-btn" data-techo="un-agua">A un agua</button>
@@ -1033,10 +1080,11 @@
 
     // ── Category + Techo filter ──────────────────
     const allCards  = document.querySelectorAll('.obra-card');
-    const catBtns   = document.querySelectorAll('.cat-btn');
+    const catPanels = document.querySelectorAll('.cat-panel');
     const techoBtns = document.querySelectorAll('.techo-btn');
     const grid      = document.getElementById('obras-grid');
     const emptyMsg  = document.getElementById('cat-empty');
+    const techoBar  = document.getElementById('techo-bar');
 
     let currentCat   = 'galpones';
     let currentTecho = 'todos';
@@ -1064,11 +1112,7 @@
     function setCategory(cat) {
       currentCat   = cat;
       currentTecho = 'todos';
-      catBtns.forEach(btn => {
-        const active = btn.dataset.cat === cat;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-selected', String(active));
-      });
+      catPanels.forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
       techoBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.techo === 'todos'));
       filterCards();
     }
@@ -1079,7 +1123,12 @@
       filterCards();
     }
 
-    catBtns.forEach(btn => btn.addEventListener('click', () => setCategory(btn.dataset.cat)));
+    catPanels.forEach(p => {
+      p.addEventListener('click', () => {
+        setCategory(p.dataset.cat);
+        techoBar.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
     techoBtns.forEach(btn => btn.addEventListener('click', () => setTecho(btn.dataset.techo)));
 
     setCategory('galpones');
