@@ -938,10 +938,8 @@
        PRODUCT SHOWCASE — CARRUSEL 3D
     ═══════════════════════════════════════════════════ */
     #productos {
+      position: relative;
       height: 100vh;
-      /* Corte intencional con #servicios. Radial vignette: centro claro
-         (donde están las cards) → bordes oscuros. Versión más liviana del
-         original — base #5c5c5c (antes #555), edges al 65% de alpha (antes 95%). */
       background:
         radial-gradient(ellipse 80% 100% at 50% 50%,
           rgba(85, 85, 85, 0) 0%,
@@ -955,8 +953,20 @@
       overflow: hidden;
     }
 
+    #productos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+    }
+
     .productos-grid {
       position: relative;
+      z-index: 1;
       width: clamp(400px, 62vw, 780px);
       height: clamp(360px, 72vh, 660px);
       overflow: visible;
@@ -1085,26 +1095,27 @@
 
     @media (max-width: 600px) {
       .productos-grid {
-        width: 88vw;
-        height: clamp(280px, 68vw, 460px);
+        width: 94vw;
+        height: clamp(330px, 98vw, 440px);
       }
       .prod-card {
-        width: 74vw;
-        max-width: 320px;
+        width: 66vw;
+        max-width: 270px;
         height: auto;
-        aspect-ratio: 4 / 3;
+        aspect-ratio: 3 / 4;
       }
+      /* Mismo fan horizontal que desktop — los % son relativos al card */
       .prod-card--front {
-        transform: translate(-50%, -62%) rotate(-1deg);
+        transform: translate(-62%, -50%) rotate(-1.5deg);
       }
       .prod-card--back {
-        transform: translate(-50%, -34%) rotate(2.5deg) scale(0.90);
+        transform: translate(-38%, -46%) rotate(3deg) scale(0.88);
       }
       .prod-card--front:hover {
-        transform: translate(-50%, -64%) rotate(-1deg) scale(1.02);
+        transform: translate(-62%, -52%) rotate(-1.5deg) scale(1.02);
       }
       .prod-card--back:hover {
-        transform: translate(-50%, -35%) rotate(2.5deg) scale(0.93);
+        transform: translate(-38%, -48%) rotate(3deg) scale(0.91);
       }
     }
 
