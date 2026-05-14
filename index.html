@@ -67,7 +67,7 @@
     /* ═══════════════════════════════════════════════════
        GSAP — estado inicial (evita flash antes de que cargue)
     ═══════════════════════════════════════════════════ */
-    .prod-card {
+    .prod-panel {
       opacity: 0;
     }
 
@@ -935,21 +935,11 @@
     }
 
     /* ═══════════════════════════════════════════════════
-       PRODUCT SHOWCASE — CARRUSEL 3D
+       PRODUCT SHOWCASE — SPLIT PANELS
     ═══════════════════════════════════════════════════ */
     #productos {
       position: relative;
       height: 100vh;
-      background:
-        radial-gradient(ellipse 80% 100% at 50% 50%,
-          rgba(85, 85, 85, 0) 0%,
-          rgba(35, 35, 35, 0.65) 100%),
-        #5c5c5c;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0 var(--pad-x);
       overflow: hidden;
     }
 
@@ -957,165 +947,125 @@
       content: '';
       position: absolute;
       inset: 0;
-      z-index: 0;
-      opacity: 0.045;
+      z-index: 2;
+      opacity: 0.035;
+      pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 200px 200px;
-      pointer-events: none;
     }
 
-    .productos-grid {
+    .prod-panels {
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    .prod-panel {
+      flex: 1;
       position: relative;
-      z-index: 1;
-      width: clamp(400px, 62vw, 780px);
-      height: clamp(360px, 72vh, 660px);
-      overflow: visible;
-    }
-
-    .prod-card {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      height: clamp(300px, 64vh, 570px);
-      width: auto;
-      aspect-ratio: 3 / 4;
-      max-width: clamp(200px, 33vw, 430px);
-      border-radius: 6px;
       overflow: hidden;
       cursor: pointer;
-      background: #1a1a1a;
-      box-shadow:
-        0 4px 14px rgba(0, 0, 0, 0.3),
-        0 22px 55px rgba(0, 0, 0, 0.5),
-        0 50px 110px rgba(0, 0, 0, 0.35);
-      transition: transform 0.65s cubic-bezier(0.34, 1.12, 0.64, 1),
-                  box-shadow 0.5s ease;
-      will-change: transform;
+      transition: flex 0.55s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .prod-card--front {
-      transform: translate(-62%, -50%);
-      z-index: 2;
+    .prod-panel:hover { flex: 3; }
+
+    .prod-panel:not(:last-child) {
+      border-right: 1px solid rgba(255,255,255,0.07);
     }
 
-    .prod-card--back {
-      transform: translate(-38%, -46%) scale(0.88);
-      z-index: 1;
-    }
-
-    .prod-card--front:hover {
-      transform: translate(-62%, -52%) scale(1.02);
-      box-shadow:
-        0 6px 18px rgba(0, 0, 0, 0.35),
-        0 32px 75px rgba(0, 0, 0, 0.6),
-        0 70px 140px rgba(0, 0, 0, 0.45);
-    }
-
-    .prod-card--back:hover {
-      transform: translate(-38%, -48%) scale(0.91);
-    }
-
-    /* ── imagen ── */
-    .prod-card img {
+    .pp-img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.92;
-      transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .prod-card:hover img {
-      transform: scale(1.04);
-      opacity: 1;
-    }
+    .prod-panel:hover .pp-img { transform: scale(1.05); }
 
-    /* ── overlay gradiente ── */
-    .prod-card-overlay {
+    .pp-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top,
-          rgba(0, 0, 0, 0.72) 0%,
-          rgba(0, 0, 0, 0.18) 45%,
-          transparent 75%);
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.5) 0%,
+        transparent 32%,
+        transparent 58%,
+        rgba(0,0,0,0.65) 100%
+      );
+      z-index: 1;
     }
 
-    /* ── texto ── */
-    .prod-card-body {
+    .pp-body {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: auto;
-      padding: 1.8rem 1.6rem;
+      inset: 0;
+      z-index: 2;
+      padding: clamp(2rem, 5vw, 4rem);
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       align-items: flex-start;
-      gap: 0.8rem;
     }
 
-    .prod-name {
+    .pp-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .pp-eyebrow::before {
+      content: '';
+      display: block;
+      width: 18px; height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .pp-name {
       font-family: 'IBM Plex Serif', serif;
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      font-size: clamp(2.6rem, 5.5vw, 5.5rem);
       color: #fff;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-      line-height: 1.1;
+      line-height: 1;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.5);
     }
 
-    .prod-btn {
+    .pp-btn {
       display: inline-block;
-      padding: 0.45rem 1.4rem;
-      border-radius: 20px;
-      border: none;
-      color: #fff;
-      background-image: linear-gradient(30deg, #937658, #C89C3C, #D4AE54);
-      background-size: 100% auto;
+      padding: 0.55rem 2rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.28);
+      background: transparent;
+      color: rgba(255,255,255,0.72);
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: background-size 0.4s ease, background-position 0.4s ease;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+      white-space: nowrap;
     }
 
-    .prod-card:hover .prod-btn {
-      background-position: right center;
-      background-size: 200% auto;
-      animation: pulse-gold 1.5s infinite;
-    }
-
-    @keyframes pulse-gold {
-      0%   { box-shadow: 0 0 0 0 rgba(200, 156, 60, 0.55); }
-      70%  { box-shadow: 0 0 0 10px rgba(200, 156, 60, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(200, 156, 60, 0); }
+    .prod-panel:hover .pp-btn {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--dark);
     }
 
     @media (max-width: 600px) {
-      .productos-grid {
-        width: 94vw;
-        height: clamp(330px, 98vw, 440px);
-      }
-      .prod-card {
-        width: 66vw;
-        max-width: 270px;
-        height: auto;
-        aspect-ratio: 3 / 4;
-      }
-      .prod-card--front {
-        transform: translate(-62%, -50%);
-      }
-      .prod-card--back {
-        transform: translate(-38%, -46%) scale(0.88);
-      }
-      .prod-card--front:hover {
-        transform: translate(-62%, -52%) scale(1.02);
-      }
-      .prod-card--back:hover {
-        transform: translate(-38%, -48%) scale(0.91);
-      }
+      #productos { height: 70vh; }
+      .prod-panels { flex-direction: column; }
+      .pp-name { font-size: clamp(2rem, 8vw, 3rem); }
+      .pp-body { padding: 1.5rem; }
+      .pp-eyebrow { font-size: 0.55rem; margin-bottom: 0.5rem; }
     }
 
     /* ═══════════════════════════════════════════════════
@@ -2323,23 +2273,29 @@
        PRODUCT SHOWCASE
   ───────────────────────────────────────────── -->
   <section id="productos">
-    <div class="productos-grid">
+    <div class="prod-panels">
 
-      <div class="prod-card prod-card--front">
-        <img src="./fotos/tinglados.png" alt="Tinglados">
-        <div class="prod-card-overlay"></div>
-        <div class="prod-card-body">
-          <div class="prod-name">Tinglados</div>
-          <a href="tinglados.html" class="prod-btn">Ver más</a>
+      <div class="prod-panel">
+        <img class="pp-img" src="./fotos/galpones.png" alt="Galpones">
+        <div class="pp-overlay"></div>
+        <div class="pp-body">
+          <div>
+            <div class="pp-eyebrow">Estructuras</div>
+            <div class="pp-name">Galpones</div>
+          </div>
+          <a href="obras.html" class="pp-btn">Ver obras</a>
         </div>
       </div>
 
-      <div class="prod-card prod-card--back">
-        <img src="./fotos/galpones.png" alt="Galpones">
-        <div class="prod-card-overlay"></div>
-        <div class="prod-card-body">
-          <div class="prod-name">Galpones</div>
-          <a href="galpones.html" class="prod-btn">Ver más</a>
+      <div class="prod-panel">
+        <img class="pp-img" src="./fotos/tinglados.png" alt="Tinglados">
+        <div class="pp-overlay"></div>
+        <div class="pp-body">
+          <div>
+            <div class="pp-eyebrow">Estructuras</div>
+            <div class="pp-name">Tinglados</div>
+          </div>
+          <a href="obras.html" class="pp-btn">Ver obras</a>
         </div>
       </div>
 
@@ -2901,33 +2857,17 @@
         scrollTrigger: { trigger: '.srv-text-block', start: 'top 82%', toggleActions: 'restart none restart reset' } }
     );
 
-    // Productos — cards entran con fade, transforms manejados por clase CSS
-    gsap.fromTo('.prod-card',
+    // Productos — panels entran con fade
+    gsap.fromTo('.prod-panel',
       { opacity: 0 },
       {
         opacity: 1,
         duration: 1.0,
         ease: 'power3.out',
-        stagger: 0.22,
+        stagger: 0.18,
         scrollTrigger: { trigger: '#productos', start: 'top 75%', toggleActions: 'play none none none' }
       }
     );
-
-    // Tap card de atrás → pasa al frente
-    (function () {
-      const cards = Array.from(document.querySelectorAll('.prod-card'));
-      cards.forEach(function (card) {
-        card.addEventListener('click', function (e) {
-          if (card.classList.contains('prod-card--back')) {
-            e.preventDefault();
-            cards.forEach(function (c) {
-              c.classList.toggle('prod-card--front');
-              c.classList.toggle('prod-card--back');
-            });
-          }
-        });
-      });
-    }());
 
     // Video bottom — eyebrow antes del overlay
     reveal('#video-bottom', '#video-bottom', { y: 0, duration: 1.2 });
