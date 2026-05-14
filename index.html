@@ -2841,14 +2841,19 @@
       if (!document.hidden && vbVisible && vidFwd.paused && !vbEnded) vbTryPlay();
     });
 
+    // Arranca el texto en cuanto el video empieza a reproducir (una sola vez)
+    vidFwd.addEventListener('play', () => {
+      if (!vbEntryTimer && !vbCycleTimer) {
+        vbEntryTimer = true;
+        vbStartCycle();
+      }
+    }, { once: true });
+
     // Autoplay cuando es visible; pausa cuando no
     const vbObserver = new IntersectionObserver((entries) => {
       vbVisible = entries[0].isIntersecting;
       if (vbVisible) {
         vbTryPlay();
-        if (!vbEntryTimer && !vbCycleTimer) {
-          vbEntryTimer = setTimeout(vbStartCycle, 5000);
-        }
       } else {
         vidFwd.pause();
       }
