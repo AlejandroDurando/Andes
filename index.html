@@ -178,7 +178,7 @@
     }
 
     .nav-logo img {
-      height: 38px;
+      height: 46px;
       width: auto;
       transition: height 0.35s ease;
     }
@@ -189,7 +189,7 @@
     }
 
     #navbar.scrolled .nav-logo img {
-      height: 28px;
+      height: 34px;
     }
 
     .nav-links {
@@ -994,17 +994,17 @@
     }
 
     .prod-card--front {
-      transform: translate(-62%, -50%) rotate(-1.5deg);
+      transform: translate(-62%, -50%);
       z-index: 2;
     }
 
     .prod-card--back {
-      transform: translate(-38%, -46%) rotate(3deg) scale(0.88);
+      transform: translate(-38%, -46%) scale(0.88);
       z-index: 1;
     }
 
     .prod-card--front:hover {
-      transform: translate(-62%, -52%) rotate(-1.5deg) scale(1.02);
+      transform: translate(-62%, -52%) scale(1.02);
       box-shadow:
         0 6px 18px rgba(0, 0, 0, 0.35),
         0 32px 75px rgba(0, 0, 0, 0.6),
@@ -1012,7 +1012,7 @@
     }
 
     .prod-card--back:hover {
-      transform: translate(-38%, -48%) rotate(3deg) scale(0.91);
+      transform: translate(-38%, -48%) scale(0.91);
     }
 
     /* ── imagen ── */
@@ -1104,18 +1104,17 @@
         height: auto;
         aspect-ratio: 3 / 4;
       }
-      /* Mismo fan horizontal que desktop — los % son relativos al card */
       .prod-card--front {
-        transform: translate(-62%, -50%) rotate(-1.5deg);
+        transform: translate(-62%, -50%);
       }
       .prod-card--back {
-        transform: translate(-38%, -46%) rotate(3deg) scale(0.88);
+        transform: translate(-38%, -46%) scale(0.88);
       }
       .prod-card--front:hover {
-        transform: translate(-62%, -52%) rotate(-1.5deg) scale(1.02);
+        transform: translate(-62%, -52%) scale(1.02);
       }
       .prod-card--back:hover {
-        transform: translate(-38%, -48%) rotate(3deg) scale(0.91);
+        transform: translate(-38%, -48%) scale(0.91);
       }
     }
 
@@ -2765,6 +2764,9 @@
     // ── Video bottom — reproduce una vez y se detiene ─────────────────────
     const vidFwd = document.getElementById('vid-bottom-fwd');
     vidFwd.playbackRate = 0.8;
+    // Ensure muted+playsinline programmatically — iOS requires both at attribute AND property level
+    vidFwd.muted = true;
+    vidFwd.setAttribute('playsinline', '');
     let vbVisible = false;
     let vbEnded = false;
 
@@ -2801,25 +2803,49 @@
       vbCycleTimer = setInterval(vbShowNext, vbInterval);
     }
 
+    // Play helper robusto: si el video no está buffereado, hace load() y espera canplay
+    function vbTryPlay() {
+      if (vbEnded) return;
+      if (vidFwd.readyState < 2) {
+        vidFwd.load();
+        vidFwd.addEventListener('canplay', function onCp() {
+          vidFwd.removeEventListener('canplay', onCp);
+          if (vbVisible && !vbEnded) vidFwd.play().catch(() => {});
+        });
+      } else if (vidFwd.paused && (vidFwd.duration === 0 || vidFwd.duration - vidFwd.currentTime > 0.3)) {
+        vidFwd.play().catch(() => {});
+      }
+    }
+
     // iOS unlock: primer toque/scroll "desbloquea" la reproducción programática
     let vbUnlocked = false;
     function vbUnlock() {
       if (vbUnlocked) return;
       vbUnlocked = true;
-      vidFwd.play().then(() => { if (!vbVisible) vidFwd.pause(); }).catch(() => { });
+      if (vidFwd.readyState < 2) vidFwd.load();
+      vidFwd.play().then(() => { if (!vbVisible) vidFwd.pause(); }).catch(() => {});
     }
     document.addEventListener('touchstart', vbUnlock, { once: true, passive: true });
     document.addEventListener('scroll', vbUnlock, { once: true, passive: true });
+
+    // Recuperación tras bfcache (volver atrás en el historial) o cambio de tab
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) {
+        vbEnded = false;
+        vbUnlocked = false;
+        vidFwd.load();
+        if (vbVisible) vbTryPlay();
+      }
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && vbVisible && vidFwd.paused && !vbEnded) vbTryPlay();
+    });
 
     // Autoplay cuando es visible; pausa cuando no
     const vbObserver = new IntersectionObserver((entries) => {
       vbVisible = entries[0].isIntersecting;
       if (vbVisible) {
-        // Solo darle play si no llegó al final
-        if (vidFwd.paused && (vidFwd.duration === 0 || vidFwd.duration - vidFwd.currentTime > 0.3)) {
-          vidFwd.play().catch(() => { });
-        }
-        // Arrancar ciclo de texto 5 s después de llegar a la sección
+        vbTryPlay();
         if (!vbEntryTimer && !vbCycleTimer) {
           vbEntryTimer = setTimeout(vbStartCycle, 5000);
         }
