@@ -35,8 +35,8 @@
     <circle cx="100" cy="75" r="3.5"/>
     <circle cx="122" cy="75" r="3.5"/>
 
-    <!-- Upper diagonals: Warren truss (alternating triangles) -->
-    <line x1="16"  y1="20" x2="6"   y2="50"/>
+    <!-- Upper diagonals: X-bracing all panels -->
+    <line x1="16"  y1="20" x2="44"  y2="50"/>
     <line x1="44"  y1="20" x2="6"   y2="50"/>
     <line x1="44"  y1="20" x2="72"  y2="50"/>
     <line x1="72"  y1="20" x2="44"  y2="50"/>
@@ -45,7 +45,7 @@
     <line x1="100" y1="20" x2="122" y2="50"/>
     <line x1="122" y1="20" x2="100" y2="50"/>
     <line x1="122" y1="20" x2="154" y2="50"/>
-    <line x1="144" y1="20" x2="154" y2="50"/>
+    <line x1="144" y1="20" x2="122" y2="50"/>
 
     <!-- Lower diagonals: X/diamond bracing -->
     <line x1="6"   y1="50" x2="44"  y2="75"/>
