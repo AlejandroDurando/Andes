@@ -762,10 +762,11 @@
       max-width: 140px;
     }
 
-    .srv-badge svg {
+    .srv-badge img {
       width: 38px;
       height: 38px;
       opacity: 0.65;
+      object-fit: contain;
     }
 
     .srv-badge-label {
@@ -1004,7 +1005,7 @@
     .prod-panel:hover { flex: 3; }
 
     .prod-panel:not(:last-child) {
-      border-right: 1px solid rgba(255,255,255,0.07);
+      border-right: 1px solid rgba(255,255,255,0.22);
     }
 
     .pp-img {
@@ -1095,10 +1096,9 @@
 
     @media (max-width: 600px) {
       #productos { height: 70vh; }
-      .prod-panels { flex-direction: column; }
-      .pp-name { font-size: clamp(2rem, 8vw, 3rem); }
-      .pp-body { padding: 1.5rem; }
-      .pp-eyebrow { font-size: 0.55rem; margin-bottom: 0.5rem; }
+      .pp-name { font-size: clamp(1.8rem, 7vw, 2.8rem); }
+      .pp-body { padding: 1.2rem; }
+      .pp-eyebrow { font-size: 0.5rem; margin-bottom: 0.4rem; }
     }
 
     /* ═══════════════════════════════════════════════════
@@ -1440,8 +1440,8 @@
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(1rem, 1.7vw, 1.4rem);
-      color: rgba(40, 40, 40, 0.92);
+      font-size: clamp(1.05rem, 1.9vw, 1.55rem);
+      color: rgba(18, 18, 18, 0.97);
       line-height: 1.85;
       text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
       opacity: 0;
@@ -2081,7 +2081,7 @@
       }
 
       .vb-para-wrap>p {
-        font-size: 0.88rem;
+        font-size: 0.94rem;
         line-height: 1.75;
       }
 
@@ -2302,40 +2302,18 @@
     <div class="srv-badges">
 
       <div class="srv-badge">
-        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none">
-          <rect x="3" y="3" width="30" height="30" rx="1" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="3" y1="3" x2="33" y2="33" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="33" y1="3" x2="3" y2="33" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="18" y1="3" x2="18" y2="33" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="3" y1="18" x2="33" y2="18" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-        </svg>
+        <img src="./icono_hierro.png" alt="Hierro reticulado">
         <span class="srv-badge-label">Hierro reticulado</span>
       </div>
 
       <div class="srv-badge">
-        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none">
-          <circle cx="18" cy="18" r="6" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="18" y1="2" x2="18" y2="9" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="18" y1="27" x2="18" y2="34" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="2" y1="18" x2="9" y2="18" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="27" y1="18" x2="34" y2="18" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="6.4" y1="6.4" x2="11.4" y2="11.4" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="24.6" y1="24.6" x2="29.6" y2="29.6" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="29.6" y1="6.4" x2="24.6" y2="11.4" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-          <line x1="11.4" y1="24.6" x2="6.4" y2="29.6" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
-        </svg>
+        <img src="./icono_empresa.png" alt="Empresa Argentina">
         <span class="srv-badge-label">Empresa Argentina</span>
       </div>
 
       <div class="srv-badge">
-        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none">
-          <circle cx="6" cy="28" r="3" fill="rgba(200,200,200,0.65)"/>
-          <circle cx="18" cy="18" r="3" fill="rgba(200,200,200,0.65)"/>
-          <circle cx="30" cy="8" r="3" fill="rgba(200,200,200,0.65)"/>
-          <polyline points="6,28 18,18 30,8" stroke="rgba(200,200,200,0.65)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="24,8 30,8 30,14" stroke="rgba(200,200,200,0.65)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="srv-badge-label">Todas las etapas</span>
+        <img src="./icono_etapas.png" alt="Todas las etapas">
+        <span class="srv-badge-label">Trabajamos y acompañamos todas las etapas</span>
       </div>
 
     </div>
