@@ -2312,36 +2312,30 @@
     </div>
     <div id="vb-overlay">
       <div class="vb-para-wrap">
-        <!-- Desktop: 3 párrafos (2 oraciones c/u) -->
-        <p class="vb-desktop">Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y
-          montaje de estructuras metálicas, con una sólida presencia en el sector agroindustrial.<br>Nuestro crecimiento
-          se basa en el compromiso con la calidad, la mejora continua y el trabajo de un equipo profesional altamente
-          capacitado, enfocado en brindar soluciones confiables y eficientes.</p>
-        <p class="vb-desktop">Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis
-          y el diseño hasta la fabricación y el montaje final.<br>Trabajamos de manera cercana con cada cliente,
-          interpretando sus necesidades y aportando asesoramiento técnico preciso para garantizar resultados seguros,
-          duraderos y adaptados a cada requerimiento.</p>
-        <p class="vb-desktop">Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos
-          estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda.<br>Nuestra
-          experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar cada proyecto con seriedad,
-          innovación y compromiso, consolidándonos como un aliado estratégico en el desarrollo de soluciones
-          estructurales.</p>
+        <!-- Desktop: 3 párrafos — data-dur en ms -->
+        <p class="vb-desktop" data-dur="12000">En Andes, entendemos que el campo es una parte muy importante del presente y del futuro
+          de la Argentina.<br>Es nuestra motivación acompañar a cada productor y empresa agropecuaria con
+          estructuras sólidas, funcionales y pensadas para el trabajo diario.</p>
+        <p class="vb-desktop" data-dur="14000">Con más de 10 años de experiencia en el sector de estructuras metálicas, trabajamos junto
+          al campo aportando calidad, compromiso e innovación en cada obra.<br>Fabricamos y
+          montamos estructuras destinadas al rubro agroindustrial, brindando soluciones concretas y
+          adaptadas a las necesidades de cada cliente.</p>
+        <p class="vb-desktop" data-dur="13000">Creemos en el valor del esfuerzo, en la cercanía y en construir relaciones de confianza a
+          largo plazo.<br>Porque donde el campo crece, nosotros estamos presentes, construyendo
+          estructuras que acompañan el trabajo y el crecimiento de nuestra comunidad.</p>
         <!-- Mobile: 6 oraciones individuales -->
-        <p class="vb-mobile">Somos una empresa con más de 10 años de trayectoria en el desarrollo, fabricación y montaje
-          de estructuras metálicas, con una sólida presencia en el sector agroindustrial.</p>
-        <p class="vb-mobile">Nuestro crecimiento se basa en el compromiso con la calidad, la mejora continua y el
-          trabajo de un equipo profesional altamente capacitado, enfocado en brindar soluciones confiables y eficientes.
-        </p>
-        <p class="vb-mobile">Ofrecemos un servicio integral que abarca todas las etapas del proyecto, desde el análisis
-          y el diseño hasta la fabricación y el montaje final.</p>
-        <p class="vb-mobile">Trabajamos de manera cercana con cada cliente, interpretando sus necesidades y aportando
-          asesoramiento técnico preciso para garantizar resultados seguros, duraderos y adaptados a cada requerimiento.
-        </p>
-        <p class="vb-mobile">Desarrollamos estructuras de hierro articulado, soldadas y abulonadas bajo estrictos
-          estándares de calidad, respondiendo a las exigencias de entornos productivos de alta demanda.</p>
-        <p class="vb-mobile">Nuestra experiencia, capacidad operativa y conocimiento del sector nos permiten acompañar
-          cada proyecto con seriedad, innovación y compromiso, consolidándonos como un aliado estratégico en el
-          desarrollo de soluciones estructurales.</p>
+        <p class="vb-mobile" data-dur="6000">En Andes, entendemos que el campo es una parte muy importante del presente y del futuro
+          de la Argentina.</p>
+        <p class="vb-mobile" data-dur="6000">Es nuestra motivación acompañar a cada productor y empresa agropecuaria con
+          estructuras sólidas, funcionales y pensadas para el trabajo diario.</p>
+        <p class="vb-mobile" data-dur="7000">Con más de 10 años de experiencia en el sector de estructuras metálicas, trabajamos junto
+          al campo aportando calidad, compromiso e innovación en cada obra.</p>
+        <p class="vb-mobile" data-dur="7000">Fabricamos y montamos estructuras destinadas al rubro agroindustrial, brindando
+          soluciones concretas y adaptadas a las necesidades de cada cliente.</p>
+        <p class="vb-mobile" data-dur="6000">Creemos en el valor del esfuerzo, en la cercanía y en construir relaciones de confianza
+          a largo plazo.</p>
+        <p class="vb-mobile" data-dur="7000">Porque donde el campo crece, nosotros estamos presentes, construyendo estructuras que
+          acompañan el trabajo y el crecimiento de nuestra comunidad.</p>
       </div>
     </div>
   </section>
@@ -2739,7 +2733,6 @@
     const vbOverlay = document.getElementById('vb-overlay');
     const vbIsMobile = window.innerWidth <= 640;
     const vbParas = Array.from(vbOverlay.querySelectorAll(vbIsMobile ? '.vb-mobile' : '.vb-desktop'));
-    const vbInterval = 16000;
     let vbParaIdx = 0;
     let vbCycleTimer = null;
     let vbEntryTimer = null;
@@ -2747,15 +2740,16 @@
     function vbShowNext() {
       vbParas.forEach(p => p.classList.remove('vb-active'));
       const idx = vbParaIdx;
+      const dur = parseInt(vbParas[idx].dataset.dur) || 13000;
       vbParaIdx = (vbParaIdx + 1) % vbParas.length;
       setTimeout(() => vbParas[idx].classList.add('vb-active'), 1300);
+      vbCycleTimer = setTimeout(vbShowNext, dur);
     }
 
     function vbStartCycle() {
       if (vbCycleTimer) return;
       vbOverlay.classList.add('visible');
       vbShowNext();
-      vbCycleTimer = setInterval(vbShowNext, vbInterval);
     }
 
     // Play helper robusto: si el video no está buffereado, hace load() y espera canplay
