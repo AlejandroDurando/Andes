@@ -747,6 +747,38 @@
       color: var(--gray-text);
     }
 
+    .srv-badges {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .srv-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.7rem;
+      max-width: 140px;
+    }
+
+    .srv-badge svg {
+      width: 38px;
+      height: 38px;
+      opacity: 0.65;
+    }
+
+    .srv-badge-label {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--gray-text);
+      opacity: 0.65;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
     /* 2×2 card grid */
     .services-grid {
       display: grid;
@@ -2239,14 +2271,12 @@
 
       <!-- Shown once animation completes -->
       <div id="end-overlay">
-        <h2>Soluciones integrales en estructuras metálicas</h2>
+        <h2>Estructuras que acompañan el crecimiento del sector agropecuario.</h2>
         <div class="hero-para-wrap">
           <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el
-            sector agroindustrial.</p>
-          <p>Brindamos asesoramiento técnico en cada etapa del proyecto, trabajando con altos estándares de calidad y
-            precisión.</p>
-          <p>Combinamos experiencia, innovación y un equipo profesional especializado para garantizar resultados
-            eficientes y confiables.</p>
+            sector agroindustrial. Brindamos asesoramiento técnico en cada etapa del proyecto, trabajando con rapidez,
+            precisión y calidad. Con la experiencia y nuestro equipo especializado, garantizamos resultados eficientes
+            y confiables.</p>
         </div>
       </div>
     </div>
@@ -2268,6 +2298,48 @@
         estratégico en el desarrollo de proyectos, acompañando cada etapa desde la concepción hasta la ejecución final.
       </p>
     </div>
+
+    <div class="srv-badges">
+
+      <div class="srv-badge">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <rect x="3" y="3" width="30" height="30" rx="1" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="3" y1="3" x2="33" y2="33" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="33" y1="3" x2="3" y2="33" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="18" y1="3" x2="18" y2="33" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="3" y1="18" x2="33" y2="18" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+        </svg>
+        <span class="srv-badge-label">Hierro reticulado</span>
+      </div>
+
+      <div class="srv-badge">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <circle cx="18" cy="18" r="6" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="18" y1="2" x2="18" y2="9" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="18" y1="27" x2="18" y2="34" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="2" y1="18" x2="9" y2="18" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="27" y1="18" x2="34" y2="18" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="6.4" y1="6.4" x2="11.4" y2="11.4" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="24.6" y1="24.6" x2="29.6" y2="29.6" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="29.6" y1="6.4" x2="24.6" y2="11.4" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+          <line x1="11.4" y1="24.6" x2="6.4" y2="29.6" stroke="rgba(200,200,200,0.65)" stroke-width="1.4"/>
+        </svg>
+        <span class="srv-badge-label">Empresa Argentina</span>
+      </div>
+
+      <div class="srv-badge">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <circle cx="6" cy="28" r="3" fill="rgba(200,200,200,0.65)"/>
+          <circle cx="18" cy="18" r="3" fill="rgba(200,200,200,0.65)"/>
+          <circle cx="30" cy="8" r="3" fill="rgba(200,200,200,0.65)"/>
+          <polyline points="6,28 18,18 30,8" stroke="rgba(200,200,200,0.65)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="24,8 30,8 30,14" stroke="rgba(200,200,200,0.65)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="srv-badge-label">Todas las etapas</span>
+      </div>
+
+    </div>
+
   </section>
 
   <!-- ─────────────────────────────────────────────
