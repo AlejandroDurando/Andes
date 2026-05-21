@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Connecting line (behind nodes) -->
+  <line x1="34" y1="90" x2="138" y2="18"
+        stroke="#c4beba" stroke-width="4" stroke-linecap="round"/>
+  <!-- Nodes -->
+  <circle cx="34"  cy="90" r="9"  fill="#c4beba"/>
+  <circle cx="86"  cy="54" r="9"  fill="#c4beba"/>
+  <circle cx="120" cy="29" r="9"  fill="#c4beba"/>
+  <!-- Arrowhead (filled triangle pointing NE) -->
+  <polygon points="148,11 131,16 136,32" fill="#c4beba"/>
+</svg>
