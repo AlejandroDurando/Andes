@@ -1392,31 +1392,27 @@
     #video-bottom {
       position: relative;
       width: 100%;
-      min-height: 100vh;
-      background: #111;
+      height: 100vh;
+      background: #000;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
     .vb-frame {
       position: relative;
-      /* 9:16 portrait — width = 56.25vh fills exactly 100vh height */
-      width: clamp(300px, 56.25vh, 780px);
-      aspect-ratio: 9 / 16;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-
-    #vid-bottom-fwd {
-      position: absolute;
-      inset: 0;
+      display: flex;
       width: 100%;
       height: 100%;
-      display: block;
+    }
+
+    #vid-bottom-fwd,
+    #vid-bottom-fwd-2 {
+      height: 100%;
+      flex-shrink: 0;
       object-fit: cover;
     }
+
+    #vid-bottom-fwd   { width: 50%; }
+    #vid-bottom-fwd-2 { width: 50%; }
 
     #vb-overlay {
       position: absolute;
@@ -1441,7 +1437,7 @@
 
     .vb-para-wrap {
       display: grid;
-      width: 88%;
+      width: min(62ch, 46%);
     }
 
     .vb-para-wrap>p {
@@ -2067,14 +2063,17 @@
         text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
       }
 
-      /* Video bottom mobile: full-width portrait */
+      /* Video bottom mobile: full-width, single video */
       #video-bottom {
-        min-height: auto;
-        align-items: stretch;
+        height: 85vh;
       }
 
-      .vb-frame {
+      #vid-bottom-fwd {
         width: 100%;
+      }
+
+      #vid-bottom-fwd-2 {
+        display: none;
       }
 
       #vb-overlay {
@@ -2363,7 +2362,8 @@
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
     <div class="vb-frame">
-      <video id="vid-bottom-fwd" src="./video_bottom3.mp4" muted playsinline autoplay preload="auto"></video>
+      <video id="vid-bottom-fwd" src="./video_bottom_desktop1.mp4" muted playsinline autoplay preload="auto"></video>
+      <video id="vid-bottom-fwd-2" data-src="./video_bottom_desktop2.mp4" muted playsinline autoplay preload="none"></video>
       <div id="vb-overlay">
         <div class="vb-para-wrap">
           <!-- Desktop: 3 párrafos — data-dur en ms -->
@@ -2765,6 +2765,12 @@
 
     // ── Video bottom — reproduce una vez y se detiene ─────────────────────
     const vidFwd = document.getElementById('vid-bottom-fwd');
+    // Cargar segundo video solo en desktop (evita descarga innecesaria en mobile)
+    const vidFwd2 = document.getElementById('vid-bottom-fwd-2');
+    if (vidFwd2 && window.innerWidth > 768) {
+      vidFwd2.src = vidFwd2.dataset.src;
+      vidFwd2.load();
+    }
     vidFwd.playbackRate = 0.8;
     // Ensure muted+playsinline programmatically — iOS requires both at attribute AND property level
     vidFwd.muted = true;
