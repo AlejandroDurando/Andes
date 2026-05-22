@@ -1399,20 +1399,20 @@
 
     .vb-frame {
       position: relative;
-      display: flex;
       width: 100%;
       height: 100%;
     }
 
     #vid-bottom-fwd,
-    #vid-bottom-fwd-2 {
+    #vid-bottom-mobile {
+      position: absolute;
+      inset: 0;
+      width: 100%;
       height: 100%;
-      flex-shrink: 0;
       object-fit: cover;
     }
 
-    #vid-bottom-fwd   { width: 50%; }
-    #vid-bottom-fwd-2 { width: 50%; }
+    #vid-bottom-mobile { display: none; }
 
     #vb-overlay {
       position: absolute;
@@ -2063,17 +2063,17 @@
         text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
       }
 
-      /* Video bottom mobile: full-width, single video */
+      /* Video bottom mobile: portrait video */
       #video-bottom {
         height: 85vh;
       }
 
       #vid-bottom-fwd {
-        width: 100%;
+        display: none;
       }
 
-      #vid-bottom-fwd-2 {
-        display: none;
+      #vid-bottom-mobile {
+        display: block;
       }
 
       #vb-overlay {
@@ -2306,17 +2306,17 @@
     <div class="srv-badges">
 
       <div class="srv-badge">
-        <img src="./icono_hierro.jpeg" alt="Hierro reticulado">
+        <img src="./icono_hierro.svg" alt="Hierro reticulado">
         <span class="srv-badge-label">Hierro reticulado</span>
       </div>
 
       <div class="srv-badge">
-        <img src="./icono_empresa.jpeg" alt="Empresa Argentina">
+        <img src="./icono_empresa.svg" alt="Empresa Argentina">
         <span class="srv-badge-label">Empresa Argentina</span>
       </div>
 
       <div class="srv-badge">
-        <img src="./icono_etapas.jpeg" alt="Todas las etapas">
+        <img src="./icono_etapas.svg" alt="Todas las etapas">
         <span class="srv-badge-label">Trabajamos y acompañamos todas las etapas</span>
       </div>
 
@@ -2362,8 +2362,8 @@
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
     <div class="vb-frame">
-      <video id="vid-bottom-fwd" src="./video_bottom_desktop1.mp4" muted playsinline autoplay preload="auto"></video>
-      <video id="vid-bottom-fwd-2" data-src="./video_bottom_desktop2.mp4" muted playsinline autoplay preload="none"></video>
+      <video id="vid-bottom-fwd" src="./video_bottom_desktop.mp4" muted playsinline autoplay preload="auto"></video>
+      <video id="vid-bottom-mobile" src="./video_bottom_mobile.mp4" muted playsinline preload="none"></video>
       <div id="vb-overlay">
         <div class="vb-para-wrap">
           <!-- Desktop: 3 párrafos — data-dur en ms -->
@@ -2764,13 +2764,11 @@
     }
 
     // ── Video bottom — reproduce una vez y se detiene ─────────────────────
-    const vidFwd = document.getElementById('vid-bottom-fwd');
-    // Cargar segundo video solo en desktop (evita descarga innecesaria en mobile)
-    const vidFwd2 = document.getElementById('vid-bottom-fwd-2');
-    if (vidFwd2 && window.innerWidth > 768) {
-      vidFwd2.src = vidFwd2.dataset.src;
-      vidFwd2.load();
-    }
+    const vbIsMobile = window.innerWidth <= 768;
+    const vidFwd = vbIsMobile
+      ? document.getElementById('vid-bottom-mobile')
+      : document.getElementById('vid-bottom-fwd');
+    if (vbIsMobile) vidFwd.load();
     vidFwd.playbackRate = 0.8;
     // Ensure muted+playsinline programmatically — iOS requires both at attribute AND property level
     vidFwd.muted = true;
@@ -2790,7 +2788,6 @@
 
     // Text overlay — párrafos de a 1, 5 s después de que el usuario llega a la sección
     const vbOverlay = document.getElementById('vb-overlay');
-    const vbIsMobile = window.innerWidth <= 640;
     const vbParas = Array.from(vbOverlay.querySelectorAll(vbIsMobile ? '.vb-mobile' : '.vb-desktop'));
     let vbParaIdx = 0;
     let vbCycleTimer = null;
