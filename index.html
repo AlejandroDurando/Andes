@@ -577,15 +577,15 @@
     ═══════════════════════════════════════════════════ */
     #scroll-section {
       position: relative;
-      height: 850vh;
-      /* last ~20% = reading zone with frozen last frame */
+      height: calc(850 * var(--vh, 1vh));
     }
 
     #canvas-wrapper {
       position: sticky;
       top: 0;
-      width: 100vw;
+      width: 100%;
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       background: var(--dark);
       will-change: transform;
@@ -1438,6 +1438,12 @@
     .vb-para-wrap {
       display: grid;
       width: min(72ch, 56%);
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 1.6rem 2rem;
     }
 
     .vb-para-wrap>p {
@@ -1446,9 +1452,8 @@
       font-weight: 300;
       font-style: italic;
       font-size: clamp(0.88rem, 1.35vw, 1.15rem);
-      color: rgba(18, 18, 18, 0.97);
+      color: rgba(0, 0, 0, 1);
       line-height: 1.7;
-      text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
       opacity: 0;
       transition: opacity 1s ease;
     }
@@ -1983,7 +1988,7 @@
       }
 
       #scroll-section {
-        height: 320vh;
+        height: calc(320 * var(--vh, 1vh));
       }
 
       .services-grid {
@@ -2077,16 +2082,20 @@
       }
 
       #vb-overlay {
-        padding: clamp(1rem, 3vh, 2rem) 1.2rem;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 1.2rem 1.2rem clamp(1.8rem, 4vh, 3rem);
       }
 
       .vb-para-wrap {
-        width: 94%;
+        width: 92%;
+        padding: 1rem 1.2rem;
+        border-radius: 8px;
       }
 
       .vb-para-wrap>p {
-        font-size: 0.88rem;
-        line-height: 1.75;
+        font-size: 0.84rem;
+        line-height: 1.7;
       }
 
       /* Mostrar oraciones individuales, ocultar párrafos desktop */
@@ -2116,7 +2125,7 @@
       }
 
       #scroll-section {
-        height: 400vh;
+        height: calc(400 * var(--vh, 1vh));
       }
 
       #end-overlay {
@@ -2538,9 +2547,9 @@
     //     video's natural height at screen width (avoids a tiny strip for
     //     ultra-wide videos and avoids full-screen for normal 16:9)
     function fitCanvasToVideo() {
-      // Force 100vh on all devices for a full-screen immersive experience
-      // The drawFrame function's 'cover' logic will ensure the center structure remains visible.
-      wrapper.style.height = '100vh';
+      const vh = window.innerHeight;
+      document.documentElement.style.setProperty('--vh', vh * 0.01 + 'px');
+      wrapper.style.height = vh + 'px';
       resizeCanvas();
     }
     window.addEventListener('resize', fitCanvasToVideo, { passive: true });
