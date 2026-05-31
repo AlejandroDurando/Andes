@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,300;1,400&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,6 +123,148 @@
       z-index: 1;
       pointer-events: none;
     }
+    .faq-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .faq-list { flex: 1; min-width: 0; }
+    .faq-aside {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 0.5rem;
+    }
+    .faq-aside-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── Flip card ───────────────────────────────── */
+    .flip-wrap {
+      perspective: 900px;
+      width: 220px;
+      height: 220px;
+      cursor: pointer;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .flip-wrap:hover .flip-inner { transform: rotateY(180deg); }
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .flip-front {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .radar-wrap {
+      position: relative;
+      width: 90px; height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .radar-ring {
+      position: absolute;
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      border: 1.5px solid #ea4335;
+      opacity: 0;
+      transform: scale(0.4);
+      animation: radar 2.8s ease-out infinite;
+    }
+    .radar-ring:nth-child(2) { animation-delay: 0.9s; }
+    .radar-ring:nth-child(3) { animation-delay: 1.8s; }
+    @keyframes radar {
+      0%   { opacity: 0.6; transform: scale(0.3); }
+      100% { opacity: 0;   transform: scale(2.6); }
+    }
+    .pin-wrap {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+      animation: float 3.2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-9px); }
+    }
+    .pin-body {
+      width: 34px; height: 44px;
+      background: #ea4335;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .pin-body::after {
+      content: '';
+      position: absolute;
+      bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 13px solid #ea4335;
+    }
+    .pin-dot { width: 12px; height: 12px; background: white; border-radius: 50%; }
+    .pin-shadow {
+      width: 14px; height: 4px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 50%;
+      margin-top: 4px;
+      animation: shadow-anim 3.2s ease-in-out infinite;
+    }
+    @keyframes shadow-anim {
+      0%, 100% { width: 14px; opacity: 0.3; }
+      50%       { width: 9px;  opacity: 0.15; }
+    }
+    .front-label {
+      margin-top: 12px;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.7);
+    }
+    .flip-back {
+      background: #1a73e8;
+      transform: rotateY(180deg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 22px; text-align: center;
+    }
+    .back-title { font-size: 0.88rem; font-weight: 600; color: white; margin-bottom: 5px; }
+    .back-address { font-size: 0.72rem; color: rgba(255,255,255,0.75); margin-bottom: 18px; line-height: 1.6; }
+    .back-btn {
+      background: white; color: #1a73e8;
+      font-size: 0.78rem; font-weight: 600;
+      padding: 8px 18px; border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 0.88; }
+
+    @media (max-width: 860px) {
+      .faq-content { flex-direction: column; gap: 3rem; }
+      .faq-aside { align-items: flex-start; flex-direction: row; gap: 1.5rem; align-items: center; }
+      .faq-aside-label { margin-bottom: 0; }
+    }
+
     .faq-list { max-width: 760px; position: relative; z-index: 2; }
     .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
     .faq-q {
@@ -228,7 +371,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="index.html#servicios">Servicios</a></li>
+      
       <li><a href="obras.html">Obras</a></li>
       <li><a href="faq.html" class="active">FAQ</a></li>
       <li><a href="contacto.html" class="nav-cta">Presupuesto</a></li>
@@ -238,7 +381,7 @@
 
   <div id="mobile-menu" aria-hidden="true">
     <a href="index.html"           onclick="closeMob()">Inicio</a>
-    <a href="index.html#servicios" onclick="closeMob()">Servicios</a>
+    
     <a href="obras.html"           onclick="closeMob()">Obras</a>
     <a href="faq.html"             onclick="closeMob()">FAQ</a>
     <a href="contacto.html"        onclick="closeMob()" class="mob-cta">Presupuesto</a>
@@ -252,6 +395,7 @@
   <section class="section">
     <video class="faq-bg-video" src="./faq_bg.mp4" autoplay muted loop playsinline preload="auto"></video>
     <div class="faq-bg-dim"></div>
+    <div class="faq-content">
     <div class="faq-list">
 
       <div class="faq-item">
@@ -303,6 +447,39 @@
       </div>
 
     </div>
+
+      <!-- Flip card ubicación -->
+      <div class="faq-aside">
+        <div class="faq-aside-label">Nuestra ubicación</div>
+        <div class="flip-wrap">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="radar-wrap">
+                <div class="radar-ring"></div>
+                <div class="radar-ring"></div>
+                <div class="radar-ring"></div>
+                <div class="pin-wrap">
+                  <div class="pin-body"><div class="pin-dot"></div></div>
+                  <div class="pin-shadow"></div>
+                </div>
+              </div>
+              <div class="front-label">San Francisco, Córdoba</div>
+            </div>
+            <div class="flip-back">
+              <div class="back-title">Av. Rosario de Sta Fe 48</div>
+              <div class="back-address">X2400 San Francisco<br>Córdoba, Argentina</div>
+              <a class="back-btn"
+                href="https://www.google.com/maps/search/?api=1&query=Av.+Rosario+de+Sta+Fe+48,+X2400+San+Francisco,+C%C3%B3rdoba"
+                target="_blank" rel="noopener noreferrer">
+                <i class="ti ti-external-link" style="font-size:13px;"></i>
+                Abrir en Maps
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.faq-content -->
   </section>
 
     <footer id="footer">
@@ -313,11 +490,11 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2026 Andes Estructuras S.A.S. &mdash; San Francisco, Córdoba, Argentina</div>
-      <div class="footer-copy">+54 3564 413650 &mdash; <a href="mailto:contacto@andes.com.ar">contacto@andes.com.ar</a></div>
+      <div class="footer-copy">+54 9 3564 204278 &mdash; <a href="mailto:andesestructuras@gmail.com">andesestructuras@gmail.com</a></div>
     </div>
   </footer>
 
-  <a id="wa-fab" href="https://wa.me/543564413650?text=Hola%2C%20quisiera%20solicitar%20un%20presupuesto." target="_blank" rel="noopener" aria-label="WhatsApp">
+  <a id="wa-fab" href="https://wa.me/5493564204278?text=Hola%2C%20quisiera%20solicitar%20un%20presupuesto." target="_blank" rel="noopener" aria-label="WhatsApp">
     <div class="fab-ring"></div>
     <svg viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.82.736 5.47 2.027 7.77L0 32l8.47-2.002A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.77-1.845l-.484-.29-5.027 1.188 1.22-4.905-.317-.503A13.27 13.27 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.94c-.4-.2-2.363-1.163-2.73-1.296-.366-.133-.633-.2-.9.2-.266.4-1.033 1.296-1.266 1.563-.233.267-.467.3-.867.1-.4-.2-1.687-.622-3.213-1.98-1.187-1.058-1.988-2.365-2.22-2.765-.233-.4-.025-.616.175-.815.18-.18.4-.467.6-.7.2-.233.267-.4.4-.667.133-.266.067-.5-.033-.7-.1-.2-.9-2.167-1.233-2.967-.325-.78-.655-.673-.9-.686l-.767-.013c-.267 0-.7.1-1.067.5-.366.4-1.4 1.367-1.4 3.333 0 1.967 1.433 3.867 1.633 4.133.2.267 2.82 4.3 6.833 6.033.954.413 1.699.66 2.28.844.958.305 1.831.262 2.52.159.769-.115 2.363-.967 2.697-1.9.333-.933.333-1.733.233-1.9-.1-.167-.366-.267-.766-.467z"/></svg>
   </a>
