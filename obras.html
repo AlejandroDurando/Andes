@@ -211,6 +211,62 @@
       background: rgba(200,156,60,0.06);
     }
 
+    /* ── Techo info panel ───────────────────────── */
+    .techo-info {
+      background: var(--dark-2);
+      border-bottom: 1px solid #111;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .techo-info.visible {
+      max-height: 400px;
+      padding: 1.8rem var(--pad-x);
+    }
+    .techo-info-inner {
+      max-width: 860px;
+    }
+    .techo-info h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .techo-info p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--gray-text);
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+    .techo-info ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.8rem;
+    }
+    .techo-info ul li {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: #666;
+      line-height: 1.6;
+      padding-left: 0.9rem;
+      position: relative;
+    }
+    .techo-info ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.65rem;
+    }
+    @media (max-width: 768px) {
+      .techo-info ul { flex-direction: column; gap: 0.3rem; }
+    }
+
     /* ── Works section ───────────────────────────── */
     .obras-section {
       padding: 3.5rem var(--pad-x) var(--pad-y);
@@ -482,7 +538,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="index.html#servicios">Servicios</a></li>
+      
       <li><a href="obras.html" loading="lazy" class="active">Obras</a></li>
       <li><a href="contacto.html" class="nav-cta">Presupuesto</a></li>
     </ul>
@@ -491,7 +547,7 @@
 
   <div id="mobile-menu" aria-hidden="true">
     <a href="index.html"           onclick="closeMob()">Inicio</a>
-    <a href="index.html#servicios" onclick="closeMob()">Servicios</a>
+    
     <a href="obras.html"           onclick="closeMob()">Obras</a>
     <a href="contacto.html"        onclick="closeMob()" class="mob-cta">Presupuesto</a>
   </div>
@@ -535,6 +591,11 @@
     <button class="techo-btn" data-techo="un-agua">A un agua</button>
     <button class="techo-btn" data-techo="dos-aguas">A dos aguas</button>
     <button class="techo-btn" data-techo="parabolico">Parabólico</button>
+  </div>
+
+  <!-- Techo info panel -->
+  <div class="techo-info" id="techo-info">
+    <div class="techo-info-inner" id="techo-info-inner"></div>
   </div>
 
   <!-- Works grid -->
@@ -1042,11 +1103,11 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2026 Andes Estructuras S.A.S. &mdash; San Francisco, Córdoba, Argentina</div>
-      <div class="footer-copy">+54 3564 413650 &mdash; <a href="mailto:contacto@andes.com.ar">contacto@andes.com.ar</a></div>
+      <div class="footer-copy">+54 9 3564 204278 &mdash; <a href="mailto:andesestructuras@gmail.com">andesestructuras@gmail.com</a></div>
     </div>
   </footer>
 
-  <a id="wa-fab" href="https://wa.me/543564413650?text=Hola%2C%20quisiera%20solicitar%20un%20presupuesto."
+  <a id="wa-fab" href="https://wa.me/5493564204278?text=Hola%2C%20quisiera%20solicitar%20un%20presupuesto."
      target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
     <div class="fab-ring"></div>
     <svg viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.82.736 5.47 2.027 7.77L0 32l8.47-2.002A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.77-1.845l-.484-.29-5.027 1.188 1.22-4.905-.317-.503A13.27 13.27 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.94c-.4-.2-2.363-1.163-2.73-1.296-.366-.133-.633-.2-.9.2-.266.4-1.033 1.296-1.266 1.563-.233.267-.467.3-.867.1-.4-.2-1.687-.622-3.213-1.98-1.187-1.058-1.988-2.365-2.22-2.765-.233-.4-.025-.616.175-.815.18-.18.4-.467.6-.7.2-.233.267-.4.4-.667.133-.266.067-.5-.033-.7-.1-.2-.9-2.167-1.233-2.967-.325-.78-.655-.673-.9-.686l-.767-.013c-.267 0-.7.1-1.067.5-.366.4-1.4 1.367-1.4 3.333 0 1.967 1.433 3.867 1.633 4.133.2.267 2.82 4.3 6.833 6.033.954.413 1.699.66 2.28.844.958.305 1.831.262 2.52.159.769-.115 2.363-.967 2.697-1.9.333-.933.333-1.733.233-1.9-.1-.167-.366-.267-.766-.467z"/></svg>
@@ -1279,9 +1340,58 @@
       filterCards();
     }
 
+    const techoInfo = document.getElementById('techo-info');
+    const techoInfoInner = document.getElementById('techo-info-inner');
+    const techoDescriptions = {
+      'un-agua': {
+        title: 'Techo a una agua',
+        intro: 'Se caracteriza por tener una sola pendiente inclinada hacia un lado.',
+        items: [
+          'Menor costo de construcción: estructura más simple, menos materiales y menor tiempo de montaje.',
+          'Rápido escurrimiento del agua: la pendiente evacúa lluvia y granizo hacia un único lateral.',
+          'Ideal para ampliaciones: muy utilizado para extender galpones existentes o construir estructuras anexas.',
+          'Excelente para galpones abiertos: depósitos, tinglados o espacios semicubiertos para maquinaria y animales.',
+          'Mantenimiento sencillo: geometría simple que facilita reparaciones y limpieza.'
+        ]
+      },
+      'dos-aguas': {
+        title: 'Techo a dos aguas',
+        intro: 'Posee dos pendientes que se unen en una cumbrera central. Es el diseño más tradicional y uno de los más utilizados en construcciones rurales.',
+        items: [
+          'Excelente drenaje: la doble pendiente distribuye el peso y facilita la evacuación del agua.',
+          'Mayor altura interior: genera espacios más amplios y ventilados en el centro del galpón.',
+          'Mejor ventilación natural: permite incorporar ventilaciones superiores en la cumbrera.',
+          'Gran resistencia estructural: soporta muy bien cargas de viento y condiciones climáticas adversas.',
+          'Estética clásica y versátil: el modelo más reconocido y adaptable a distintos tipos de establecimientos rurales.'
+        ]
+      },
+      'parabolico': {
+        title: 'Techo parabólico',
+        intro: 'Forma curva o arqueada que genera una estructura moderna, amplia y eficiente. Ideal para grandes luces sin columnas intermedias.',
+        items: [
+          'Máximo aprovechamiento del espacio: grandes superficies libres sin necesidad de apoyos internos.',
+          'Excelente resistencia aerodinámica: su forma reduce el impacto del viento.',
+          'Mayor sensación de amplitud: interiores más altos y cómodos para maquinaria de gran porte.',
+          'Diseño moderno y eficiente: imagen tecnológica e industrial.',
+          'Muy buena iluminación y ventilación: permite integrar soluciones cenitales y circulación natural del aire.'
+        ]
+      }
+    };
+
+    function updateTechoInfo(techo) {
+      if (techo === 'todos' || !techoDescriptions[techo]) {
+        techoInfo.classList.remove('visible');
+        return;
+      }
+      const d = techoDescriptions[techo];
+      techoInfoInner.innerHTML = `<h3>${d.title}</h3><p>${d.intro}</p><ul>${d.items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+      techoInfo.classList.add('visible');
+    }
+
     function setTecho(techo) {
       currentTecho = techo;
       techoBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.techo === techo));
+      updateTechoInfo(techo);
       filterCards();
     }
 
