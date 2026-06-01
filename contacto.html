@@ -612,10 +612,11 @@
     }
     .faq-list { flex: 1; min-width: 0; }
     .faq-aside {
-      flex-shrink: 0;
+      flex: 0 0 clamp(260px, 30%, 400px);
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       padding-top: 0.5rem;
     }
     .faq-aside-label {
@@ -644,11 +645,11 @@
     .pin-shadow { width: 14px; height: 4px; background: rgba(0,0,0,0.35); border-radius: 50%; margin-top: 4px; animation: shadow-anim 3.2s ease-in-out infinite; }
     @keyframes shadow-anim { 0%, 100% { width: 14px; opacity: 0.3; } 50% { width: 9px; opacity: 0.15; } }
     .front-label { margin-top: 12px; font-size: 0.78rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.7); }
-    .flip-back { background: #1a73e8; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 22px; text-align: center; }
-    .back-title { font-size: 0.88rem; font-weight: 600; color: white; margin-bottom: 5px; }
-    .back-address { font-size: 0.72rem; color: rgba(255,255,255,0.75); margin-bottom: 18px; line-height: 1.6; }
-    .back-btn { background: white; color: #1a73e8; font-size: 0.78rem; font-weight: 600; padding: 8px 18px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.2s; }
-    .back-btn:hover { opacity: 0.88; }
+    .flip-back { background: #1e1e1e; border: 1px solid rgba(255,255,255,0.08); transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 22px; text-align: center; }
+    .back-title { font-size: 0.88rem; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+    .back-address { font-size: 0.72rem; color: var(--gray-text); margin-bottom: 18px; line-height: 1.6; }
+    .back-btn { background: var(--gold); color: #0a0a0a; font-size: 0.78rem; font-weight: 600; padding: 8px 18px; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; }
+    .back-btn:hover { background: var(--gold-light); }
     @media (max-width: 860px) {
       .faq-body { flex-direction: column; gap: 3rem; }
       .faq-aside { flex-direction: row; align-items: center; gap: 1.5rem; }
