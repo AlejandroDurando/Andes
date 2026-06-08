@@ -1456,6 +1456,17 @@
       opacity: 1;
     }
 
+    /* Large / gaming monitors ≥ 2000px */
+    @media (min-width: 2000px) {
+      .vb-para-wrap {
+        width: min(72ch, 50%);
+      }
+      .vb-para-wrap>p {
+        font-size: clamp(1.15rem, 1.35vw, 1.55rem);
+        line-height: 1.75;
+      }
+    }
+
     /* ═══════════════════════════════════════════════════
        FOOTER
     ═══════════════════════════════════════════════════ */
@@ -2545,6 +2556,9 @@
       resizeCanvas();
     }
     window.addEventListener('resize', fitCanvasToVideo, { passive: true });
+    // Run immediately so large/gaming monitors get correct height before images load
+    requestAnimationFrame(fitCanvasToVideo);
+    window.addEventListener('load', () => requestAnimationFrame(fitCanvasToVideo));
 
     // Cache section offset so tick() never forces a layout recalculation
     let secTop = 0;
