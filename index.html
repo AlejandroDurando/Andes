@@ -2231,8 +2231,8 @@
        INTRO — splash screen
   ───────────────────────────────────────────── -->
   <div id="intro-splash">
-    <img id="intro-logo-img" src="./logo_inicio.svg" alt="Andes Estructuras">
-    <img id="intro-logo-img-mobile" src="./logo_inicio.svg" alt="Andes Estructuras">
+    <img id="intro-logo-img" src="./assets/logos/logo-inicio.svg" alt="Andes Estructuras">
+    <img id="intro-logo-img-mobile" src="./assets/logos/logo-inicio.svg" alt="Andes Estructuras">
     <div id="intro-load-bar-wrap"><div id="intro-load-bar"></div></div>
   </div>
 
@@ -2241,7 +2241,7 @@
   ───────────────────────────────────────────── -->
   <nav id="navbar">
     <a href="#scroll-section" class="nav-logo">
-      <img src="./Logo%20Andes.svg" alt="Andes Estructuras S.A.S.">
+      <img src="./assets/logos/logo-andes.svg" alt="Andes Estructuras S.A.S.">
     </a>
     <ul class="nav-links">
       <li><a href="#scroll-section">Inicio</a></li>
@@ -2307,17 +2307,17 @@
     <div class="srv-badges">
 
       <div class="srv-badge">
-        <img src="./icono_hierro.svg" alt="Hierro reticulado">
+        <img src="./assets/icons/icono-hierro.svg" alt="Hierro reticulado">
         <span class="srv-badge-label">Hierro reticulado</span>
       </div>
 
       <div class="srv-badge">
-        <img src="./icono_empresa.svg" alt="Empresa Argentina">
+        <img src="./assets/icons/icono-empresa.svg" alt="Empresa Argentina">
         <span class="srv-badge-label">Empresa Argentina</span>
       </div>
 
       <div class="srv-badge">
-        <img src="./icono_etapas.svg" alt="Todas las etapas">
+        <img src="./assets/icons/icono-etapas.svg" alt="Todas las etapas">
         <span class="srv-badge-label">Trabajamos y acompañamos todas las etapas</span>
       </div>
 
@@ -2332,7 +2332,7 @@
     <div class="prod-panels">
 
       <div class="prod-panel">
-        <img class="pp-img" src="./fotos/galpones.jpg" alt="Galpones">
+        <img class="pp-img" src="./assets/fotos/galpones.jpg" alt="Galpones">
         <div class="pp-overlay"></div>
         <div class="pp-body">
           <div>
@@ -2344,7 +2344,7 @@
       </div>
 
       <div class="prod-panel">
-        <img class="pp-img" src="./fotos/tinglados.jpg" alt="Tinglados">
+        <img class="pp-img" src="./assets/fotos/tinglados.jpg" alt="Tinglados">
         <div class="pp-overlay"></div>
         <div class="pp-body">
           <div>
@@ -2363,8 +2363,8 @@
   ───────────────────────────────────────────── -->
   <section id="video-bottom">
     <div class="vb-frame">
-      <video id="vid-bottom-fwd" src="./video_bottom_desktop.mp4" muted playsinline autoplay preload="auto"></video>
-      <video id="vid-bottom-mobile" src="./video_bottom_mobile.mp4" muted playsinline preload="none"></video>
+      <video id="vid-bottom-fwd" src="./assets/videos/bottom-desktop.mp4" muted playsinline autoplay preload="auto"></video>
+      <video id="vid-bottom-mobile" src="./assets/videos/bottom-mobile.mp4" muted playsinline preload="none"></video>
       <div id="vb-overlay">
         <div class="vb-para-wrap">
           <!-- Desktop: 3 párrafos — data-dur en ms -->
@@ -2400,7 +2400,7 @@
   <footer id="footer">
     <div class="footer-top">
       <div>
-        <img src="./Logo%20Andes.svg" alt="Andes Estructuras S.A.S." style="height:34px; width:auto; opacity:0.6;">
+        <img src="./assets/logos/logo-andes.svg" alt="Andes Estructuras S.A.S." style="height:34px; width:auto; opacity:0.6;">
       </div>
     </div>
     <div class="footer-bottom">
@@ -2445,7 +2445,7 @@
     //
     const isMobile = window.innerWidth <= 768;
     const TOTAL_FRAMES = isMobile ? 60 : 60;
-    const VIDEO_SRC = isMobile ? './videoscroll_mobile.mp4' : './videoscroll_fastseek.mp4';
+    const VIDEO_SRC = isMobile ? './assets/videos/hero-scroll-mobile.mp4' : './assets/videos/hero-scroll-desktop.mp4';
     // Adaptive bitmap resolution per device class:
     //   - Retina/2× DPR → high-res bitmaps so canvas isn't upscaled
     //   - Standard 1× DPR → no benefit from extra pixels, save the RAM
