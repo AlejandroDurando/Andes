@@ -659,55 +659,104 @@
       margin-bottom: 3rem;
     }
 
-    .faq-body {
-      display: flex;
-      align-items: flex-start;
-      gap: 5rem;
+    .faq-body { display: flex; align-items: flex-start; }
+    .faq-list { flex: 1; min-width: 0; max-width: 760px; }
+
+    /* ── Mapa ── */
+    #mapa-section {
+      background: transparent;
+      padding: 0 2rem 5rem;
     }
-    .faq-list { flex: 1; min-width: 0; }
-    .faq-aside {
-      flex: 0 0 clamp(260px, 30%, 400px);
+    .mapa-container { max-width: 1100px; margin: 0 auto; }
+    .mapa-wrap {
+      position: relative;
+      display: block;
+      height: clamp(260px, 42vw, 460px);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+    }
+    .mapa-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      filter: blur(7px) brightness(0.55) saturate(0.7);
+      transform: scale(1.07);
+      transition: filter 0.7s ease, transform 0.7s ease;
+      pointer-events: none;
+    }
+    .mapa-wrap:hover .mapa-iframe {
+      filter: blur(0) brightness(1) saturate(1);
+      transform: scale(1);
+    }
+    .mapa-overlay {
+      position: absolute;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding-top: 0.5rem;
+      justify-content: center;
+      gap: 1.8rem;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
     }
-    .faq-aside-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.35em;
+    .mapa-wrap:hover .mapa-overlay { opacity: 0; }
+    .mapa-pin-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mapa-pulse {
+      position: absolute;
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(234,67,53,0.8);
+      opacity: 0;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%) scale(0.3);
+      animation: mapaPulse 2.8s ease-out infinite;
+    }
+    .mapa-pulse:nth-child(2) { animation-delay: 1.1s; }
+    @keyframes mapaPulse {
+      0%   { opacity: 0.7; transform: translate(-50%, -60%) scale(0.3); }
+      100% { opacity: 0;   transform: translate(-50%, -60%) scale(2.8); }
+    }
+    .mapa-pin-svg {
+      width: 70px; height: auto;
+      position: relative; z-index: 2;
+      filter: drop-shadow(0 8px 24px rgba(234,67,53,0.55));
+      animation: mapaFloat 3s ease-in-out infinite;
+    }
+    .mapa-pin-shadow {
+      width: 20px; height: 5px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 50%;
+      margin-top: 7px;
+      position: relative; z-index: 2;
+      animation: mapaShadow 3s ease-in-out infinite;
+    }
+    @keyframes mapaFloat  { 0%, 100% { transform: translateY(0);   } 50% { transform: translateY(-13px); } }
+    @keyframes mapaShadow { 0%, 100% { width: 20px; opacity: 0.45; } 50% { width: 12px; opacity: 0.2;   } }
+    .mapa-hint {
+      color: rgba(255,255,255,0.9);
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(0,0,0,0.55);
+      padding: 9px 20px;
+      border-radius: 30px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    .flip-wrap { perspective: 900px; width: 220px; height: 220px; cursor: pointer; }
-    .flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4,0,0.2,1); }
-    .flip-wrap:hover .flip-inner { transform: rotateY(180deg); }
-    .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; overflow: hidden; }
-    .flip-front { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .radar-wrap { position: relative; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; }
-    .radar-ring { position: absolute; width: 64px; height: 64px; border-radius: 50%; border: 1.5px solid #ea4335; opacity: 0; transform: scale(0.4); animation: radar 2.8s ease-out infinite; }
-    .radar-ring:nth-child(2) { animation-delay: 0.9s; }
-    .radar-ring:nth-child(3) { animation-delay: 1.8s; }
-    @keyframes radar { 0% { opacity: 0.6; transform: scale(0.3); } 100% { opacity: 0; transform: scale(2.6); } }
-    .pin-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; animation: float 3.2s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-    .pin-body { width: 34px; height: 44px; background: #ea4335; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; display: flex; align-items: center; justify-content: center; position: relative; }
-    .pin-body::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 13px solid #ea4335; }
-    .pin-dot { width: 12px; height: 12px; background: white; border-radius: 50%; }
-    .pin-shadow { width: 14px; height: 4px; background: rgba(0,0,0,0.35); border-radius: 50%; margin-top: 4px; animation: shadow-anim 3.2s ease-in-out infinite; }
-    @keyframes shadow-anim { 0%, 100% { width: 14px; opacity: 0.3; } 50% { width: 9px; opacity: 0.15; } }
-    .front-label { margin-top: 12px; font-size: 0.78rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.7); }
-    .flip-back { background: #1e1e1e; border: 1px solid rgba(255,255,255,0.08); transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 22px; text-align: center; }
-    .back-title { font-size: 0.88rem; font-weight: 600; color: var(--white); margin-bottom: 5px; }
-    .back-address { font-size: 0.72rem; color: var(--gray-text); margin-bottom: 18px; line-height: 1.6; }
-    .back-btn { background: var(--gold); color: #0a0a0a; font-size: 0.78rem; font-weight: 600; padding: 8px 18px; border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; }
-    .back-btn:hover { background: var(--gold-light); }
-    @media (max-width: 860px) {
-      .faq-body { flex-direction: column; gap: 3rem; }
-      .faq-aside { flex-direction: row; align-items: center; gap: 1.5rem; }
-      .faq-aside-label { margin-bottom: 0; }
+    .mapa-hint svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+    @media (max-width: 768px) {
+      #mapa-section { padding: 0 1rem 4rem; }
+      .mapa-wrap { height: clamp(220px, 65vw, 340px); border-radius: 6px; }
+      .mapa-pin-svg { width: 52px; }
     }
 
     .faq-list { max-width: 760px; }
@@ -940,37 +989,36 @@
 
     </div>
 
-      <div class="faq-aside">
-        <div class="faq-aside-label">Nuestra ubicación</div>
-        <div class="flip-wrap">
-          <div class="flip-inner">
-            <div class="flip-front">
-              <div class="radar-wrap">
-                <div class="radar-ring"></div>
-                <div class="radar-ring"></div>
-                <div class="radar-ring"></div>
-                <div class="pin-wrap">
-                  <div class="pin-body"><div class="pin-dot"></div></div>
-                  <div class="pin-shadow"></div>
-                </div>
-              </div>
-              <div class="front-label">San Francisco, Córdoba</div>
-            </div>
-            <div class="flip-back">
-              <div class="back-title">Av. Rosario de Sta Fe 48</div>
-              <div class="back-address">X2400 San Francisco<br>Córdoba, Argentina</div>
-              <a class="back-btn"
-                href="https://www.google.com/maps/search/?api=1&query=Av.+Rosario+de+Sta+Fe+48,+X2400+San+Francisco,+C%C3%B3rdoba"
-                target="_blank" rel="noopener noreferrer">
-                <i class="ti ti-external-link" style="font-size:13px;"></i>
-                Abrir en Maps
-              </a>
-            </div>
+    </div><!-- /.faq-body -->
+  </section>
+
+  <!-- ── Mapa ── -->
+  <section id="mapa-section">
+    <div class="mapa-container">
+      <a class="mapa-wrap"
+        href="https://www.google.com/maps/search/?api=1&query=Av.+Rosario+de+Sta+Fe+48,+X2400+San+Francisco,+C%C3%B3rdoba"
+        target="_blank" rel="noopener noreferrer">
+        <iframe
+          class="mapa-iframe"
+          src="https://maps.google.com/maps?q=Av.+Rosario+de+Sta+Fe+48,+San+Francisco,+C%C3%B3rdoba,+Argentina&output=embed&z=16"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div class="mapa-overlay">
+          <div class="mapa-pin-wrap">
+            <div class="mapa-pulse"></div>
+            <div class="mapa-pulse"></div>
+            <img class="mapa-pin-svg" src="./assets/icons/pin_googlemaps.svg" alt="">
+            <div class="mapa-pin-shadow"></div>
+          </div>
+          <div class="mapa-hint">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Ver en Google Maps
           </div>
         </div>
-      </div>
-
-    </div><!-- /.faq-body -->
+      </a>
+    </div>
   </section>
 
     <footer id="footer">

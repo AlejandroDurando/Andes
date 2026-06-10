@@ -104,7 +104,7 @@
     }
 
     #intro-logo-img {
-      width: min(340px, 80vw);
+      width: min(480px, 80vw);
       height: auto;
       display: block;
       position: relative;
@@ -133,6 +133,12 @@
       overflow: hidden;
       position: relative;
       z-index: 1;
+      animation: introBarAppear 0.7s ease-out 2s both;
+    }
+
+    @keyframes introBarAppear {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     #intro-load-bar {
@@ -641,8 +647,13 @@
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
-      background: var(--dark);
+      background: var(--dark) url('./assets/images/hero-poster-desktop.jpg') center/cover no-repeat;
       will-change: transform;
+    }
+    @media (max-width: 768px) {
+      #canvas-wrapper {
+        background-image: url('./assets/images/hero-poster-mobile.jpg');
+      }
     }
 
     #frame-canvas {
