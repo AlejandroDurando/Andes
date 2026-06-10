@@ -665,7 +665,8 @@
     /* ── Mapa ── */
     #mapa-section {
       background: transparent;
-      padding: 0 2rem 5rem;
+      padding: var(--pad-y) var(--pad-x);
+      border-top: 1px solid rgba(147, 118, 88, 0.12);
     }
     .mapa-container { max-width: 1100px; margin: 0 auto; }
     .mapa-wrap {
@@ -754,7 +755,6 @@
     }
     .mapa-hint svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
     @media (max-width: 768px) {
-      #mapa-section { padding: 0 1rem 4rem; }
       .mapa-wrap { height: clamp(220px, 65vw, 340px); border-radius: 6px; }
       .mapa-pin-svg { width: 52px; }
     }
