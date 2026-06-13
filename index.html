@@ -749,6 +749,7 @@
       line-height: 1.75;
       max-width: min(680px, 78vw);
       text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+      text-wrap: pretty;
     }
 
     .scroll-needle {
@@ -1521,6 +1522,13 @@
       opacity: 1;
     }
 
+    /* Medium-large monitors 1340–2300px: widen paragraph to avoid orphan */
+    @media (min-width: 1340px) and (max-width: 2299px) {
+      #end-overlay p {
+        max-width: min(760px, 78vw);
+      }
+    }
+
     /* Large / gaming monitors ≥ 2000px */
     @media (min-width: 2000px) {
       .vb-para-wrap {
@@ -1530,6 +1538,10 @@
         font-size: clamp(1.15rem, 1.35vw, 1.55rem);
         line-height: 1.75;
       }
+    }
+
+    /* Ultra-wide / gaming monitors ≥ 2300px */
+    @media (min-width: 2300px) {
       #end-overlay h2 {
         font-size: clamp(2.4rem, 2.4vw, 4rem);
         white-space: normal;
@@ -2406,7 +2418,7 @@
           <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el
             sector agroindustrial. Brindamos asesoramiento técnico en cada etapa del proyecto, trabajando con rapidez,
             precisión y calidad. Con la experiencia y nuestro equipo especializado, garantizamos resultados eficientes
-            y confiables.</p>
+            y&nbsp;confiables.</p>
         </div>
       </div>
     </div>
