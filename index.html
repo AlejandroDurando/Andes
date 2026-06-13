@@ -1530,6 +1530,14 @@
         font-size: clamp(1.15rem, 1.35vw, 1.55rem);
         line-height: 1.75;
       }
+      #end-overlay h2 {
+        font-size: clamp(2.4rem, 2.4vw, 4rem);
+        white-space: normal;
+      }
+      #end-overlay p {
+        font-size: clamp(1.1rem, 1.3vw, 1.5rem);
+        max-width: min(860px, 72vw);
+      }
     }
 
     /* ═══════════════════════════════════════════════════
@@ -2625,8 +2633,10 @@
       const cw = wrapper.offsetWidth || window.innerWidth;
       const ch = wrapper.offsetHeight || window.innerHeight;
       const sc = Math.max(cw / bm.width, ch / bm.height);
+      const dyRaw = ch - bm.height * sc;
+      const dy = dyRaw < 0 ? dyRaw * 0.72 : dyRaw / 2;
       ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(bm, (cw - bm.width * sc) / 2, (ch - bm.height * sc) / 2, bm.width * sc, bm.height * sc);
+      ctx.drawImage(bm, (cw - bm.width * sc) / 2, dy, bm.width * sc, bm.height * sc);
     }
 
     // Continuous blend between two adjacent frames based on fractional scroll position.
@@ -2638,14 +2648,18 @@
       const cw = wrapper.offsetWidth || window.innerWidth;
       const ch = wrapper.offsetHeight || window.innerHeight;
       const scL = Math.max(cw / bmL.width, ch / bmL.height);
+      const dyLRaw = ch - bmL.height * scL;
+      const dyL = dyLRaw < 0 ? dyLRaw * 0.72 : dyLRaw / 2;
       ctx.clearRect(0, 0, cw, ch);
       ctx.globalAlpha = 1;
-      ctx.drawImage(bmL, (cw - bmL.width * scL) / 2, (ch - bmL.height * scL) / 2, bmL.width * scL, bmL.height * scL);
+      ctx.drawImage(bmL, (cw - bmL.width * scL) / 2, dyL, bmL.width * scL, bmL.height * scL);
       const bmH = bitmaps[high];
       if (bmH && t > 0 && low !== high) {
         const scH = Math.max(cw / bmH.width, ch / bmH.height);
+        const dyHRaw = ch - bmH.height * scH;
+        const dyH = dyHRaw < 0 ? dyHRaw * 0.72 : dyHRaw / 2;
         ctx.globalAlpha = t;
-        ctx.drawImage(bmH, (cw - bmH.width * scH) / 2, (ch - bmH.height * scH) / 2, bmH.width * scH, bmH.height * scH);
+        ctx.drawImage(bmH, (cw - bmH.width * scH) / 2, dyH, bmH.width * scH, bmH.height * scH);
         ctx.globalAlpha = 1;
       }
     }
