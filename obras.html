@@ -88,18 +88,22 @@
       position: absolute;
       top: 100%;
       left: 50%;
-      transform: translateX(-50%) translateY(0); padding-top: 8px;
-      background: rgba(74, 74, 74, 0.97);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--gold-dim);
-      border-radius: 3px;
+      transform: translateX(-50%) translateY(-8px);
+      padding-top: 10px;
+      background: rgba(28, 26, 24, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(191, 164, 134, 0.18);
+      border-top: 2px solid rgba(191, 164, 134, 0.5);
+      border-radius: 10px;
       list-style: none;
-      min-width: 155px;
+      min-width: 180px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 0.25s ease, transform 0.25s ease;
       z-index: 600;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
     }
     .nav-dropdown:hover .nav-dropdown-menu {
       opacity: 1;
@@ -108,18 +112,18 @@
     }
     .nav-dropdown-menu li a {
       display: block;
-      padding: 0.65rem 1.1rem;
+      padding: 0.85rem 1.4rem;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.78rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--gray-text);
+      color: rgba(255, 255, 255, 0.7);
       text-decoration: none;
       transition: color 0.2s, background 0.2s;
       white-space: nowrap;
     }
-    .nav-dropdown-menu li:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .nav-dropdown-menu li a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .nav-dropdown-menu li:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .nav-dropdown-menu li a:hover { color: rgba(191, 164, 134, 1); background: rgba(191, 164, 134, 0.08); }
     /* Mobile obras sub-menu */
     .mob-obras-wrap { display: flex; align-items: center; justify-content: space-between; }
     .mob-obras-wrap > a { border-bottom: none !important; flex: 1; }
@@ -815,14 +819,14 @@
 
       <div class="obra-card" data-cat="galpones" data-techo="dos-aguas">
         <div class="obra-photos" id="photos-fasi">
-          <img src="./obras/fasi/web/josefina-1.jpg" alt="Faci — 1" loading="lazy" class="active">
-          <img data-src="./obras/fasi/web/josefina-3.jpg" alt="Faci — 2">
-          <img data-src="./obras/fasi/web/josefina-6.jpg" alt="Faci — 3">
-          <img data-src="./obras/fasi/web/josefina-7.jpg" alt="Faci — 4">
-          <img data-src="./obras/fasi/web/josefina-8.jpg" alt="Faci — 5">
-          <img data-src="./obras/fasi/web/josefina-9.jpg" alt="Faci — 6">
-          <img data-src="./obras/fasi/web/josefina-10.jpg" alt="Faci — 7">
-          <img data-src="./obras/fasi/web/josefina-11.jpg" alt="Faci — 8">
+          <img src="./obras/fasi/web/josefina-1.jpg" alt="Fassi — 1" loading="lazy" class="active">
+          <img data-src="./obras/fasi/web/josefina-3.jpg" alt="Fassi — 2">
+          <img data-src="./obras/fasi/web/josefina-6.jpg" alt="Fassi — 3">
+          <img data-src="./obras/fasi/web/josefina-7.jpg" alt="Fassi — 4">
+          <img data-src="./obras/fasi/web/josefina-8.jpg" alt="Fassi — 5">
+          <img data-src="./obras/fasi/web/josefina-9.jpg" alt="Fassi — 6">
+          <img data-src="./obras/fasi/web/josefina-10.jpg" alt="Fassi — 7">
+          <img data-src="./obras/fasi/web/josefina-11.jpg" alt="Fassi — 8">
           <div class="obra-dots" id="dots-fasi"></div>
           <div class="obra-photo-nav">
             <button onclick="navFoto('fasi',-1)" aria-label="Foto anterior">&#8592;</button>
@@ -833,7 +837,7 @@
         <div class="obra-info">
           <span class="obra-cat-tag">Galpón</span>
           <div class="obra-location">Josefina, Santa Fe</div>
-          <div class="obra-name">Faci</div>
+          <div class="obra-name">Fassi</div>
           <div class="obra-specs">
             <span class="obra-spec">Dos aguas</span>
             <span class="obra-spec">15 × 20 m — 300 m²</span>
@@ -1154,15 +1158,15 @@
 
       <div class="obra-card" data-cat="tinglados" data-techo="dos-aguas">
         <div class="obra-photos" id="photos-ciucchi">
-          <img src="./obras/ciucci/web/dsc-0135.jpg" alt="Ciucchi — 1" loading="lazy" class="active">
-          <img data-src="./obras/ciucci/web/dsc-0136.jpg" alt="Ciucchi — 2">
-          <img data-src="./obras/ciucci/web/dsc-0118.jpg" alt="Ciucchi — 3">
-          <img data-src="./obras/ciucci/web/dsc-0119.jpg" alt="Ciucchi — 4">
-          <img data-src="./obras/ciucci/web/dsc-0120.jpg" alt="Ciucchi — 5">
-          <img data-src="./obras/ciucci/web/dsc-0121.jpg" alt="Ciucchi — 6">
-          <img data-src="./obras/ciucci/web/dsc-0124.jpg" alt="Ciucchi — 7">
-          <img data-src="./obras/ciucci/web/dsc-0127.jpg" alt="Ciucchi — 8">
-          <img data-src="./obras/ciucci/web/dsc-0131.jpg" alt="Ciucchi — 9">
+          <img src="./obras/ciucci/web/dsc-0135.jpg" alt="Ciucci — 1" loading="lazy" class="active">
+          <img data-src="./obras/ciucci/web/dsc-0136.jpg" alt="Ciucci — 2">
+          <img data-src="./obras/ciucci/web/dsc-0118.jpg" alt="Ciucci — 3">
+          <img data-src="./obras/ciucci/web/dsc-0119.jpg" alt="Ciucci — 4">
+          <img data-src="./obras/ciucci/web/dsc-0120.jpg" alt="Ciucci — 5">
+          <img data-src="./obras/ciucci/web/dsc-0121.jpg" alt="Ciucci — 6">
+          <img data-src="./obras/ciucci/web/dsc-0124.jpg" alt="Ciucci — 7">
+          <img data-src="./obras/ciucci/web/dsc-0127.jpg" alt="Ciucci — 8">
+          <img data-src="./obras/ciucci/web/dsc-0131.jpg" alt="Ciucci — 9">
           <div class="obra-dots" id="dots-ciucchi"></div>
           <div class="obra-photo-nav">
             <button onclick="navFoto('ciucchi',-1)" aria-label="Foto anterior">&#8592;</button>
@@ -1173,7 +1177,7 @@
         <div class="obra-info">
           <span class="obra-cat-tag">Tinglado</span>
           <div class="obra-location">Los Cardos, Santa Fe</div>
-          <div class="obra-name">Ciucchi</div>
+          <div class="obra-name">Ciucci</div>
           <div class="obra-specs">
             <span class="obra-spec">Dos aguas</span>
             <span class="obra-spec">25 × 40 m — 1000 m²</span>

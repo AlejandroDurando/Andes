@@ -228,18 +228,22 @@
       position: absolute;
       top: 100%;
       left: 50%;
-      transform: translateX(-50%) translateY(0); padding-top: 8px;
-      background: rgba(74, 74, 74, 0.97);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--gold-dim);
-      border-radius: 3px;
+      transform: translateX(-50%) translateY(-8px);
+      padding-top: 10px;
+      background: rgba(28, 26, 24, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(191, 164, 134, 0.18);
+      border-top: 2px solid rgba(191, 164, 134, 0.5);
+      border-radius: 10px;
       list-style: none;
-      min-width: 155px;
+      min-width: 180px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 0.25s ease, transform 0.25s ease;
       z-index: 600;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
     }
     .nav-dropdown:hover .nav-dropdown-menu {
       opacity: 1;
@@ -248,18 +252,18 @@
     }
     .nav-dropdown-menu li a {
       display: block;
-      padding: 0.65rem 1.1rem;
+      padding: 0.85rem 1.4rem;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.78rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--gray-text);
+      color: rgba(255, 255, 255, 0.7);
       text-decoration: none;
       transition: color 0.2s, background 0.2s;
       white-space: nowrap;
     }
-    .nav-dropdown-menu li:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .nav-dropdown-menu li a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .nav-dropdown-menu li:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .nav-dropdown-menu li a:hover { color: rgba(191, 164, 134, 1); background: rgba(191, 164, 134, 0.08); }
     /* Mobile obras sub-menu */
     .mob-obras-wrap { display: flex; align-items: center; justify-content: space-between; }
     .mob-obras-wrap > a { border-bottom: none !important; flex: 1; }
