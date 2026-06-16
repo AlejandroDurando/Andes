@@ -1070,7 +1070,7 @@
     const formOk = document.getElementById('form-success');
     const reqFields = ['f-nombre', 'f-email', 'f-msg'];
 
-    leadForm.addEventListener('submit', (e) => {
+    leadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       let valid = true;
       reqFields.forEach(id => {
@@ -1079,14 +1079,30 @@
       });
       if (!valid) return;
       const nombre = document.getElementById('f-nombre').value.trim();
-      const email = document.getElementById('f-email').value.trim();
-      const tel = document.getElementById('f-tel').value.trim();
-      const msg = document.getElementById('f-msg').value.trim();
-      const subject = encodeURIComponent('Consulta — ' + nombre);
-      const body = encodeURIComponent(`Nombre: ${nombre}\nEmail: ${email}\nTeléfono: ${tel}\n\n${msg}`);
-      window.open(`mailto:andesestructuras@gmail.com?subject=${subject}&body=${body}`);
-      leadForm.style.display = 'none';
-      formOk.style.display = 'block';
+      const email  = document.getElementById('f-email').value.trim();
+      const tel    = document.getElementById('f-tel').value.trim();
+      const msg    = document.getElementById('f-msg').value.trim();
+      const btn = leadForm.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+      try {
+        const res = await fetch('https://formspree.io/f/xlgkvwao', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ nombre, email, telefono: tel, consulta: msg, _subject: 'Consulta — ' + nombre, _replyto: email })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          leadForm.style.display = 'none';
+          formOk.style.display = 'block';
+        } else {
+          throw new Error();
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Enviar Mensaje & Solicitar Presupuesto';
+        alert('Hubo un error al enviar. Intentá de nuevo o escribinos a andesestructuras@gmail.com');
+      }
     });
     reqFields.forEach(id => { document.getElementById(id).addEventListener('input', function () { this.style.borderColor = ''; }); });
 
