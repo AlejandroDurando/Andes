@@ -928,10 +928,10 @@
               placeholder="Contanos qué necesitás: tipo de estructura, dimensiones aproximadas, localidad…"
               required></textarea>
           </div>
+          <div id="form-success">¡Mensaje enviado! Nos comunicamos a la brevedad.</div>
           <div>
             <button type="submit" class="btn-gold">Enviar Mensaje &amp; Solicitar Presupuesto</button>
           </div>
-          <div id="form-success">¡Mensaje enviado! Nos comunicamos a la brevedad.</div>
         </form>
       </div>
 
@@ -1093,8 +1093,11 @@
         });
         const data = await res.json();
         if (data.ok) {
-          leadForm.style.display = 'none';
+          leadForm.reset();
+          btn.disabled = false;
+          btn.textContent = 'Enviar Mensaje & Solicitar Presupuesto';
           formOk.style.display = 'block';
+          setTimeout(() => { formOk.style.display = 'none'; }, 5000);
         } else {
           throw new Error();
         }
