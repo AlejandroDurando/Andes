@@ -1089,7 +1089,7 @@
         const res = await fetch('https://formspree.io/f/xlgkvwao', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ nombre, email, telefono: tel, consulta: msg, _subject: 'Consulta — ' + nombre, _replyto: email })
+          body: JSON.stringify({ 'Nombre': nombre, 'Email': email, 'Teléfono': tel, 'Consulta': msg, _subject: 'Consulta — ' + nombre, _replyto: email })
         });
         const data = await res.json();
         if (data.ok) {
