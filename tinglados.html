@@ -664,6 +664,13 @@
       navToggle.classList.remove('open');
       mobileMenu.classList.remove('open');
       mobileMenu.setAttribute('aria-hidden', 'true');
+      const sub = document.getElementById('mob-obras-sub');
+      if (sub) sub.classList.remove('open');
+    }
+    function toggleMobObras(btn) {
+      const sub = document.getElementById('mob-obras-sub');
+      const open = sub.classList.toggle('open');
+      btn.innerHTML = open ? '&#9650;' : '&#9660;';
     }
     navToggle.addEventListener('click', () => {
       const open = navToggle.classList.toggle('open');
