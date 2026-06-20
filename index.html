@@ -1536,20 +1536,17 @@
     }
     .vb-arrow {
       background: none;
-      border: 1px solid rgba(0, 0, 0, 0.22);
-      color: rgba(0, 0, 0, 0.55);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+      border: none;
+      color: rgba(0, 0, 0, 0.28);
       cursor: pointer;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, color 0.2s;
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1;
+      padding: 0 0.25rem;
+      transition: color 0.2s;
       flex-shrink: 0;
     }
-    .vb-arrow:hover { border-color: rgba(0,0,0,0.55); color: rgba(0,0,0,0.9); }
+    .vb-arrow:hover { color: rgba(0, 0, 0, 0.65); }
     .vb-dots { display: flex; gap: 0.5rem; align-items: center; }
     .vb-dot {
       width: 6px;
@@ -2579,13 +2576,13 @@
           </div>
 
           <div class="vb-slider-nav">
-            <button class="vb-arrow" onclick="vbSlide(-1)" aria-label="Anterior">&#8592;</button>
+            <button class="vb-arrow" onclick="vbSlide(-1)" aria-label="Anterior">&#8249;</button>
             <div class="vb-dots">
               <button class="vb-dot active" onclick="vbGoTo(0)" aria-label="Slide 1"></button>
               <button class="vb-dot" onclick="vbGoTo(1)" aria-label="Slide 2"></button>
               <button class="vb-dot" onclick="vbGoTo(2)" aria-label="Slide 3"></button>
             </div>
-            <button class="vb-arrow" onclick="vbSlide(1)" aria-label="Siguiente">&#8594;</button>
+            <button class="vb-arrow" onclick="vbSlide(1)" aria-label="Siguiente">&#8250;</button>
           </div>
         </div>
       </div>
@@ -3009,11 +3006,22 @@
     let vbCur = 0, vbTimer = null;
 
     function vbGoTo(n) {
-      vbSlides[vbCur].classList.remove('active');
-      vbDots[vbCur].classList.remove('active');
+      const out = vbSlides[vbCur];
+      const outDot = vbDots[vbCur];
       vbCur = (n + vbSlides.length) % vbSlides.length;
-      vbSlides[vbCur].classList.add('active');
-      vbDots[vbCur].classList.add('active');
+      const inn = vbSlides[vbCur];
+      const inDot = vbDots[vbCur];
+
+      // Fade out current quickly, then fade in next (no overlap)
+      out.style.transition = 'opacity 0.18s ease';
+      out.classList.remove('active');
+      outDot.classList.remove('active');
+      setTimeout(() => {
+        out.style.transition = '';
+        inn.classList.add('active');
+        inDot.classList.add('active');
+      }, 200);
+
       clearInterval(vbTimer);
       vbTimer = setInterval(() => vbGoTo(vbCur + 1), 8000);
     }
