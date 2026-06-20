@@ -1504,6 +1504,7 @@
 
     #vb-overlay.visible {
       opacity: 1;
+      pointer-events: auto;
     }
 
     .vb-para-wrap { width: min(72ch, 56%); }
@@ -3075,10 +3076,7 @@
 
     // Arranca el texto en cuanto el video empieza a reproducir (una sola vez)
     vidFwd.addEventListener('play', () => {
-      if (!vbEntryTimer && !vbCycleTimer) {
-        vbEntryTimer = true;
-        vbStartCycle();
-      }
+      vbStartCycle();
     }, { once: true });
 
     // Autoplay cuando es visible; pausa cuando no
