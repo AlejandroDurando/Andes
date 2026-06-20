@@ -757,63 +757,6 @@
       text-wrap: pretty;
     }
 
-    /* ── Hero Slider ──────────────────────────────────────── */
-    .hero-slider { display: grid; width: 100%; }
-    .hero-slide {
-      grid-area: 1 / 1;
-      opacity: 0;
-      transition: opacity 0.7s ease;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .hero-slide.active { opacity: 1; pointer-events: auto; }
-
-    .hero-slider-nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .slider-arrow {
-      background: none;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      color: rgba(255, 255, 255, 0.65);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 0.9rem;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-      flex-shrink: 0;
-    }
-    .slider-arrow:hover {
-      border-color: rgba(191, 164, 134, 0.7);
-      color: rgba(191, 164, 134, 1);
-      background: rgba(191, 164, 134, 0.08);
-    }
-    .slider-dots { display: flex; gap: 0.55rem; align-items: center; }
-    .slider-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: background 0.25s, transform 0.25s;
-    }
-    .slider-dot.active {
-      background: rgba(191, 164, 134, 0.9);
-      transform: scale(1.4);
-    }
-
     .scroll-needle {
       width: 1px;
       height: 36px;
@@ -1563,26 +1506,61 @@
       opacity: 1;
     }
 
-    .vb-para-wrap {
-      display: grid;
-      width: min(72ch, 56%);
-    }
+    .vb-para-wrap { width: min(72ch, 56%); }
 
-    .vb-para-wrap>p {
+    /* ── Video-bottom slider ── */
+    .vb-slider { display: grid; }
+    .vb-slide {
       grid-area: 1 / 1;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+    .vb-slide.active { opacity: 1; pointer-events: auto; }
+
+    .vb-para-wrap p {
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 300;
       font-style: italic;
       font-size: clamp(0.88rem, 1.35vw, 1.15rem);
       color: rgba(0, 0, 0, 1);
       line-height: 1.7;
-      opacity: 0;
-      transition: opacity 1s ease;
     }
 
-    .vb-para-wrap>p.vb-active {
-      opacity: 1;
+    .vb-slider-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 1.4rem;
     }
+    .vb-arrow {
+      background: none;
+      border: 1px solid rgba(0, 0, 0, 0.22);
+      color: rgba(0, 0, 0, 0.55);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    .vb-arrow:hover { border-color: rgba(0,0,0,0.55); color: rgba(0,0,0,0.9); }
+    .vb-dots { display: flex; gap: 0.5rem; align-items: center; }
+    .vb-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.22);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .vb-dot.active { background: rgba(0,0,0,0.7); transform: scale(1.4); }
 
     /* Medium-large monitors 1340–2300px: widen paragraph to avoid orphan */
     @media (min-width: 1340px) and (max-width: 2299px) {
@@ -1596,7 +1574,7 @@
       .vb-para-wrap {
         width: min(72ch, 50%);
       }
-      .vb-para-wrap>p {
+      .vb-para-wrap p {
         font-size: clamp(1.15rem, 1.35vw, 1.55rem);
         line-height: 1.75;
       }
@@ -2246,10 +2224,6 @@
         text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
       }
 
-      .hero-slider-nav { margin-top: 1.4rem; gap: 0.8rem; }
-      .slider-arrow { width: 32px; height: 32px; font-size: 0.8rem; }
-      .slider-dot { width: 8px; height: 8px; }
-
       /* Video bottom mobile: portrait video */
       #video-bottom {
         height: 85vh;
@@ -2273,7 +2247,7 @@
         width: 92%;
       }
 
-      .vb-para-wrap>p {
+      .vb-para-wrap p {
         font-size: 0.84rem;
         line-height: 1.7;
       }
@@ -2479,44 +2453,12 @@
 
       <!-- Shown once animation completes -->
       <div id="end-overlay">
-        <div class="hero-slider" id="hero-slider">
-
-          <div class="hero-slide active">
-            <h2>Estructuras que acompañan el crecimiento del sector agropecuario.</h2>
-            <div class="hero-para-wrap">
-              <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el
-                sector agroindustrial. Brindamos asesoramiento técnico en cada etapa del proyecto, trabajando con rapidez,
-                precisión y calidad. Con la experiencia y nuestro equipo especializado, garantizamos resultados eficientes
-                y&nbsp;confiables.</p>
-            </div>
-          </div>
-
-          <div class="hero-slide">
-            <h2>Fabricación y montaje con equipo propio.</h2>
-            <div class="hero-para-wrap">
-              <p>Contamos con equipo especializado, camión grúa propio y personal capacitado para ejecutar cada etapa
-                del proyecto. Desde el diseño hasta la entrega, todo con la seriedad y los plazos que tu obra necesita.</p>
-            </div>
-          </div>
-
-          <div class="hero-slide">
-            <h2>Estructuras abulonadas. Sin soldadura en obra.</h2>
-            <div class="hero-para-wrap">
-              <p>Nuestro sistema 100% abulonado permite un montaje ágil, seguro y sin improvisaciones.
-                Fácil de mantener y de ampliar en el futuro. Una solución pensada para&nbsp;durar.</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="hero-slider-nav">
-          <button class="slider-arrow" onclick="heroSlide(-1)" aria-label="Anterior">&#8592;</button>
-          <div class="slider-dots">
-            <button class="slider-dot active" onclick="heroGoTo(0)" aria-label="Slide 1"></button>
-            <button class="slider-dot" onclick="heroGoTo(1)" aria-label="Slide 2"></button>
-            <button class="slider-dot" onclick="heroGoTo(2)" aria-label="Slide 3"></button>
-          </div>
-          <button class="slider-arrow" onclick="heroSlide(1)" aria-label="Siguiente">&#8594;</button>
+        <h2>Estructuras que acompañan el crecimiento del sector agropecuario.</h2>
+        <div class="hero-para-wrap">
+          <p>Con más de 10 años de trayectoria, desarrollamos, fabricamos y montamos estructuras metálicas para el
+            sector agroindustrial. Brindamos asesoramiento técnico en cada etapa del proyecto, trabajando con rapidez,
+            precisión y calidad. Con la experiencia y nuestro equipo especializado, garantizamos resultados eficientes
+            y&nbsp;confiables.</p>
         </div>
       </div>
     </div>
@@ -2602,28 +2544,48 @@
       <video id="vid-bottom-mobile" src="./assets/videos/bottom-mobile.mp4" muted playsinline preload="none"></video>
       <div id="vb-overlay">
         <div class="vb-para-wrap">
-          <!-- Desktop: 3 párrafos — data-dur en ms -->
-          <p class="vb-desktop" data-dur="12000">En Andes, entendemos que el campo es una parte muy importante del presente y del futuro
-            de la Argentina.<br>Es nuestra motivación acompañar a cada productor y empresa agropecuaria con
-            estructuras sólidas, funcionales y pensadas para el trabajo diario.</p>
-          <p class="vb-desktop" data-dur="14000">Con más de 10 años de experiencia en el sector de estructuras metálicas, trabajamos junto
-            al campo aportando calidad, compromiso e innovación en cada obra.<br>Fabricamos y
-            montamos estructuras destinadas al rubro agroindustrial, brindando soluciones concretas y
-            adaptadas a las necesidades de cada cliente.</p>
-          <p class="vb-desktop" data-dur="13000">Creemos en el valor del esfuerzo, en la cercanía y en construir relaciones de confianza a
-            largo plazo.<br>Porque donde el campo crece, nosotros estamos presentes, construyendo
-            estructuras que acompañan el trabajo y el crecimiento de nuestra comunidad.</p>
-          <!-- Mobile: mismos 3 párrafos que desktop -->
-          <p class="vb-mobile" data-dur="12000">En Andes, entendemos que el campo es una parte muy importante del presente y del futuro
-            de la Argentina.<br>Es nuestra motivación acompañar a cada productor y empresa agropecuaria con
-            estructuras sólidas, funcionales y pensadas para el trabajo diario.</p>
-          <p class="vb-mobile" data-dur="14000">Con más de 10 años de experiencia en el sector de estructuras metálicas, trabajamos junto
-            al campo aportando calidad, compromiso e innovación en cada obra.<br>Fabricamos y
-            montamos estructuras destinadas al rubro agroindustrial, brindando soluciones concretas y
-            adaptadas a las necesidades de cada cliente.</p>
-          <p class="vb-mobile" data-dur="13000">Creemos en el valor del esfuerzo, en la cercanía y en construir relaciones de confianza a
-            largo plazo.<br>Porque donde el campo crece, nosotros estamos presentes, construyendo
-            estructuras que acompañan el trabajo y el crecimiento de nuestra comunidad.</p>
+          <div class="vb-slider" id="vb-slider">
+
+            <div class="vb-slide active">
+              <p class="vb-desktop">En Andes, entendemos que el campo es una parte muy importante del presente y del futuro
+                de la Argentina.<br>Es nuestra motivación acompañar a cada productor y empresa agropecuaria con
+                estructuras sólidas, funcionales y pensadas para el trabajo diario.</p>
+              <p class="vb-mobile">En Andes, entendemos que el campo es una parte muy importante del presente y del futuro
+                de la Argentina.<br>Es nuestra motivación acompañar a cada productor y empresa agropecuaria con
+                estructuras sólidas, funcionales y pensadas para el trabajo diario.</p>
+            </div>
+
+            <div class="vb-slide">
+              <p class="vb-desktop">Con más de 10 años de experiencia en el sector de estructuras metálicas, trabajamos junto
+                al campo aportando calidad, compromiso e innovación en cada obra.<br>Fabricamos y
+                montamos estructuras destinadas al rubro agroindustrial, brindando soluciones concretas y
+                adaptadas a las necesidades de cada cliente.</p>
+              <p class="vb-mobile">Con más de 10 años de experiencia en el sector de estructuras metálicas, trabajamos junto
+                al campo aportando calidad, compromiso e innovación en cada obra.<br>Fabricamos y
+                montamos estructuras destinadas al rubro agroindustrial, brindando soluciones concretas y
+                adaptadas a las necesidades de cada cliente.</p>
+            </div>
+
+            <div class="vb-slide">
+              <p class="vb-desktop">Creemos en el valor del esfuerzo, en la cercanía y en construir relaciones de confianza a
+                largo plazo.<br>Porque donde el campo crece, nosotros estamos presentes, construyendo
+                estructuras que acompañan el trabajo y el crecimiento de nuestra comunidad.</p>
+              <p class="vb-mobile">Creemos en el valor del esfuerzo, en la cercanía y en construir relaciones de confianza a
+                largo plazo.<br>Porque donde el campo crece, nosotros estamos presentes, construyendo
+                estructuras que acompañan el trabajo y el crecimiento de nuestra comunidad.</p>
+            </div>
+
+          </div>
+
+          <div class="vb-slider-nav">
+            <button class="vb-arrow" onclick="vbSlide(-1)" aria-label="Anterior">&#8592;</button>
+            <div class="vb-dots">
+              <button class="vb-dot active" onclick="vbGoTo(0)" aria-label="Slide 1"></button>
+              <button class="vb-dot" onclick="vbGoTo(1)" aria-label="Slide 2"></button>
+              <button class="vb-dot" onclick="vbGoTo(2)" aria-label="Slide 3"></button>
+            </div>
+            <button class="vb-arrow" onclick="vbSlide(1)" aria-label="Siguiente">&#8594;</button>
+          </div>
         </div>
       </div>
     </div>
@@ -3039,26 +3001,38 @@
       }
     });
 
-    // Text overlay — párrafos de a 1, 5 s después de que el usuario llega a la sección
+    // Text overlay — slider manual + auto-avance
     const vbOverlay = document.getElementById('vb-overlay');
-    const vbParas = Array.from(vbOverlay.querySelectorAll(vbIsMobile ? '.vb-mobile' : '.vb-desktop'));
-    let vbParaIdx = 0;
-    let vbCycleTimer = null;
-    let vbEntryTimer = null;
+    const vbSlides  = Array.from(document.querySelectorAll('.vb-slide'));
+    const vbDots    = Array.from(document.querySelectorAll('.vb-dot'));
+    let vbCur = 0, vbTimer = null;
 
-    function vbShowNext() {
-      vbParas.forEach(p => p.classList.remove('vb-active'));
-      const idx = vbParaIdx;
-      const dur = parseInt(vbParas[idx].dataset.dur) || 13000;
-      vbParaIdx = (vbParaIdx + 1) % vbParas.length;
-      setTimeout(() => vbParas[idx].classList.add('vb-active'), 1300);
-      vbCycleTimer = setTimeout(vbShowNext, dur);
+    function vbGoTo(n) {
+      vbSlides[vbCur].classList.remove('active');
+      vbDots[vbCur].classList.remove('active');
+      vbCur = (n + vbSlides.length) % vbSlides.length;
+      vbSlides[vbCur].classList.add('active');
+      vbDots[vbCur].classList.add('active');
+      clearInterval(vbTimer);
+      vbTimer = setInterval(() => vbGoTo(vbCur + 1), 8000);
     }
 
+    window.vbGoTo  = vbGoTo;
+    window.vbSlide = dir => vbGoTo(vbCur + dir);
+
+    // Swipe support (mobile)
+    const vbSliderEl = document.getElementById('vb-slider');
+    let vbTouchX;
+    vbSliderEl.addEventListener('touchstart', e => { vbTouchX = e.touches[0].clientX; }, { passive: true });
+    vbSliderEl.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - vbTouchX;
+      if (Math.abs(dx) > 40) vbGoTo(vbCur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
     function vbStartCycle() {
-      if (vbCycleTimer) return;
+      if (vbTimer) return;
       vbOverlay.classList.add('visible');
-      vbShowNext();
+      vbTimer = setInterval(() => vbGoTo(vbCur + 1), 8000);
     }
 
     // Play helper robusto: si el video no está buffereado, hace load() y espera canplay
@@ -3175,36 +3149,6 @@
 
     // Video bottom — eyebrow antes del overlay
     reveal('#video-bottom', '#video-bottom', { y: 0, duration: 1.2 });
-
-    // ── Hero Slider ──────────────────────────────────────────
-    (function () {
-      const slides = Array.from(document.querySelectorAll('.hero-slide'));
-      const dots   = Array.from(document.querySelectorAll('.slider-dot'));
-      let cur = 0, timer;
-
-      function goTo(n) {
-        slides[cur].classList.remove('active');
-        dots[cur].classList.remove('active');
-        cur = (n + slides.length) % slides.length;
-        slides[cur].classList.add('active');
-        dots[cur].classList.add('active');
-        clearInterval(timer);
-        timer = setInterval(() => goTo(cur + 1), 6000);
-      }
-
-      window.heroGoTo  = goTo;
-      window.heroSlide = dir => goTo(cur + dir);
-      timer = setInterval(() => goTo(cur + 1), 6000);
-
-      // Swipe support (mobile)
-      const sliderEl = document.getElementById('hero-slider');
-      let touchX;
-      sliderEl.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
-      sliderEl.addEventListener('touchend',   e => {
-        const dx = e.changedTouches[0].clientX - touchX;
-        if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
-      }, { passive: true });
-    })();
 
   </script>
 </body>
