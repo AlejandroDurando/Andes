@@ -1505,13 +1505,12 @@
     .vb-para-wrap { width: min(72ch, 56%); }
 
     /* ── Video-bottom slider ── */
-    .vb-slider { display: grid; }
-    .vb-slide {
-      grid-area: 1 / 1;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .vb-slide.active { opacity: 1; pointer-events: auto; }
+    .vb-slide { display: none; }
+    .vb-slide.active { display: block; }
+    @keyframes vbFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes vbFadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .vb-slide.is-entering { animation: vbFadeIn  0.7s ease forwards; }
+    .vb-slide.is-leaving  { animation: vbFadeOut 0.22s ease forwards; }
 
     .vb-para-wrap p {
       font-family: 'IBM Plex Sans', sans-serif;
@@ -2988,29 +2987,18 @@
       const inn    = vbSlides[vbCur];
       const inDot  = vbDots[vbCur];
 
-      // Fade out via inline style (avoids CSS-transition race on mobile Safari)
-      out.style.transition = 'opacity 0.22s ease';
-      out.style.opacity = '0';
       outDot.classList.remove('active');
 
+      // Fade out current (display:block → animates to opacity 0)
+      out.classList.add('is-leaving');
+
       setTimeout(() => {
-        // Hard-switch: remove active, clear inline styles
-        out.style.transition = '';
-        out.style.opacity = '';
-        out.classList.remove('active');
-
-        // Pin incoming at 0 before enabling transition
-        inn.classList.add('active');
-        inn.style.opacity = '0';
-        inn.style.transition = '';
-        void inn.offsetHeight; // force reflow so opacity:0 is committed
-        inn.style.transition = 'opacity 0.75s ease';
-        inn.style.opacity = '1';
+        // Switch: hide outgoing (display:none), show incoming with fade-in
+        out.classList.remove('active', 'is-leaving');
+        inn.classList.add('active', 'is-entering');
         inDot.classList.add('active');
-
-        // Clean up inline styles after fade-in
-        setTimeout(() => { inn.style.transition = ''; inn.style.opacity = ''; }, 800);
-      }, 260);
+        setTimeout(() => inn.classList.remove('is-entering'), 750);
+      }, 240);
 
       clearInterval(vbTimer);
       vbTimer = setInterval(() => vbGoTo(vbCur + 1), 8000);
