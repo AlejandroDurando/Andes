@@ -1509,7 +1509,6 @@
     .vb-slide {
       grid-area: 1 / 1;
       opacity: 0;
-      transition: opacity 0.8s ease;
       pointer-events: none;
     }
     .vb-slide.active { opacity: 1; pointer-events: auto; }
@@ -2983,21 +2982,35 @@
     let vbCur = 0, vbTimer = null;
 
     function vbGoTo(n) {
-      const out = vbSlides[vbCur];
+      const out    = vbSlides[vbCur];
       const outDot = vbDots[vbCur];
       vbCur = (n + vbSlides.length) % vbSlides.length;
-      const inn = vbSlides[vbCur];
-      const inDot = vbDots[vbCur];
+      const inn    = vbSlides[vbCur];
+      const inDot  = vbDots[vbCur];
 
-      // Fade out current quickly, then fade in next (no overlap)
-      out.style.transition = 'opacity 0.18s ease';
-      out.classList.remove('active');
+      // Fade out via inline style (avoids CSS-transition race on mobile Safari)
+      out.style.transition = 'opacity 0.22s ease';
+      out.style.opacity = '0';
       outDot.classList.remove('active');
+
       setTimeout(() => {
+        // Hard-switch: remove active, clear inline styles
         out.style.transition = '';
+        out.style.opacity = '';
+        out.classList.remove('active');
+
+        // Pin incoming at 0 before enabling transition
         inn.classList.add('active');
+        inn.style.opacity = '0';
+        inn.style.transition = '';
+        void inn.offsetHeight; // force reflow so opacity:0 is committed
+        inn.style.transition = 'opacity 0.75s ease';
+        inn.style.opacity = '1';
         inDot.classList.add('active');
-      }, 200);
+
+        // Clean up inline styles after fade-in
+        setTimeout(() => { inn.style.transition = ''; inn.style.opacity = ''; }, 800);
+      }, 260);
 
       clearInterval(vbTimer);
       vbTimer = setInterval(() => vbGoTo(vbCur + 1), 8000);
