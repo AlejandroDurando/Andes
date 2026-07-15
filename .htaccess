@@ -1,0 +1,4 @@
+# Forzar HTTPS — redirige todo el tráfico HTTP a HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
