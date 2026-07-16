@@ -710,12 +710,21 @@
       gap: 0.55rem;
       pointer-events: none;
       transition: opacity 0.5s;
-      background: rgba(0, 0, 0, 0.32);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      padding: 0.75rem 1.5rem 0.9rem;
-      border-radius: 100px;
-      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+    /* Scrim cinematográfico: sombra suave en la base del video
+       que da contraste al hint y se desvanece junto con él */
+    #scroll-hint::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -2.5rem;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 160px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.48), transparent);
+      pointer-events: none;
+      z-index: -1;
     }
 
     #scroll-hint.hidden {
