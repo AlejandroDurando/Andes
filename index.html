@@ -718,10 +718,11 @@
 
     #scroll-hint span {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.7rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
     }
 
     /* End overlay — fades in over the last frame */
@@ -777,27 +778,25 @@
       text-wrap: pretty;
     }
 
-    .scroll-needle {
-      width: 1px;
-      height: 36px;
-      background: linear-gradient(to bottom, #444, transparent);
-      animation: needle 1.6s ease-in-out infinite;
+    .scroll-chevron {
+      width: 11px;
+      height: 11px;
+      border-right: 2px solid rgba(255, 255, 255, 0.85);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+      transform: rotate(45deg);
+      filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.55));
+      animation: chevron 1.8s ease-in-out infinite;
     }
 
-    @keyframes needle {
-      0% {
-        transform: scaleY(0.6) translateY(-5px);
-        opacity: 0.2;
+    @keyframes chevron {
+      0%, 100% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0.45;
       }
 
-      55% {
-        transform: scaleY(1) translateY(5px);
-        opacity: 0.8;
-      }
-
-      100% {
-        transform: scaleY(0.6) translateY(-5px);
-        opacity: 0.2;
+      50% {
+        transform: rotate(45deg) translate(5px, 5px);
+        opacity: 1;
       }
     }
 
@@ -2308,8 +2307,8 @@
       }
 
       #scroll-hint span {
-        font-size: 0.55rem;
-        letter-spacing: 0.25em;
+        font-size: 0.62rem;
+        letter-spacing: 0.28em;
       }
 
       .srv-card {
@@ -2455,7 +2454,7 @@
 
       <div id="scroll-hint">
         <span>Desplazá para ver</span>
-        <div class="scroll-needle"></div>
+        <div class="scroll-chevron"></div>
       </div>
 
       <!-- Shown once animation completes -->
