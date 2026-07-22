@@ -1117,6 +1117,9 @@
         });
         const data = await res.json();
         if (data.ok) {
+          // GTM — envío exitoso del formulario de presupuesto
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: 'envio_formulario', form_id: 'presupuesto' });
           leadForm.reset();
           btn.disabled = false;
           btn.textContent = 'Enviar Mensaje & Solicitar Presupuesto';
@@ -1140,6 +1143,33 @@
       if (!isOpen) item.classList.add('open');
     }
   </script>
+  <!-- ─────────────────────────────────────────────
+       GTM — eventos personalizados (dataLayer)
+  ───────────────────────────────────────────── -->
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a');
+        if (!a || !a.href) return;
+
+        // Clic en cualquier enlace de WhatsApp (botón flotante o link de contacto)
+        if (a.href.indexOf('wa.me') > -1) {
+          window.dataLayer.push({
+            event: 'click_whatsapp',
+            link_ubicacion: a.id === 'wa-fab' ? 'boton_flotante' : 'enlace_contacto'
+          });
+        }
+
+        // Clic en cualquier enlace de email
+        if (a.href.indexOf('mailto:') === 0) {
+          window.dataLayer.push({ event: 'click_email' });
+        }
+      }, true);
+    })();
+  </script>
 </body>
+
 
 </html>
